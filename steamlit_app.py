@@ -79,15 +79,22 @@ def summarize(chat):
     return summary.replace("'", "")
 
 def find_similar_doc(text, DOC_TABLE):
-    doc = session.sql(f"""Select input_text,
-                        source_desc,
-                        VECTOR_COSINE_SIMILARITY(chunk_embedding, SNOWFLAKE.CORTEX.EMBED_TEXT_768('e5-base-v2', '{text.replace("'", "''")}')) as dist
-                        from {DOC_TABLE}
-                        order by dist desc
-                        limit 1
-                        """).to_pandas()
-    st.info("Selected Source: " + doc["SOURCE_DESC"].iloc[0])
-    return doc["INPUT_TEXT"].iloc[0]
+    docs = session.sql(f"""
+        SELECT input_text,
+               source_desc,
+               VECTOR_COSINE_SIMILARITY(chunk_embedding, SNOWFLAKE.CORTEX.EMBED_TEXT_768('e5-base-v2', '{text.replace("'", "''")}')) AS dist
+        FROM {DOC_TABLE}
+        ORDER BY dist DESC
+        LIMIT 3
+    """).to_pandas()
+    
+    # Optionally show the sources selected
+    for i, source in enumerate(docs["SOURCE_DESC"]):
+        st.info(f"Selected Source #{i+1}: {source}")
+    
+    # Combine the input_text from top 3 chunks into one string separated by newlines
+    combined_text = "\n\n".join(docs["INPUT_TEXT"].tolist())
+    return combined_text
 
 ##########################################
 #       Prompt Construction
@@ -115,6 +122,8 @@ User’s Question:
 {chat}
 
 Be concise and only address the newest question.
+If you do not know the answer based on the information provided, reply with:
+"I'm sorry, That's something only real Alexandros can answer, since I don't have this information yet.
 """
     return prompt.replace("'", "")
 
