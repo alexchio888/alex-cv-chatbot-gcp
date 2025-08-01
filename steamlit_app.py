@@ -8,7 +8,7 @@ import snowflake.snowpark.functions as F
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-st.title(":truck: Tasty Bytes Support: Customer Q&A Assistant :truck:")
+st.title(":truck: Sou aresoun ta large??? Tasty Bytes Support: Customer Q&A Assistant :truck:")
 st.caption(
     "This app suggests answers to customer questions based on documentation and past support chats."
 )
