@@ -1,5 +1,5 @@
-streamlit
-pandas
-snowflake-connector-python
-snowflake-snowpark-python
-snowflake-ml-python==0.12.0
+streamlit==1.47.1
+pandas==2.3.1
+snowflake-connector-python==3.16.0
+snowflake-snowpark-python==1.35.0
+snowflake-ml-python
