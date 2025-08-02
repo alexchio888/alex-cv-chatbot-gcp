@@ -144,8 +144,8 @@ def classify_intent(user_input: str) -> str:
 Classify the following user question into one of these categories only:
 - general_background
 - skills_or_tools
-- education_or_certifications
-- experience_or_projects
+- certifications
+- experience
 - casual_greeting
 - unknown
 
