@@ -84,7 +84,7 @@ def find_similar_doc(text, DOC_TABLE):
         embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_768('snowflake-arctic-embed-m-v1.5', '{safe_text}')"
     elif embedding_size == "1024":
         embedding_column = "chunk_embedding_1024"
-        embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_1024('snowflake-arctic-embed-m', '{safe_text}')"
+        embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_1024('snowflake-arctic-embed-l-v2.0', '{safe_text}')"
     else:
         st.error("Unsupported embedding size selected.")
         return ""
