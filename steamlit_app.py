@@ -8,9 +8,9 @@ import snowflake.snowpark.functions as F
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-st.title("🎓 Alexandros Chionidis assistant")
+st.title("🎓 Alexandros Chionidis' assistant")
 st.caption(
-    """Ask me anything about my experience, education, early life, or skills"""
+    """Ask me anything about Alexandros, education, early life, or skills"""
 )
 
 
@@ -41,7 +41,7 @@ def reset_conversation():
             "role": "assistant",
             "content": (
                 "Hi there! I’m Alexandros' assistant. "
-                "What would you like to learn about me?"
+                "What would you like to learn about him?"
             ),
         }
     ]
@@ -88,13 +88,12 @@ def find_similar_doc(text, DOC_TABLE):
         LIMIT 3
     """).to_pandas()
     
-    # Optionally show the sources selected
-    for i, source in enumerate(docs["SOURCE_DESC"]):
-        st.info(f"Selected Source #{i+1}: {source}")
+    for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
+        st.info(f"Selected Source #{i+1} (Score: {score:.4f}): {source}")
     
-    # Combine the input_text from top 3 chunks into one string separated by newlines
     combined_text = "\n\n".join(docs["INPUT_TEXT"].tolist())
     return combined_text
+
 
 ##########################################
 #       Prompt Construction
@@ -109,7 +108,7 @@ if "background_info" not in st.session_state:
 
 def get_prompt(chat, context):
     prompt = f"""
-You are Alexandros Chionidis, a Data Engineer with 4 years of experience. 
+You are Alexandros Chionidis assistant and you know almost everything about his background and work experience.
 You are having a conversation with a recruiter or interviewer interested in hiring a Data Engineer.
 
 Use the background profile below and the relevant CV snippets to answer the user's latest question clearly, professionally, and concisely. 
@@ -126,6 +125,7 @@ User’s Question:
 
 If you do not know the answer based on the information provided, reply politely:
 "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
+Keep the answer totally relevant to what the user's question was.
 """
     return prompt
 
