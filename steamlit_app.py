@@ -13,11 +13,10 @@ st.caption("Ask me anything about my education, early life, or skills")
 # --- Real Me Contact Card ---
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
-    st.markdown("🏠 Melissia, Athens, Greece  ")
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.markdown(f"""
     <a href="{maps_url}" target="_blank" style="text-decoration:none; font-weight:bold;">
-        📍 Open Melissia on Google Maps
+        🏠 Melissia, Athens, Greece
     </a>
     """, unsafe_allow_html=True)
 
