@@ -135,13 +135,18 @@ User’s Question:
 # --- Intent Classifier ---
 def classify_intent(user_input: str) -> str:
     classification_prompt = f"""
-Classify the following user question into one of these categories only:
-- general_background
-- skills_or_tools
-- certifications
-- experience
-- casual_greeting
-- unknown
+You are classifying user questions asked to Alexandros Chionidis' virtual clone. 
+
+Classify the question into one of these categories:
+
+- general_background → About origin, education, career summary, languages, etc.
+- skills_or_tools → About specific tools, languages, platforms, or technical proficiencies.
+- certifications → About earned or planned certifications.
+- experience → About past projects, employers, internships, or relevant achievements.
+- casual_greeting → Any casual hello, thanks, or small talk.
+- cv_irrelevant_discuss_with_alex → Anything clearly **outside the scope of a CV or professional context**, such as personal opinions, future plans, political views, or something sensitive that should be discussed in person with Alexandros.
+- unknown → Question is unclear or cannot be classified.
+- farewell → Polite endings, goodbyes, or thank-yous that close the conversation.
 
 Question:
 \"\"\"{user_input}\"\"\"
@@ -165,7 +170,7 @@ for message in st.session_state.messages:
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message()
 
-    if intent not in ["casual_greeting", "unknown"]:
+    if intent not in ["casual_greeting", "unknown","farewell"]:
         with st.chat_message("assistant"):
             with st.status("Answering…", expanded=True):
                 st.write("Retrieving relevant CV snippet…")
@@ -195,4 +200,15 @@ As Alexandros Chionidis, politely say you didn’t fully understand and ask them
 """
             response = Complete(model, prompt)
             st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+    elif intent == "farewell":
+        with st.chat_message("assistant"):
+            response = (
+                "Thank you for your time! I'm wrapping up the session now. "
+                "If you have more questions about my background or skills later, feel free to return anytime."
+            )
+            st.markdown(response)
+
+        # Optionally clear or flag the session
+        st.session_state["session_ended"] = True
         st.session_state.messages.append({"role": "assistant", "content": response})
