@@ -64,6 +64,44 @@ with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     """
     st.markdown(cv_html, unsafe_allow_html=True)
 
+# --- Suggested Prompts (Sidebar) ---
+st.sidebar.markdown("---")  # separator line
+
+st.sidebar.markdown("### 💡 Try asking about:")
+categories = {
+    "Education": [
+        "Where did you study?",
+        "Tell me about your academic background.",
+    ],
+    "Work Experience": [
+        "What was your role at Intrasoft?",
+        "Describe your work at Waymore.",
+        "What projects did you do in retail before tech?",
+    ],
+    "Skills & Tools": [
+        "What technologies are you proficient with?",
+        "How do you use Spark and Kafka in your work?",
+        "Tell me about your experience with GCP.",
+    ],
+    "Certifications": [
+        "Do you have any certifications?",
+        "Are you planning to get any certifications soon?",
+    ],
+    "Projects": [
+        "Can you describe a key data engineering project?",
+        "What was your biggest technical challenge?",
+    ],
+}
+
+for category, prompts in categories.items():
+    with st.sidebar.expander(category, expanded=False):
+        for prompt in prompts:
+            if st.button(prompt, key=prompt):
+                # Insert prompt as a user message and rerun app to trigger chat
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                st.experimental_rerun()
+
+
 # --- Formatters ---
 def generate_chat_text():
     lines = []
