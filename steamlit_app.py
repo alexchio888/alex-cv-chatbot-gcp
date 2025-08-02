@@ -11,21 +11,38 @@ st.title("🎓 Alexandros Chionidis' clone")
 st.caption("Ask me anything about my education, early life, or skills")
 
 # --- Real Me Contact Card ---
-linkedin_html = """
-<a href="https://www.linkedin.com/in/alexandros-chionidis-51579421b/" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle;"/> LinkedIn
-</a>
-"""
-
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
     st.markdown("🏠 Melissia, Athens, Greece")
-    st.markdown("✉️ [alexandroschio@gmail.com](mailto:alexandroschio@gmail.com)")
+
+    linkedin_html = """
+    <a href="https://www.linkedin.com/in/alexandros-chionidis-51579421b/" target="_blank" style="text-decoration:none;">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle; margin-right:8px;"/> LinkedIn
+    </a>
+    """
+
+    github_html = """
+    <a href="https://github.com/alexchio888" target="_blank" style="text-decoration:none;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" width="24" style="vertical-align:middle; margin-right:8px;"/> GitHub
+    </a>
+    """
+
+    email_html = """
+    <a href="mailto:alexandroschio@gmail.com" target="_blank" style="text-decoration:none;">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="24" style="vertical-align:middle; margin-right:8px;"/> Email
+    </a>
+    """
 
     st.markdown(linkedin_html, unsafe_allow_html=True)
+    st.markdown(github_html, unsafe_allow_html=True)
+    st.markdown(email_html, unsafe_allow_html=True)
 
-    st.markdown("🐙 [GitHub](https://github.com/alexchio888)")
-    st.markdown("📄 [Download CV](https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf)")
+    cv_html = """
+    <a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" style="text-decoration:none;">
+        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="24" style="vertical-align:middle; margin-right:8px;"/> Download CV
+    </a>
+    """
+    st.markdown(cv_html, unsafe_allow_html=True)
 
 # --- Connect to Snowflake ---
 @st.cache_resource
