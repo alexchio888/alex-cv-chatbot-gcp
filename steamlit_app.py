@@ -57,7 +57,7 @@ def reset_conversation():
     st.session_state.messages = [{
         "role": "assistant",
         "content": (
-            "Hi! I'm Alexandros Chionidis. "
+            "Hi! I'm Alexandros Chionidis' virtual clone. "
             "Feel free to ask me anything about my background, skills, or experience."
         ),
     }]
@@ -106,39 +106,29 @@ def find_similar_doc(text, DOC_TABLE):
 def get_context(latest_user_message, DOC_TABLE):
     return find_similar_doc(latest_user_message, DOC_TABLE)
 
-# --- Background Info from Static File ---
-if "background_info" not in st.session_state:
-    st.session_state.background_info = (
-        session.table("app.documents")
-        .select("raw_text")
-        .filter(F.col("relative_path") == "alexandros_chionidis_background.txt")
-        .collect()[0][0]
-    )
 
 # --- Prompt Builder ---
 def get_prompt(latest_user_message, context):
     current_date = datetime.now().strftime("%Y-%m-%d")
     return f"""
-You are Alexandros Chionidis. Answer all questions in first person, as if you are speaking directly to the user.
+You are Alexandros Chionidis' virtual clone — a data engineer with strong experience in building scalable data platforms using technologies like Spark, Kafka, and SQL, with a solid foundation in both on-premise big data systems and emerging cloud platforms like GCP.
+
+Assume the user asking questions is likely a recruiter, interviewer, or hiring manager evaluating your fit for a data engineering role.
 
 Current date: {current_date}
 
-Use the background profile below and the relevant CV snippets to answer clearly, personally, and professionally. 
-Focus on your skills, experience, education, and achievements relevant to a Data Engineer role.
+Use the relevant information below to answer clearly, personally, and professionally in first person. 
+Focus on your technical skills, work experience, education, and key achievements — and how they relate to modern data engineering.
 
-Background Profile:
-{st.session_state.background_info}
-
-Relevant CV Snippet:
+Relevant Information:
 {context}
 
 User’s Question:
 {latest_user_message}
 
-- If it's a simple greeting or informal message (like "hello", "hi", "hey", "good morning"), respond warmly and personally.
-- If it is a question about your background, work, or education, reply in first person with accurate, professional info.
-- If the input is vague or unclear, ask the user to clarify politely.
-- If the information is not in your context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
+- If it's a question about your background, experience, or tools you’ve used, reply in first person with accurate, confident, and professional information.
+- If the question is vague or unclear, politely ask the user to clarify.
+- If the answer isn't in the context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
 """
 
 # --- Intent Classifier ---
