@@ -7,8 +7,6 @@ from datetime import datetime
 import json
 import io
 import time
-from streamlit.runtime.scriptrunner import RerunException, rerun
-
 
 
 def simulate_typing(response: str, typing_speed: float = 0.015): #typing_speed = seconds per character
@@ -103,11 +101,8 @@ for category, prompts in categories.items():
             if st.button(prompt, key=prompt):
                 # Insert prompt as a user message and rerun app to trigger chat
                 st.session_state.messages.append({"role": "user", "content": prompt})
-                try:
-                    rerun()
-                except RerunException:
-                    pass
-                
+                st.experimental_rerun()
+
 # --- Formatters ---
 def generate_chat_text():
     lines = []
