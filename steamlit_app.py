@@ -215,3 +215,57 @@ if user_message := st.chat_input(placeholder="Type your question about my backgr
     user_icon = icons[icon]
     display_name = st.session_state.get("user_name", "").strip() or "User"
     st.session_state.messages.append({"role": "user", "content": f"{user_icon} {user_message}"})
+    intent = classify_intent(user_message)
+    st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
+else:
+    intent = None
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+if st.session_state.messages[-1]["role"] != "assistant":
+    latest_user_message = get_latest_user_message()
+
+    if intent not in ["casual_greeting", "unknown","farewell"]:
+        with st.chat_message("assistant"):
+            with st.status("Answering…", expanded=True):
+                st.write("Retrieving relevant CV snippet…")
+                context = get_context(latest_user_message, DOC_TABLE)
+                st.write("Generating response…")
+                prompt = get_prompt(latest_user_message, context)
+                response = Complete(model, prompt)
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
+    elif intent == "casual_greeting":
+        with st.chat_message("assistant"):
+            prompt = f"""
+You are Alexandros Chionidis. The user said: "{latest_user_message}"
+Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
+"""
+            response = Complete(model, prompt)
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
+    elif intent == "unknown":
+        with st.chat_message("assistant"):
+            prompt = f"""
+The user said: "{latest_user_message}"
+
+As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+"""
+            response = Complete(model, prompt)
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+    elif intent == "farewell":
+        with st.chat_message("assistant"):
+            response = (
+                "Thank you for your time! I'm wrapping up the session now. "
+                "If you have more questions about my background or skills later, feel free to return anytime."
+            )
+            st.markdown(response)
+
+        # Optionally clear or flag the session
+        st.session_state["session_ended"] = True
+        st.session_state.messages.append({"role": "assistant", "content": response})
