@@ -355,7 +355,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt = get_prompt(latest_user_message, context)
             full_response = Complete(model, prompt)
 
-            summary_prompt = f"Summarize the following text briefly in 2-4 sentences:\n\n{full_response}"
+            summary_prompt = f"You are Alexandros Chionidis. The user said: '{latest_user_message}'. Summarize the following response briefly in 2-3 sentences:\n\n{full_response}"
             summary = Complete(model, summary_prompt).strip()
 
             response = {"summary": summary, "full": full_response}
