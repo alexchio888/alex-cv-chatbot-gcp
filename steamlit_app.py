@@ -8,9 +8,7 @@ from datetime import datetime
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' assistant")
-st.caption(
-    """Ask me anything about Alexandros, education, early life, or skills"""
-)
+st.caption("Ask me anything about Alexandros, education, early life, or skills")
 
 # --- Connect to Snowflake ---
 @st.cache_resource
@@ -29,24 +27,9 @@ def create_session():
 session = create_session()
 
 # --- Constants ---
-CHAT_MEMORY = 1  # Keep last 3 user messages for context
 DOC_TABLE = "app.vector_store"
 
-# Reset chat conversation
-def reset_conversation():
-    st.session_state.messages = [
-        {
-            "role": "assistant",
-            "content": (
-                "Hi there! I’m Alexandros' assistant. "
-                "What would you like to learn about him?"
-            ),
-        }
-    ]
-
-##########################################
-#       Select LLM
-##########################################
+# --- UI Settings ---
 with st.expander("⚙️ Settings"):
     model = st.selectbox(
         "Change chatbot model:",
@@ -59,32 +42,57 @@ with st.expander("⚙️ Settings"):
             "mistral-7b",
         ],
     )
-    st.button("Reset Chat", on_click=reset_conversation)
+    
+    embedding_size = st.selectbox(
+        "Select embedding dimension:",
+        ["768", "1024"],
+        index=0,
+        format_func=lambda x: f"{x}-dim embedding"
+    )
 
-##########################################
-#       Helpers for chat context
-##########################################
+    st.button("Reset Chat", on_click=lambda: reset_conversation())
+
+# --- Reset Chat ---
+def reset_conversation():
+    st.session_state.messages = [{
+        "role": "assistant",
+        "content": (
+            "Hi there! I’m Alexandros' assistant. "
+            "What would you like to learn about him?"
+        ),
+    }]
+
+if "messages" not in st.session_state:
+    reset_conversation()
+
+# --- Chat Context Helpers ---
 def get_last_user_messages(n=3):
     user_msgs = [m["content"] for m in st.session_state.messages if m["role"] == "user"]
     return " ".join(user_msgs[-n:]) if user_msgs else ""
 
 def get_latest_user_message():
-    # Return the last user message content
     for m in reversed(st.session_state.messages):
         if m["role"] == "user":
             return m["content"]
     return ""
 
-##########################################
-#       RAG Helpers
-##########################################
+# --- RAG Helpers ---
 def find_similar_doc(text, DOC_TABLE):
-    # Escape single quotes properly for SQL string
     safe_text = text.replace("'", "''")
+    if embedding_size == "768":
+        embedding_column = "chunk_embedding"
+        embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_768('snowflake-arctic-embed-m-v1.5', '{safe_text}')"
+    elif embedding_size == "1024":
+        embedding_column = "chunk_embedding_1024"
+        embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_1024('snowflake-arctic-embed-m', '{safe_text}')"
+    else:
+        st.error("Unsupported embedding size selected.")
+        return ""
+
     docs = session.sql(f"""
         SELECT input_text,
                source_desc,
-               VECTOR_COSINE_SIMILARITY(chunk_embedding, SNOWFLAKE.CORTEX.EMBED_TEXT_768('snowflake-arctic-embed-m-v1.5', '{safe_text}')) AS dist
+               VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func}) AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
         LIMIT 3
@@ -93,17 +101,12 @@ def find_similar_doc(text, DOC_TABLE):
     for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
         st.info(f"Selected Source #{i+1} (Score: {score:.4f}): {source}")
 
-    combined_text = "\n\n".join(docs["INPUT_TEXT"].tolist())
-    return combined_text
+    return "\n\n".join(docs["INPUT_TEXT"].tolist())
 
 def get_context(latest_user_message, DOC_TABLE):
-    # Use the latest user message for vector search to get context
     return find_similar_doc(latest_user_message, DOC_TABLE)
 
-
-##########################################
-#       Prompt Construction
-##########################################
+# --- Background Info from Static File ---
 if "background_info" not in st.session_state:
     st.session_state.background_info = (
         session.table("app.documents")
@@ -112,9 +115,10 @@ if "background_info" not in st.session_state:
         .collect()[0][0]
     )
 
+# --- Prompt Builder ---
 def get_prompt(latest_user_message, context):
-    current_date = datetime.now().strftime("%Y-%m-%d")  # Format as you like
-    prompt = f"""
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    return f"""
 You are Alexandros Chionidis assistant and you know almost everything about his background and work experience.
 You are having a conversation with a recruiter or interviewer interested in hiring a Data Engineer.
 
@@ -136,13 +140,9 @@ User’s Question:
 - If it is a question or specific input about Alexandros’ background, work, or education, reply professionally and informatively based on the background and relevant CV snippets.
 - If the input is vague or unclear, ask the user to clarify.
 - If the information is not in your context, say: "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
-
 """
-    return prompt
 
-##########################################
-#       Intent Classifier
-##########################################
+# --- Intent Classifier ---
 def classify_intent(user_input: str) -> str:
     classification_prompt = f"""
 Classify the following user question into one of these categories only:
@@ -158,23 +158,15 @@ Question:
 
 Return only the category name.
 """
-    intent = Complete(model, classification_prompt).strip().lower()
-    return intent
+    return Complete(model, classification_prompt).strip().lower()
 
-##########################################
-#       Chat with LLM
-##########################################
-if "messages" not in st.session_state:
-    reset_conversation()
-
-intent = None
-
+# --- Chat Loop ---
 if user_message := st.chat_input(placeholder="Type your question about Alexandros Chionidis’ background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
-
-    # Classify only the latest user message
     intent = classify_intent(user_message)
     st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
+else:
+    intent = None
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -196,21 +188,21 @@ if st.session_state.messages[-1]["role"] != "assistant":
 
     elif intent == "casual_greeting":
         with st.chat_message("assistant"):
-            greeting_prompt = f"""
+            prompt = f"""
 You are a friendly assistant for Alexandros Chionidis. The user said: "{latest_user_message}"
 Respond briefly and warmly, acknowledging their message, and politely ask them to ask a specific question about Alexandros’ background, skills, or experience.
 """
-            response = Complete(model, greeting_prompt)
+            response = Complete(model, prompt)
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
     elif intent == "unknown":
         with st.chat_message("assistant"):
-            unknown_prompt = f"""
+            prompt = f"""
 The user said: "{latest_user_message}"
 
 As an assistant for Alexandros Chionidis, your task is to respond politely that you didn't fully understand the question and ask them to rephrase or ask something about Alexandros’ background, skills, or experience.
 """
-            response = Complete(model, unknown_prompt)
+            response = Complete(model, prompt)
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
