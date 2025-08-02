@@ -45,7 +45,7 @@ with st.expander("⚙️ Settings"):
     
     embedding_size = st.selectbox(
         "Select embedding dimension:",
-        ["768", "1024"],
+        ["1024", "768"],
         index=0,
         format_func=lambda x: f"{x}-dim embedding"
     )
@@ -95,7 +95,7 @@ def find_similar_doc(text, DOC_TABLE):
                VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func}) AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
-        LIMIT 3
+        LIMIT 2
     """).to_pandas()
 
     for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
