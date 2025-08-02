@@ -73,7 +73,7 @@ def get_context(chat, DOC_TABLE):
 def summarize(chat):
     summary = Complete(
         model,
-        "Provide the most recent question with essential context from this support chat: "
+        "Given the following chat history, extract only the user's latest message as-is. Do NOT interpret or summarize it. Just return the raw user input:\n\n" + chat
         + chat,
     )
     return summary.replace("'", "")
@@ -123,13 +123,12 @@ Relevant CV Snippet:
 User’s Question:
 {chat}
 
-If you do not know the answer based on the information provided, reply politely:
-"I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
-If the user says a simple greeting like "hello" or "hi", respond with a short friendly greeting.
+- If it is a simple greeting or informal message (like "hello", "hi", "hey", "good morning", etc.), respond briefly and casually with a warm greeting and an invitation to ask about Alexandros.
+- If it is a question or specific input about Alexandros’ background, work, or education, reply professionally and informatively based on the background and relevant CV snippets.
+- If the input is vague or unclear, ask the user to clarify.
+- If the information is not in your context, say: "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
 
-If the user input is unclear or empty, ask them to clarify.
 
-Otherwise, answer the question clearly and professionally.
 """
     return prompt
 
