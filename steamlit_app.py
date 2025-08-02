@@ -8,6 +8,18 @@ import json
 import io
 import time
 
+def simulate_typing(response: str, typing_speed: float = 0.02):
+    """Simulate typing animation for chatbot replies."""
+    placeholder = st.empty()
+    typed_text = ""
+    for char in response:
+        typed_text += char
+        placeholder.markdown(typed_text)
+        time.sleep(typing_speed)
+    # Final pass to ensure proper rendering
+    placeholder.markdown(response)
+
+
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
@@ -264,59 +276,50 @@ for message in st.session_state.messages:
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message()
 
-    if intent not in ["casual_greeting", "unknown", "farewell"]:
-        with st.chat_message("assistant"):
-            with st.status("Thinking…", expanded=True):
-                st.write("Retrieving relevant CV snippet…")
-                context = get_context(latest_user_message, DOC_TABLE)
-                st.write("Generating response…")
-                prompt = get_prompt(latest_user_message, context)
-                response = Complete(model, prompt)
+if intent not in ["casual_greeting", "unknown", "farewell"]:
+    with st.chat_message("assistant"):
+        with st.status("Thinking…", expanded=True):
+            st.write("Retrieving relevant CV snippet…")
+            context = get_context(latest_user_message, DOC_TABLE)
+            st.write("Generating response…")
+            prompt = get_prompt(latest_user_message, context)
+            response = Complete(model, prompt)
 
-            # Typing animation here
-            placeholder = st.empty()
-            typing_speed = 0.02  # seconds per character
+        # Typing animation
+        simulate_typing(response)
 
-            typed_text = ""
-            for char in response:
-                typed_text += char
-                placeholder.markdown(typed_text)
-                time.sleep(typing_speed)
+    st.session_state.messages.append({"role": "assistant", "content": response})
 
-            # Optional: stabilize final render
-            placeholder.markdown(response)
-
-        st.session_state.messages.append({"role": "assistant", "content": response})
-
-
-    elif intent == "casual_greeting":
-        with st.chat_message("assistant"):
-            prompt = f"""
+elif intent == "casual_greeting":
+    with st.chat_message("assistant"):
+        prompt = f"""
 You are Alexandros Chionidis. The user said: "{latest_user_message}"
 Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
 """
-            response = Complete(model, prompt)
-            st.markdown(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        response = Complete(model, prompt)
+        simulate_typing(response)
 
-    elif intent == "unknown":
-        with st.chat_message("assistant"):
-            prompt = f"""
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
+elif intent == "unknown":
+    with st.chat_message("assistant"):
+        prompt = f"""
 The user said: "{latest_user_message}"
 
 As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
 """
-            response = Complete(model, prompt)
-            st.markdown(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-    elif intent == "farewell":
-        with st.chat_message("assistant"):
-            response = (
-                "Thank you for your time! I'm wrapping up the session now. "
-                "If you have more questions about my background or skills later, feel free to return anytime."
-            )
-            st.markdown(response)
+        response = Complete(model, prompt)
+        simulate_typing(response)
 
-        # Optionally clear or flag the session
-        st.session_state["session_ended"] = True
-        st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
+elif intent == "farewell":
+    with st.chat_message("assistant"):
+        response = (
+            "Thank you for your time! I'm wrapping up the session now. "
+            "If you have more questions about my background or skills later, feel free to return anytime."
+        )
+        simulate_typing(response)
+
+    st.session_state["session_ended"] = True
+    st.session_state.messages.append({"role": "assistant", "content": response})
