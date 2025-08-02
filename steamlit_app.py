@@ -10,6 +10,15 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
 st.caption("Ask me anything about my education, early life, or skills")
 
+# --- Real Me Contact Card ---
+with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
+    st.markdown("**Alexandros Chionidis**")
+    st.markdown("📍Melissia, Athens, Greece")
+    st.markdown("📧 [alexchionidis@gmail.com](mailto:alexchionidis@gmail.com)")
+    st.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/alexandros-chionidis-51579421b/)")
+    st.markdown("📁 [GitHub](https://github.com/alexchio888)")
+    st.markdown("🧾 [CV Download](https://github.com/alexchio888/cv-chatbot/blob/main/docs/Alexandros_Chionidis_CV.pdf)")
+
 # --- Connect to Snowflake ---
 @st.cache_resource
 def create_session():
