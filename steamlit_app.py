@@ -156,4 +156,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
             prompt = get_prompt(chat, context)
             response = Complete(model, prompt)
         st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": response}) 
