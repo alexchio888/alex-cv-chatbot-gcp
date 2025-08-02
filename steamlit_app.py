@@ -125,7 +125,11 @@ User’s Question:
 
 If you do not know the answer based on the information provided, reply politely:
 "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
-Keep the answer totally relevant to what the user's question was.
+If the user says a simple greeting like "hello" or "hi", respond with a short friendly greeting.
+
+If the user input is unclear or empty, ask them to clarify.
+
+Otherwise, answer the question clearly and professionally.
 """
     return prompt
 
