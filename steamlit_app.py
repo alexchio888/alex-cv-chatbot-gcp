@@ -49,6 +49,29 @@ with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     """
     st.markdown(cv_html, unsafe_allow_html=True)
 
+# --- Helper to format chat history for download ---
+def generate_chat_text():
+    lines = []
+    for msg in st.session_state.messages:
+        role = msg["role"].capitalize()
+        content = msg["content"].replace('\n', '\n    ')
+        lines.append(f"{role}:\n    {content}\n")
+    return "\n".join(lines)
+
+# --- Sidebar: Add Download Chat History ---
+with st.sidebar.expander("💬 Download Chat History", expanded=False):
+    if "messages" in st.session_state and st.session_state.messages:
+        chat_text = generate_chat_text()
+        st.download_button(
+            label="Download chat as TXT",
+            data=chat_text,
+            file_name="alexandros_clone_chat.txt",
+            mime="text/plain",
+            help="Download the full chat history as a text file"
+        )
+    else:
+        st.info("No chat history to download yet.")
+
 # --- Connect to Snowflake ---
 @st.cache_resource
 def create_session():
