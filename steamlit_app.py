@@ -101,7 +101,7 @@ for category, prompts in categories.items():
             if st.button(prompt, key=prompt):
                 # Insert prompt as a user message and rerun app to trigger chat
                 st.session_state.messages.append({"role": "user", "content": prompt})
-                st.experimental_rerun()
+                # st.experimental_rerun() #throws error
 
 # --- Formatters ---
 def generate_chat_text():
