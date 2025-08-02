@@ -20,6 +20,7 @@ def simulate_typing(response: str, typing_speed: float = 0.015): #typing_speed =
     placeholder.markdown(response)
 
 
+
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
@@ -298,6 +299,8 @@ Question:
 Return only the category name.
 """
     return Complete(model, classification_prompt).strip().lower()
+
+latest_user_message = ""
 
 # --- Chat Loop ---
 if user_message := st.chat_input(placeholder="Type your question about my background…"):
