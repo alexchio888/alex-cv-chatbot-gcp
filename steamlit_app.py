@@ -188,12 +188,10 @@ if st.session_state.messages[-1]["role"] != "assistant" and intent != "casual_gr
 
 elif intent == "casual_greeting":
     with st.chat_message("assistant"):
-        st.markdown(
-            "Hello! 👋 I’m Alexandros’ assistant. Feel free to ask me any specific questions about his background, skills, or experience."
-        )
-    st.session_state.messages.append(
-        {
-            "role": "assistant",
-            "content": "Hello! 👋 I’m Alexandros’ assistant. Feel free to ask me any specific questions about his background, skills, or experience.",
-        }
-    )
+        greeting_prompt = f"""
+You are a friendly assistant for Alexandros Chionidis. The user said: "{user_message}"
+Respond briefly and warmly, acknowledging their greeting, and politely ask them to ask a specific question about Alexandros’ background, skills, or experience.
+"""
+        response = Complete(model, greeting_prompt)
+        st.markdown(response)
+    st.session_state.messages.append({"role": "assistant", "content": response})
