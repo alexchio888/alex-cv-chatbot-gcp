@@ -337,12 +337,22 @@ else:
 for i, message in enumerate(st.session_state.messages):
     with st.chat_message(message["role"]):
         content = message["content"]
+        # Check if this assistant message has summary + full
         if message["role"] == "assistant" and isinstance(content, dict):
             st.markdown(f"**Summary:** {content['summary']}")
-            if st.button("Read More", key=f"read_more_{i}"):
+            key = f"read_more_{i}"
+            # Button to toggle full answer
+            if st.session_state.get(key, False):
                 st.markdown(f"**Full answer:**\n\n{content['full']}")
+                if st.button("Show Less", key=f"show_less_{i}"):
+                    st.session_state[key] = False
+            else:
+                if st.button("Read More", key=f"read_more_btn_{i}"):
+                    st.session_state[key] = True
+
         else:
             st.markdown(content)
+
 
 
 if st.session_state.messages[-1]["role"] != "assistant":
@@ -355,7 +365,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt = get_prompt(latest_user_message, context)
             full_response = Complete(model, prompt)
 
-            summary_prompt = f"You are Alexandros Chionidis. The user said: '{latest_user_message}'. Summarize the following response briefly in 2-3 sentences:\n\n{full_response}"
+            summary_prompt = f"You are Alexandros Chionidis. The user said: '{latest_user_message}'. Summarize the following response briefly in first person, in 2-3 sentences:\n\n{full_response}"
             summary = Complete(model, summary_prompt).strip()
 
             response = {"summary": summary, "full": full_response}
