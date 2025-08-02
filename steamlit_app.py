@@ -5,6 +5,7 @@ import streamlit as st
 from snowflake.snowpark import Session
 from snowflake.cortex import Complete
 import snowflake.snowpark.functions as F
+from datetime import datetime
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -107,9 +108,12 @@ if "background_info" not in st.session_state:
     )
 
 def get_prompt(chat, context):
+    current_date = datetime.now().strftime("%Y-%m-%d")  # Format as you like
     prompt = f"""
 You are Alexandros Chionidis assistant and you know almost everything about his background and work experience.
 You are having a conversation with a recruiter or interviewer interested in hiring a Data Engineer.
+
+Current date: {current_date}
 
 Use the background profile below and the relevant CV snippets to answer the user's latest question clearly, professionally, and concisely. 
 Focus on highlighting skills, experience, education, and achievements relevant to a Data Engineer role.
@@ -128,9 +132,9 @@ User’s Question:
 - If the input is vague or unclear, ask the user to clarify.
 - If the information is not in your context, say: "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
 
-
 """
     return prompt
+
 
 ##########################################
 #       Intent Classifier
@@ -161,15 +165,25 @@ if "messages" not in st.session_state:
 
 if user_message := st.chat_input(placeholder="Type your question about Alexandros Chionidis’ background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
+    
     # Classify intent and print it
     intent = classify_intent(user_message)
-    st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
+    st.info(f"Intent classification: **{intent}**, for user input: {user_message}")
+    
+    if intent == "casual_greeting":
+        # Respond with a simple friendly message for casual greetings
+        response = (
+            "Hello! 👋 I'm Alexandros' assistant. "
+            "Feel free to ask me any specific questions about his background, skills, or experience."
+        )
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if st.session_state.messages[-1]["role"] != "assistant":
+# Only proceed with the full RAG flow if the last message is NOT an assistant reply to a casual greeting
+if st.session_state.messages[-1]["role"] != "assistant" or intent != "casual_greeting":
     chat = str(st.session_state.messages[-CHAT_MEMORY:]).replace("'", "")
     with st.chat_message("assistant"):
         with st.status("Answering…", expanded=True):
@@ -179,4 +193,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
             prompt = get_prompt(chat, context)
             response = Complete(model, prompt)
         st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response}) 
+    st.session_state.messages.append({"role": "assistant", "content": response})
