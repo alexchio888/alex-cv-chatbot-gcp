@@ -132,6 +132,26 @@ User’s Question:
 """
     return prompt
 
+##########################################
+#       Intent Classifier
+##########################################
+def classify_intent(user_input: str) -> str:
+    classification_prompt = f"""
+Classify the following user question into one of these categories only:
+- general_background
+- skills_or_tools
+- education_or_certifications
+- experience_or_projects
+- casual_greeting
+- unknown
+
+Question:
+\"\"\"{user_input}\"\"\"
+
+Return only the category name.
+"""
+    intent = Complete(model, classification_prompt).strip().lower()
+    return intent
 
 ##########################################
 #       Chat with LLM
@@ -141,6 +161,9 @@ if "messages" not in st.session_state:
 
 if user_message := st.chat_input(placeholder="Type your question about Alexandros Chionidis’ background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
+    # Classify intent and print it
+    intent = classify_intent(user_message)
+    st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
