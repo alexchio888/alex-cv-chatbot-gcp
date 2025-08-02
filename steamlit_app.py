@@ -146,7 +146,7 @@ Classify the following user question into one of these categories only:
 - skills_or_tools
 - education_or_certifications
 - experience_or_projects
-- casual_greeting_or
+- casual_greeting
 - unknown
 
 Question:
