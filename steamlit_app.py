@@ -146,7 +146,7 @@ Classify the following user question into one of these categories only:
 - skills_or_tools
 - education_or_certifications
 - experience_or_projects
-- casual_greeting
+- casual_greeting_or
 - unknown
 
 Question:
@@ -174,7 +174,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if st.session_state.messages[-1]["role"] != "assistant" and intent != "casual_greeting":
+if st.session_state.messages[-1]["role"] != "assistant" and intent not in ["casual_greeting", "unknown"]:
     chat = str(st.session_state.messages[-CHAT_MEMORY:]).replace("'", "")
     with st.chat_message("assistant"):
         with st.status("Answering…", expanded=True):
@@ -190,8 +190,19 @@ elif intent == "casual_greeting":
     with st.chat_message("assistant"):
         greeting_prompt = f"""
 You are a friendly assistant for Alexandros Chionidis. The user said: "{user_message}"
-Respond briefly and warmly, acknowledging their greeting, and politely ask them to ask a specific question about Alexandros’ background, skills, or experience.
+Respond briefly and warmly, acknowledging their message, and politely ask them to ask a specific question about Alexandros’ background, skills, or experience.
 """
         response = Complete(model, greeting_prompt)
+        st.markdown(response)
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
+elif intent == "unknown":
+    with st.chat_message("assistant"):
+        unknown_prompt = f"""
+The user said: "{user_message}"
+
+As an assistant for Alexandros Chionidis, your task is to respond politely that you didn't fully understand the question and ask them to rephrase or ask something about Alexandros’ background, skills, or experience.
+"""
+        response = Complete(model, unknown_prompt)
         st.markdown(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
