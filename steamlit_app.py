@@ -243,8 +243,8 @@ def find_similar_doc(text, DOC_TABLE):
         LIMIT 2
     """).to_pandas()
 
-    for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
-        st.info(f"Selected Source #{i+1} (Score: {score:.4f}): {source}")
+    # for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
+    #     st.info(f"Selected Source #{i+1} (Score: {score:.4f}): {source}")
 
     return "\n\n".join(docs["INPUT_TEXT"].tolist())
 
@@ -320,9 +320,9 @@ if st.session_state.messages[-1]["role"] != "assistant":
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
     with st.chat_message("assistant"):
         with st.status("Thinking…", expanded=True):
-            st.write("Retrieving relevant CV snippet…")
+            # st.write("Retrieving relevant CV snippet…")
             context = get_context(latest_user_message, DOC_TABLE)
-            st.write("Generating response…")
+            # st.write("Generating response…")
             prompt = get_prompt(latest_user_message, context)
             response = Complete(model, prompt)
 
