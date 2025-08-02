@@ -4,6 +4,9 @@ from snowflake.snowpark import Session
 from snowflake.cortex import Complete
 import snowflake.snowpark.functions as F
 from datetime import datetime
+import json
+import io
+
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -49,7 +52,7 @@ with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     """
     st.markdown(cv_html, unsafe_allow_html=True)
 
-# --- Helper to format chat history for download ---
+# --- Formatters ---
 def generate_chat_text():
     lines = []
     for msg in st.session_state.messages:
@@ -58,19 +61,48 @@ def generate_chat_text():
         lines.append(f"{role}:\n    {content}\n")
     return "\n".join(lines)
 
-# --- Sidebar: Add Download Chat History ---
+def generate_chat_json():
+    return json.dumps(st.session_state.messages, indent=2)
+
+def generate_chat_markdown():
+    lines = []
+    for msg in st.session_state.messages:
+        role = "**You**" if msg["role"] == "user" else "**Alexandros Clone**"
+        content = msg["content"]
+        lines.append(f"{role}:\n\n{content}\n")
+    return "\n---\n".join(lines)
+
+# --- Sidebar: Download Chat History ---
 with st.sidebar.expander("💬 Download Chat History", expanded=False):
     if "messages" in st.session_state and st.session_state.messages:
-        chat_text = generate_chat_text()
+        chat_txt = generate_chat_text()
+        chat_json = generate_chat_json()
+        chat_md = generate_chat_markdown()
+
         st.download_button(
-            label="Download chat as TXT",
-            data=chat_text,
+            label="📄 Download as TXT",
+            data=chat_txt,
             file_name="alexandros_clone_chat.txt",
-            mime="text/plain",
-            help="Download the full chat history as a text file"
+            mime="text/plain"
+        )
+
+        st.download_button(
+            label="🧾 Download as JSON",
+            data=chat_json,
+            file_name="alexandros_clone_chat.json",
+            mime="application/json"
+        )
+
+        st.download_button(
+            label="📝 Download as Markdown",
+            data=chat_md,
+            file_name="alexandros_clone_chat.md",
+            mime="text/markdown"
         )
     else:
         st.info("No chat history to download yet.")
+
+
 
 # --- Connect to Snowflake ---
 @st.cache_resource
