@@ -8,7 +8,7 @@ import json
 import io
 import time
 
-def simulate_typing(response: str, typing_speed: float = 0.02):
+def simulate_typing(response: str, typing_speed: float = 0.015): #typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
     placeholder = st.empty()
     typed_text = ""
