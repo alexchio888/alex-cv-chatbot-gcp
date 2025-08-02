@@ -9,7 +9,7 @@ import io
 import time
 
 
-def simulate_typing(response: str, typing_speed: float = 0.015): #typing_speed = seconds per character
+def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
     placeholder = st.empty()
     typed_text = ""
@@ -21,7 +21,6 @@ def simulate_typing(response: str, typing_speed: float = 0.015): #typing_speed =
     placeholder.markdown(response)
 
 
-
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
@@ -31,11 +30,14 @@ st.caption("Ask me anything about my education, early life, or skills")
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    st.markdown(f"""
+    st.markdown(
+        f"""
     <a href="{maps_url}" target="_blank" style="text-decoration:none; font-weight:bold;">
         🏠 Melissia, Athens, Greece
     </a>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
     linkedin_html = """
     <a href="https://www.linkedin.com/in/alexandros-chionidis-51579421b/" target="_blank" style="text-decoration:none;">
@@ -108,20 +110,29 @@ def generate_chat_text():
     lines = []
     for msg in st.session_state.messages:
         role = msg["role"].capitalize()
-        content = msg["content"].replace('\n', '\n    ')
+        content = msg["content"]
+        # If assistant message is dict, show full text
+        if msg["role"] == "assistant" and isinstance(content, dict):
+            content = content["full"]
+        content = content.replace("\n", "\n    ")
         lines.append(f"{role}:\n    {content}\n")
     return "\n".join(lines)
 
+
 def generate_chat_json():
     return json.dumps(st.session_state.messages, indent=2)
+
 
 def generate_chat_markdown():
     lines = []
     for msg in st.session_state.messages:
         role = "**You**" if msg["role"] == "user" else "**Alexandros Clone**"
         content = msg["content"]
+        if msg["role"] == "assistant" and isinstance(content, dict):
+            content = content["full"]
         lines.append(f"{role}:\n\n{content}\n")
     return "\n---\n".join(lines)
+
 
 # --- Sidebar: Download Chat History ---
 with st.sidebar.expander("💬 Download Chat History", expanded=False):
@@ -134,25 +145,24 @@ with st.sidebar.expander("💬 Download Chat History", expanded=False):
             label="📄 Download as TXT",
             data=chat_txt,
             file_name="alexandros_clone_chat.txt",
-            mime="text/plain"
+            mime="text/plain",
         )
 
         st.download_button(
             label="🧾 Download as JSON",
             data=chat_json,
             file_name="alexandros_clone_chat.json",
-            mime="application/json"
+            mime="application/json",
         )
 
         st.download_button(
             label="📝 Download as Markdown",
             data=chat_md,
             file_name="alexandros_clone_chat.md",
-            mime="text/markdown"
+            mime="text/markdown",
         )
     else:
         st.info("No chat history to download yet.")
-
 
 
 # --- Connect to Snowflake ---
@@ -168,6 +178,7 @@ def create_session():
         "schema": st.secrets["schema"],
     }
     return Session.builder.configs(connection_parameters).create()
+
 
 session = create_session()
 
@@ -187,39 +198,46 @@ with st.expander("⚙️ Settings"):
             "mistral-7b",
         ],
     )
-    
+
     embedding_size = st.selectbox(
         "Select embedding dimension:",
         ["1024", "768"],
         index=0,
-        format_func=lambda x: f"{x}-dim embedding"
+        format_func=lambda x: f"{x}-dim embedding",
     )
 
     st.button("Reset Chat", on_click=lambda: reset_conversation())
 
+
 # --- Reset Chat ---
 def reset_conversation():
-    st.session_state.messages = [{
-        "role": "assistant",
-        "content": (
-            "Hi! I'm Alexandros Chionidis' virtual clone. "
-            "Feel free to ask me anything about my background, skills, or experience."
-        ),
-    }]
+    st.session_state.messages = [
+        {
+            "role": "assistant",
+            "content": (
+                "Hi! I'm Alexandros Chionidis' virtual clone. "
+                "Feel free to ask me anything about my background, skills, or experience."
+            ),
+        }
+    ]
+
 
 if "messages" not in st.session_state:
     reset_conversation()
+
 
 # --- Chat Context Helpers ---
 def get_last_user_messages(n=3):
     user_msgs = [m["content"] for m in st.session_state.messages if m["role"] == "user"]
     return " ".join(user_msgs[-n:]) if user_msgs else ""
 
+
 def get_latest_user_message():
     for m in reversed(st.session_state.messages):
         if m["role"] == "user":
             return m["content"]
     return ""
+
 
 # --- RAG Helpers ---
 def find_similar_doc(text, DOC_TABLE):
@@ -234,19 +252,22 @@ def find_similar_doc(text, DOC_TABLE):
         st.error("Unsupported embedding size selected.")
         return ""
 
-    docs = session.sql(f"""
+    docs = (
+        session.sql(
+            f"""
         SELECT input_text,
                source_desc,
                VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func}) AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
         LIMIT 2
-    """).to_pandas()
-
-    # for i, (source, score) in enumerate(zip(docs["SOURCE_DESC"], docs["DIST"])):
-    #     st.info(f"Selected Source #{i+1} (Score: {score:.4f}): {source}")
+    """
+        )
+        .to_pandas()
+    )
 
     return "\n\n".join(docs["INPUT_TEXT"].tolist())
+
 
 def get_context(latest_user_message, DOC_TABLE):
     return find_similar_doc(latest_user_message, DOC_TABLE)
@@ -277,6 +298,7 @@ User’s Question:
 - If the answer isn't in the context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
 """
 
+
 # --- Intent Classifier ---
 def classify_intent(user_input: str) -> str:
     classification_prompt = f"""
@@ -300,19 +322,28 @@ Return only the category name.
 """
     return Complete(model, classification_prompt).strip().lower()
 
+
 latest_user_message = ""
 
 # --- Chat Loop ---
 if user_message := st.chat_input(placeholder="Type your question about my background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
-    st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
 else:
     intent = None
 
-for message in st.session_state.messages:
+
+# --- Display chat messages with summary + "Read More" toggle ---
+for i, message in enumerate(st.session_state.messages):
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        content = message["content"]
+        if message["role"] == "assistant" and isinstance(content, dict):
+            st.markdown(f"**Summary:** {content['summary']}")
+            if st.button("Read More", key=f"read_more_{i}"):
+                st.markdown(f"**Full answer:**\n\n{content['full']}")
+        else:
+            st.markdown(content)
+
 
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message() or ""
@@ -320,15 +351,16 @@ if st.session_state.messages[-1]["role"] != "assistant":
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
     with st.chat_message("assistant"):
         with st.status("Thinking…", expanded=True):
-            # st.write("Retrieving relevant CV snippet…")
             context = get_context(latest_user_message, DOC_TABLE)
-            # st.write("Generating response…")
             prompt = get_prompt(latest_user_message, context)
-            response = Complete(model, prompt)
+            full_response = Complete(model, prompt)
 
-        # Typing animation
-        simulate_typing(response)
+            summary_prompt = f"Summarize the following text briefly in 2-4 sentences:\n\n{full_response}"
+            summary = Complete(model, summary_prompt).strip()
 
+            response = {"summary": summary, "full": full_response}
+
+        simulate_typing(response["summary"])
     st.session_state.messages.append({"role": "assistant", "content": response})
 
 elif intent == "casual_greeting":
