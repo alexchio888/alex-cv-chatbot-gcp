@@ -6,7 +6,7 @@ import snowflake.snowpark.functions as F
 from datetime import datetime
 import json
 import io
-
+import time
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -264,16 +264,30 @@ for message in st.session_state.messages:
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message()
 
-    if intent not in ["casual_greeting", "unknown","farewell"]:
-        with st.chat_message("assistant"):
-            with st.status("Answering…", expanded=True):
-                st.write("Retrieving relevant CV snippet…")
-                context = get_context(latest_user_message, DOC_TABLE)
-                st.write("Generating response…")
-                prompt = get_prompt(latest_user_message, context)
-                response = Complete(model, prompt)
-            st.markdown(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+if intent not in ["casual_greeting", "unknown", "farewell"]:
+    with st.chat_message("assistant"):
+        with st.status("Thinking…", expanded=True):
+            st.write("Retrieving relevant CV snippet…")
+            context = get_context(latest_user_message, DOC_TABLE)
+            st.write("Generating response…")
+            prompt = get_prompt(latest_user_message, context)
+            response = Complete(model, prompt)
+
+        # Typing animation here
+        placeholder = st.empty()
+        typing_speed = 0.02  # seconds per character
+
+        typed_text = ""
+        for char in response:
+            typed_text += char
+            placeholder.markdown(typed_text)
+            time.sleep(typing_speed)
+
+        # Optional: stabilize final render
+        placeholder.markdown(response)
+
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
 
     elif intent == "casual_greeting":
         with st.chat_message("assistant"):
