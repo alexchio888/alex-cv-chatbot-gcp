@@ -163,27 +163,18 @@ Return only the category name.
 if "messages" not in st.session_state:
     reset_conversation()
 
+intent = None
+
 if user_message := st.chat_input(placeholder="Type your question about Alexandros Chionidis’ background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
-    
-    # Classify intent and print it
     intent = classify_intent(user_message)
-    st.info(f"Intent classification: **{intent}**, for user input: {user_message}")
-    
-    if intent == "casual_greeting":
-        # Respond with a simple friendly message for casual greetings
-        response = (
-            "Hello! 👋 I'm Alexandros' assistant. "
-            "Feel free to ask me any specific questions about his background, skills, or experience."
-        )
-        st.session_state.messages.append({"role": "assistant", "content": response})
+    st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Only proceed with the full RAG flow if the last message is NOT an assistant reply to a casual greeting
-if st.session_state.messages[-1]["role"] != "assistant" or intent != "casual_greeting":
+if st.session_state.messages[-1]["role"] != "assistant" and intent != "casual_greeting":
     chat = str(st.session_state.messages[-CHAT_MEMORY:]).replace("'", "")
     with st.chat_message("assistant"):
         with st.status("Answering…", expanded=True):
@@ -194,3 +185,15 @@ if st.session_state.messages[-1]["role"] != "assistant" or intent != "casual_gre
             response = Complete(model, prompt)
         st.markdown(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
+
+elif intent == "casual_greeting":
+    with st.chat_message("assistant"):
+        st.markdown(
+            "Hello! 👋 I’m Alexandros’ assistant. Feel free to ask me any specific questions about his background, skills, or experience."
+        )
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": "Hello! 👋 I’m Alexandros’ assistant. Feel free to ask me any specific questions about his background, skills, or experience.",
+        }
+    )
