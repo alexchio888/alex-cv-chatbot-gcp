@@ -296,6 +296,7 @@ User’s Question:
 - If it's a question about your background, experience, or tools you’ve used, reply in first person with accurate, confident, and professional information.
 - If the question is vague or unclear, politely ask the user to clarify.
 - If the answer isn't in the context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
+Keep the answer below 4 sentences
 """
 
 
@@ -333,23 +334,12 @@ else:
     intent = None
 
 
-# --- Display chat messages with summary + "Read More" toggle ---
-for i, message in enumerate(st.session_state.messages):
+# --- Display chat messages (Full response only) ---
+for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         content = message["content"]
-        # Check if this assistant message has summary + full
         if message["role"] == "assistant" and isinstance(content, dict):
-            st.markdown(f"**Summary:** {content['summary']}")
-            key = f"read_more_{i}"
-            # Button to toggle full answer
-            if st.session_state.get(key, False):
-                st.markdown(f"**Full answer:**\n\n{content['full']}")
-                if st.button("Show Less", key=f"show_less_{i}"):
-                    st.session_state[key] = False
-            else:
-                if st.button("Read More", key=f"read_more_btn_{i}"):
-                    st.session_state[key] = True
-
+            st.markdown(content["full"])
         else:
             st.markdown(content)
 
@@ -364,16 +354,12 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             context = get_context(latest_user_message, DOC_TABLE)
             prompt = get_prompt(latest_user_message, context)
             full_response = Complete(model, prompt)
+            response = full_response
 
-            summary_prompt = f"You are Alexandros Chionidis. The user said: '{latest_user_message}'. Summarize the following response briefly in first person, in 2-3 sentences:\n\n{full_response}"
-            summary = Complete(model, summary_prompt).strip()
-
-            response = {"summary": summary, "full": full_response}
-
-        simulate_typing(response["summary"])
+        simulate_typing(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
     st.rerun()
-    
+
 elif intent == "casual_greeting":
     with st.chat_message("assistant"):
         prompt = f"""
