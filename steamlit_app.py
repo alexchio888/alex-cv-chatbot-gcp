@@ -7,8 +7,8 @@ from datetime import datetime
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-st.title("🎓 Alexandros Chionidis' assistant")
-st.caption("Ask me anything about Alexandros, education, early life, or skills")
+st.title("🎓 Alexandros Chionidis' clone")
+st.caption("Ask me anything about my education, early life, or skills")
 
 # --- Connect to Snowflake ---
 @st.cache_resource
@@ -57,8 +57,8 @@ def reset_conversation():
     st.session_state.messages = [{
         "role": "assistant",
         "content": (
-            "Hi there! I’m Alexandros' assistant. "
-            "What would you like to learn about him?"
+            "Hi! I'm Alexandros Chionidis. "
+            "Feel free to ask me anything about my background, skills, or experience."
         ),
     }]
 
@@ -119,13 +119,12 @@ if "background_info" not in st.session_state:
 def get_prompt(latest_user_message, context):
     current_date = datetime.now().strftime("%Y-%m-%d")
     return f"""
-You are Alexandros Chionidis assistant and you know almost everything about his background and work experience.
-You are having a conversation with a recruiter or interviewer interested in hiring a Data Engineer.
+You are Alexandros Chionidis. Answer all questions in first person, as if you are speaking directly to the user.
 
 Current date: {current_date}
 
-Use the background profile below and the relevant CV snippets to answer the user's latest question clearly, professionally, and concisely. 
-Focus on highlighting skills, experience, education, and achievements relevant to a Data Engineer role.
+Use the background profile below and the relevant CV snippets to answer clearly, personally, and professionally. 
+Focus on your skills, experience, education, and achievements relevant to a Data Engineer role.
 
 Background Profile:
 {st.session_state.background_info}
@@ -136,10 +135,10 @@ Relevant CV Snippet:
 User’s Question:
 {latest_user_message}
 
-- If it is a simple greeting or informal message (like "hello", "hi", "hey", "good morning", etc.), respond briefly and casually with a warm greeting and an invitation to ask about Alexandros.
-- If it is a question or specific input about Alexandros’ background, work, or education, reply professionally and informatively based on the background and relevant CV snippets.
-- If the input is vague or unclear, ask the user to clarify.
-- If the information is not in your context, say: "I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
+- If it's a simple greeting or informal message (like "hello", "hi", "hey", "good morning"), respond warmly and personally.
+- If it is a question about your background, work, or education, reply in first person with accurate, professional info.
+- If the input is vague or unclear, ask the user to clarify politely.
+- If the information is not in your context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
 """
 
 # --- Intent Classifier ---
@@ -161,7 +160,7 @@ Return only the category name.
     return Complete(model, classification_prompt).strip().lower()
 
 # --- Chat Loop ---
-if user_message := st.chat_input(placeholder="Type your question about Alexandros Chionidis’ background…"):
+if user_message := st.chat_input(placeholder="Type your question about my background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
     st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
@@ -189,8 +188,8 @@ if st.session_state.messages[-1]["role"] != "assistant":
     elif intent == "casual_greeting":
         with st.chat_message("assistant"):
             prompt = f"""
-You are a friendly assistant for Alexandros Chionidis. The user said: "{latest_user_message}"
-Respond briefly and warmly, acknowledging their message, and politely ask them to ask a specific question about Alexandros’ background, skills, or experience.
+You are Alexandros Chionidis. The user said: "{latest_user_message}"
+Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
 """
             response = Complete(model, prompt)
             st.markdown(response)
@@ -201,7 +200,7 @@ Respond briefly and warmly, acknowledging their message, and politely ask them t
             prompt = f"""
 The user said: "{latest_user_message}"
 
-As an assistant for Alexandros Chionidis, your task is to respond politely that you didn't fully understand the question and ask them to rephrase or ask something about Alexandros’ background, skills, or experience.
+As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
 """
             response = Complete(model, prompt)
             st.markdown(response)
