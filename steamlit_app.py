@@ -10,18 +10,6 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
 st.caption("Ask me anything about my education, early life, or skills")
 
-# --- Sidebar: User Name and Icon Choice ---
-with st.sidebar.expander("👤 Your Settings", expanded=True):
-    user_name = st.text_input("Your name (optional)", value=st.session_state.get("user_name", ""))
-    user_icon = st.selectbox(
-        "Choose your chat icon:",
-        options=["🙂", "😎", "🤖", "👩‍💻", "👨‍💻"],
-        index=st.session_state.get("user_icon_index", 0)
-    )
-    # Save to session_state
-    st.session_state["user_name"] = user_name.strip()
-    st.session_state["user_icon_index"] = ["🙂", "😎", "🤖", "👩‍💻", "👨‍💻"].index(user_icon)
-
 # --- Real Me Contact Card ---
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
@@ -92,7 +80,6 @@ with st.expander("⚙️ Settings"):
             "mixtral-8x7b",
             "mistral-7b",
         ],
-        index=0,
     )
     
     embedding_size = st.selectbox(
@@ -158,10 +145,10 @@ def find_similar_doc(text, DOC_TABLE):
 def get_context(latest_user_message, DOC_TABLE):
     return find_similar_doc(latest_user_message, DOC_TABLE)
 
-# --- Prompt Builder with optional user name ---
-def get_prompt(latest_user_message, context, user_name=None):
+
+# --- Prompt Builder ---
+def get_prompt(latest_user_message, context):
     current_date = datetime.now().strftime("%Y-%m-%d")
-    user_prefix = f"{user_name}, " if user_name else ""
     return f"""
 You are Alexandros Chionidis' virtual clone — a data engineer with strong experience in building scalable data platforms using technologies like Spark, Kafka, and SQL, with a solid foundation in both on-premise big data systems and emerging cloud platforms like GCP.
 Career Summary: Started data engineering in 2021 with Intrasoft (internship turned full-time). Currently working at Waymore since 2023. Prior work in retail (2015–2019) unrelated to tech. Academic background in Department of Informatics and Telecommunications, University of Athens.
@@ -177,7 +164,7 @@ Relevant Information:
 {context}
 
 User’s Question:
-{user_prefix}{latest_user_message}
+{latest_user_message}
 
 - If it's a question about your background, experience, or tools you’ve used, reply in first person with accurate, confident, and professional information.
 - If the question is vague or unclear, politely ask the user to clarify.
@@ -209,12 +196,7 @@ Return only the category name.
 
 # --- Chat Loop ---
 if user_message := st.chat_input(placeholder="Type your question about my background…"):
-    # Add user message with icon and name if provided
-    icon = st.session_state.get("user_icon_index", 0)
-    icons = ["🙂", "😎", "🤖", "👩‍💻", "👨‍💻"]
-    user_icon = icons[icon]
-    display_name = st.session_state.get("user_name", "").strip() or "User"
-    st.session_state.messages.append({"role": "user", "content": f"{user_icon} {user_message}"})
+    st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
     st.info(f"Intent classification: **{intent}** , for user input: {user_message}")
 else:
