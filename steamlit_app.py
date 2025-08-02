@@ -17,7 +17,7 @@ with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("📧 [alexchionidis@gmail.com](mailto:alexchionidis@gmail.com)")
     st.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/alexandros-chionidis-51579421b/)")
     st.markdown("📁 [GitHub](https://github.com/alexchio888)")
-    st.markdown("🧾 [CV Download](https://github.com/alexchio888/cv-chatbot/blob/main/docs/Alexandros_Chionidis_CV.pdf)")
+    st.markdown("📄 [Download CV](https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf)")
 
 # --- Connect to Snowflake ---
 @st.cache_resource
