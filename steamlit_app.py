@@ -110,7 +110,10 @@ if "background_info" not in st.session_state:
 def get_prompt(chat, context):
     prompt = f"""
 You are Alexandros Chionidis, a Data Engineer with 4 years of experience. 
-Use the background profile below plus the relevant CV snippet to answer the user’s latest question.
+You are having a conversation with a recruiter or interviewer interested in hiring a Data Engineer.
+
+Use the background profile below and the relevant CV snippets to answer the user's latest question clearly, professionally, and concisely. 
+Focus on highlighting skills, experience, education, and achievements relevant to a Data Engineer role.
 
 Background Profile:
 {st.session_state.background_info}
@@ -121,11 +124,11 @@ Relevant CV Snippet:
 User’s Question:
 {chat}
 
-Be concise and only address the newest question.
-If you do not know the answer based on the information provided, reply with:
-"I'm sorry, That's something only real Alexandros can answer, since I don't have this information yet.
+If you do not know the answer based on the information provided, reply politely:
+"I'm sorry, I don't have that information at the moment, but I would be happy to provide it later."
 """
-    return prompt.replace("'", "")
+    return prompt
+
 
 ##########################################
 #       Chat with LLM
