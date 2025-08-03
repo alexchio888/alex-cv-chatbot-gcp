@@ -36,7 +36,8 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
         index_col='Task',
         show_colorbar=False,
         group_tasks=True,
-        title=f"Selected categories – {selected_tag}",
+        # title=f"Selected categories – {selected_tag}",
+        title="",
         showgrid_x=True,
         showgrid_y=True
     )
@@ -45,7 +46,9 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
     fig.update_layout(
         xaxis=dict(
             range=[df['Start'].min(), today],
-            title="Date"
+            title="Date",
+            rangeselector=dict(buttons=[]),  # Disable range selector
+            rangeslider=dict(visible=False)  # Optionally disable range slider too
         )
     )
 
