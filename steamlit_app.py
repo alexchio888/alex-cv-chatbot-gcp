@@ -13,8 +13,6 @@ from timeline_builder import *
 from sidebar import *
 from session_tracker import *
 
-initialize_session(st.session_state)
-
 
 def get_previous_chat_context(n=5):
     # Take the last n messages from chat history, format them nicely
