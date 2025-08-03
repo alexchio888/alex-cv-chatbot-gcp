@@ -20,22 +20,22 @@
       },
       {
         "start_date": { "month": "09", "year": "2014" },
-        "end_date": { "month": "01", "year": "2021" },
+        "end_date": { "month": "03", "year": "2022" },
         "text": {
           "headline": "Bachelor of Science in Informatics and Telecommunications",
           "text": "Finished all coursework for my degree in Informatics & Telecommunications."
         }
       },
       {
-        "start_date": { "month": "03", "year": "2021" },
-        "end_date": { "month": "09", "year": "2020" },
+        "start_date": { "month": "09", "year": "2021" },
+        "end_date": { "month": "03", "year": "2022" },
         "text": {
           "headline": "Intern Data engineer at Netcompany - Intrasoft",
           "text": "Started a data engineering internship that later turned into a full-time role."
         }
       },
       {
-        "start_date": { "month": "03", "year": "2021" },
+        "start_date": { "month": "03", "year": "2022" },
         "end_date": { "month": "01", "year": "2023" },
         "text": {
           "headline": "Data Engineer at Netcompany - Intrasoft",
