@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from snowflake.snowpark import Session
-from snowflake.cortex import Complete
+from snowflake.cortex import complete
 import snowflake.snowpark.functions as F
 from datetime import datetime
 import json
@@ -337,7 +337,7 @@ Question:
 
 Return only the category name.
 """
-    response = Complete(model, classification_prompt)
+    response = complete(model, classification_prompt)
     intent = "".join(response).strip().lower()
     return intent
 
@@ -370,7 +370,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         with st.status("Thinking…", expanded=True):
             context = get_context(latest_user_message, DOC_TABLE)
             prompt = get_prompt(latest_user_message, context)
-            full_response = Complete(model, prompt)
+            full_response = complete(model, prompt)
             response = full_response
 
         simulate_typing(response)
@@ -383,7 +383,7 @@ elif intent == "casual_greeting":
 You are Alexandros Chionidis. The user said: "{latest_user_message}"
 Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
 """
-        response = Complete(model, prompt)
+        response = complete(model, prompt)
         simulate_typing(response)
 
     st.session_state.messages.append({"role": "assistant", "content": response})
@@ -395,7 +395,7 @@ The user said: "{latest_user_message}"
 
 As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
 """
-        response = Complete(model, prompt)
+        response = complete(model, prompt)
         simulate_typing(response)
 
     st.session_state.messages.append({"role": "assistant", "content": response})
