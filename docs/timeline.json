@@ -6,48 +6,40 @@
       },
       "text": {
         "headline": "Alexandros Chionidis — Life & Career",
-        "text": "A personal and professional timeline of key milestones."
+        "text": "Explore key milestones across education and work experience."
       }
     },
     "events": [
       {
-        "start_date": { "month": "01", "year": "2015" },
-        "end_date": { "month": "08", "year": "2019" },
-        "text": {
-          "headline": "Retail store manager",
-          "text": "Worked in retail roles from 2015 to 2019 before transitioning to tech."
-        }
-      },
-      {
         "start_date": { "month": "09", "year": "2014" },
         "end_date": { "month": "03", "year": "2022" },
         "text": {
-          "headline": "Bachelor of Science in Informatics and Telecommunications",
-          "text": "Finished all coursework for my degree in Informatics & Telecommunications."
+          "headline": "🎓 BSc Informatics & Telecommunications",
+          "text": "Completed coursework and thesis at the University of Athens, focusing on software engineering and data systems."
+        }
+      },
+      {
+        "start_date": { "month": "01", "year": "2015" },
+        "end_date": { "month": "08", "year": "2019" },
+        "text": {
+          "headline": "🛍️ Store Manager — Retail (Ekali)",
+          "text": "Led operations, customer service, and sales strategy for a local retail business in Ekali, Athens."
         }
       },
       {
         "start_date": { "month": "09", "year": "2021" },
-        "end_date": { "month": "03", "year": "2022" },
-        "text": {
-          "headline": "Intern Data engineer at Netcompany - Intrasoft",
-          "text": "Started a data engineering internship that later turned into a full-time role."
-        }
-      },
-      {
-        "start_date": { "month": "03", "year": "2022" },
         "end_date": { "month": "01", "year": "2023" },
         "text": {
-          "headline": "Data Engineer at Netcompany - Intrasoft",
-          "text": "Focused on on-premise big data solutions using Spark and Scala."
+          "headline": "🛠️ Data Engineer — Netcompany-Intrasoft",
+          "text": "Designed and implemented big data pipelines using Spark and Scala for large-scale analytics on-premise."
         }
       },
       {
         "start_date": { "month": "01", "year": "2023" },
         "end_date": { "month": "08", "year": "2025" },
         "text": {
-          "headline": "Data Engineer at Waymore",
-          "text": "Led the delivery of a real-time data platform using Spark, Kafka, and GCP."
+          "headline": "🚀 Data Engineer — Waymore",
+          "text": "Built and led a real-time data platform using Spark, Kafka, and GCP; improved processing speed and system scalability."
         }
       }
     ]
