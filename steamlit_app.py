@@ -61,7 +61,7 @@ with col1:
     st.image("docs/avatar.png", width=560)  # adjust path/size as needed
 
 with col2:
-    st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
+    st.title("Hi, I'm Alexandros Chionidis' Virtual Clone!")
     st.markdown("""
     Welcome! 👋  
     Feel free to ask me anything about my education, early life, or skills.  
@@ -339,13 +339,13 @@ else:
 
 # --- Display chat messages (Full response only) ---
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    avatar = "docs/avatar.png" if message["role"] == "assistant" else None
+    with st.chat_message(message["role"], avatar=avatar):
         content = message["content"]
         if message["role"] == "assistant" and isinstance(content, dict):
             st.markdown(content["full"])
         else:
             st.markdown(content)
-
 
 
 if st.session_state.messages[-1]["role"] != "assistant":
