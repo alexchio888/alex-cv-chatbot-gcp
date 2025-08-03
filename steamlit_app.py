@@ -8,7 +8,7 @@ import json
 import io
 import time
 import streamlit.components.v1 as components
-from timeline_builder import get_timeline_css, build_timeline_html
+from timeline_builder import *
 
 
 def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
