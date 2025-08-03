@@ -168,10 +168,10 @@ if "embedding_size" not in st.session_state:
     st.session_state.embedding_size = "1024"  # default
 
 if "include_history" not in st.session_state:
-    st.session_state.include_history = False
+    st.session_state.include_history = True
 
 if "context_message_count" not in st.session_state:
-    st.session_state.context_message_count = 5
+    st.session_state.context_message_count = 10
 
 
 if "messages" not in st.session_state:
