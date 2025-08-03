@@ -224,28 +224,28 @@ session = create_session()
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
 
-# --- UI Settings ---
-with st.expander("⚙️ Settings"):
-    model = st.selectbox(
-        "Change chatbot model:",
-        [
-            "mistral-large",
-            "reka-flash",
-            "llama2-70b-chat",
-            "gemma-7b",
-            "mixtral-8x7b",
-            "mistral-7b",
-        ],
-    )
+# # --- UI Settings ---
+# with st.expander("⚙️ Settings"):
+#     model = st.selectbox(
+#         "Change chatbot model:",
+#         [
+#             "mistral-large",
+#             "reka-flash",
+#             "llama2-70b-chat",
+#             "gemma-7b",
+#             "mixtral-8x7b",
+#             "mistral-7b",
+#         ],
+#     )
 
-    embedding_size = st.selectbox(
-        "Select embedding dimension:",
-        ["1024", "768"],
-        index=0,
-        format_func=lambda x: f"{x}-dim embedding",
-    )
+#     embedding_size = st.selectbox(
+#         "Select embedding dimension:",
+#         ["1024", "768"],
+#         index=0,
+#         format_func=lambda x: f"{x}-dim embedding",
+#     )
 
-    st.button("Reset Chat", on_click=lambda: reset_conversation())
+#     st.button("Reset Chat", on_click=lambda: reset_conversation())
 
 
 
