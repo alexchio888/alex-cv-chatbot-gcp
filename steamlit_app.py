@@ -29,17 +29,21 @@ timeline_data = [
     {"date": "Jun 2023", "event": "Promoted to Lead Data Engineer"},
 ]
 
-css = get_timeline_css()
-html = build_timeline_html(timeline_data)
-
-st.markdown("## 📅 Timeline")
-components.html(css + html, height=350)
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
 st.caption("Ask me anything about my education, early life, or skills")
 
+# Load JSON file
+with open("docs/timeline.json", "r") as f:
+    timeline_json = json.load(f)
+
+# Generate timeline HTML
+timeline_html = timeline_builder(timeline_json)
+
+# Render timeline in Streamlit
+st.components.v1.html(timeline_html, height=600, scrolling=True)
 # --- Real Me Contact Card ---
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
