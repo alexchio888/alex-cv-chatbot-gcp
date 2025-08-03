@@ -294,9 +294,9 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             full_response = complete(model, prompt)
             response = full_response
 
+        st.session_state.messages.append({"role": "assistant", "content": response})
         simulate_typing(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
-
+ 
 
 elif intent == "casual_greeting":
     with st.chat_message("assistant"):
@@ -306,9 +306,9 @@ Respond briefly and warmly in first person, acknowledging their message, and inv
 """    
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
+        st.session_state.messages.append({"role": "assistant", "content": response})
         simulate_typing(response)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
 
 elif intent == "unknown":
     with st.chat_message("assistant"):
@@ -319,9 +319,9 @@ As Alexandros Chionidis, politely say you didn’t fully understand and ask them
 """
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
+        st.session_state.messages.append({"role": "assistant", "content": response})
         simulate_typing(response)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
 
 elif intent == "farewell":
     with st.chat_message("assistant"):
@@ -329,7 +329,7 @@ elif intent == "farewell":
             "Thank you for your time! I'm wrapping up the session now. "
             "If you have more questions about my background or skills later, feel free to return anytime."
         )
+        st.session_state.messages.append({"role": "assistant", "content": response})
         simulate_typing(response)
 
     st.session_state["session_ended"] = True
-    st.session_state.messages.append({"role": "assistant", "content": response})
