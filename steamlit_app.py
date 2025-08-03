@@ -8,7 +8,8 @@ import json
 import io
 import time
 import streamlit.components.v1 as components
-from timeline_builder import *
+from timeline_builder import build_gantt_from_json
+
 
 
 def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
