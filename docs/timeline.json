@@ -16,7 +16,8 @@
         "text": {
           "headline": "🎓 BSc Informatics & Telecommunications",
           "text": "Completed coursework and thesis at the University of Athens, focusing on software engineering and data systems."
-        }
+        },
+        "tags": ["Education"]
       },
       {
         "start_date": { "month": "01", "year": "2015" },
@@ -24,7 +25,8 @@
         "text": {
           "headline": "🛍️ Store Manager — Retail (Ekali)",
           "text": "Led operations, customer service, and sales strategy for a local retail business in Ekali, Athens."
-        }
+        },
+        "tags": ["Experience"]
       },
       {
         "start_date": { "month": "09", "year": "2021" },
@@ -32,7 +34,8 @@
         "text": {
           "headline": "🛠️ Data Engineer — Netcompany-Intrasoft",
           "text": "Designed and implemented big data pipelines using Spark and Scala for large-scale analytics on-premise."
-        }
+        },
+        "tags": ["Experience"]
       },
       {
         "start_date": { "month": "01", "year": "2023" },
@@ -40,7 +43,8 @@
         "text": {
           "headline": "🚀 Data Engineer — Waymore",
           "text": "Built and led a real-time data platform using Spark, Kafka, and GCP; improved processing speed and system scalability."
-        }
+        },
+        "tags": ["Experience"]
       }
     ]
   }
