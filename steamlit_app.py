@@ -8,8 +8,12 @@ import json
 import io
 import time
 import streamlit.components.v1 as components
+
 from timeline_builder import *
 from sidebar import *
+from session_tracker import *
+
+initialize_session(st.session_state)
 
 
 def get_previous_chat_context(n=5):
@@ -163,6 +167,10 @@ def create_session():
 
 
 session = create_session()
+create_chat_logs_table_if_not_exists(session)
+
+if "session_id" not in st.session_state:
+    st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
 
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
@@ -333,6 +341,7 @@ if user_message := st.chat_input(placeholder="Ask me anything about my backgroun
     # Truncate input silently to 1000 characters
     user_message = user_message[:1000]
     st.session_state.messages.append({"role": "user", "content": user_message})
+    log_message_to_snowflake(session, st.session_state["session_id"], "user", user_message)
     intent = classify_intent(user_message)
 else:
     intent = None
@@ -361,6 +370,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             response = full_response
 
         st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(session, st.session_state["session_id"], "assistant", response)
         simulate_typing(response)
  
 
@@ -373,6 +383,8 @@ Respond briefly and warmly in first person, acknowledging their message, and inv
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
         st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(session, st.session_state["session_id"], "assistant", response)
+
         simulate_typing(response)
 
 
@@ -386,6 +398,7 @@ As Alexandros Chionidis, politely say you didn’t fully understand and ask them
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
         st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(session, st.session_state["session_id"], "assistant", response)
         simulate_typing(response)
 
 
@@ -396,6 +409,7 @@ elif intent == "farewell":
             "If you have more questions about my background or skills later, feel free to return anytime."
         )
         st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(session, st.session_state["session_id"], "assistant", response)
         simulate_typing(response)
         st.info("💾 You can download the chat history anytime from the sidebar")
     st.session_state["session_ended"] = True
