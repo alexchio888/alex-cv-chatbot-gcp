@@ -39,9 +39,9 @@
       },
       {
         "start_date": { "month": "01", "year": "2023" },
-        "end_date": { "month": "08", "year": "2025" },
+        "end_date": { "month": "09", "year": "2025" },
         "text": {
-          "headline": "🚀 Data Engineer — Waymore",
+          "headline": "🚀 Data Engineer — Waymore (Present)",
           "text": "Built and led a real-time data platform using Spark, Kafka, and GCP; improved processing speed and system scalability."
         },
         "tags": ["Experience tech"]
