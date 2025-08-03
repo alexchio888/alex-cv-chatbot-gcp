@@ -52,21 +52,32 @@ with open("docs/timeline.json", "r") as f:
 # st.components.v1.html(timeline_html, height=600, scrolling=True)
 
 
-####GANT
+# --- Gantt chart ---
 all_tags = set()
 for e in timeline_json["events"]:
     all_tags.update(e.get("tags", []))
 
-selected_tag = st.selectbox("Filter timeline by category", options=["All"] + sorted(all_tags))
+selected_tag = st.selectbox("📂 Filter timeline by category", options=["All"] + sorted(all_tags))
 
-with st.expander("Show Timeline Gantt Chart"):
-    gantt_fig = build_gantt_from_json(timeline_json, selected_tag=selected_tag)
+# Filter the timeline JSON before passing to visual functions
+filtered_events = [
+    e for e in timeline_json["events"]
+    if selected_tag == "All" or selected_tag in e.get("tags", [])
+]
+filtered_json = {
+    "title": timeline_json["title"],
+    "events": filtered_events
+}
+
+with st.expander("📅 Career Timeline Overview", expanded=True):
+    # Gantt chart
+    gantt_fig = build_gantt_from_json(filtered_json)
     if gantt_fig:
         st.plotly_chart(gantt_fig, use_container_width=True)
     else:
-        st.info("No events match the selected tag.")
+        st.info("No events match the selected category.")
 
-# --- Gantt chart ---
+
 def generate_chat_text():
     lines = []
     for msg in st.session_state.messages:
