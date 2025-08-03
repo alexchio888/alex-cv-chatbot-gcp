@@ -2,13 +2,13 @@ import streamlit as st
 
 def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown, reset_conversation):
     tab_contact, tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
-        ["📇 Contact", "💡 Try Asking", "💬 Download Chat", "⚙️ Settings"]
+        ["📇 Contact", "💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
     )
 
     with tab_contact:
         st.markdown("## 👤 Alexandros Chionidis")
         st.markdown("---")
-                
+
         # Location
         maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
         st.markdown(
@@ -100,6 +100,7 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
 
     with tab_settings:
         st.markdown("### ⚙️ Chat Settings")
+        st.markdown("_For experimentation and dev purposes_")
         model = st.selectbox(
             "Change chatbot model:",
             [
@@ -120,5 +121,5 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
             format_func=lambda x: f"{x}-dim embedding",
         )
 
-        if st.button("Reset Chat"):
-            reset_conversation()
+        # if st.button("Reset Chat"):
+        #     reset_conversation()

@@ -261,6 +261,9 @@ Return only the category name.
 
 latest_user_message = ""
 
+if st.button("🔄 Reset Chat"):
+    reset_conversation()
+
 # --- Chat Loop ---
 if user_message := st.chat_input(placeholder="Type your question about my background…"):
     st.session_state.messages.append({"role": "user", "content": user_message})
