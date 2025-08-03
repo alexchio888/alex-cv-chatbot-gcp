@@ -56,7 +56,7 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 # st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
 
 
-col1, col2 = st.columns([2, 6])
+col1, col2 = st.columns([1, 6])
 with col1:
     st.image("docs/avatar.png", width=560)  # adjust path/size as needed
 
@@ -66,13 +66,13 @@ with col2:
     Welcome! 👋  
     Feel free to ask me anything about my education, early life, or skills.  
     I'm here to help you explore my journey and expertise.
-
-    ---
-
-    ### My Professional Timeline
-    Explore key milestones across education, work experience, and certifications.  
-    Use the filters below to focus on categories that interest you.
     """)
+st.markdown("""
+---
+### My Professional Timeline
+Explore key milestones across education, work experience, and certifications.  
+Use the filters below to focus on categories that interest you.
+""")
 
 # --- Gantt chart ---
 # Load JSON file
