@@ -2,44 +2,29 @@ from datetime import datetime
 import plotly.figure_factory as ff
 import pandas as pd
 
-def build_gantt_from_json(json_data):
-    # Parse events into a DataFrame suitable for Plotly Gantt
+def build_gantt_from_json(timeline_json):
     tasks = []
-    for event in json_data.get("events", []):
-        start_year = event["start_date"].get("year", "2000")
-        start_month = event["start_date"].get("month", "01")
-        # Compose start date string
-        start_date = f"{start_year}-{start_month.zfill(2)}-01"
-        
-        # For simplicity, we assume each event lasts one month; 
-        # you can adjust this logic if you have end_date or durations
-        # Here we just add 1 month for end date (roughly)
-        end_year = start_year
-        end_month = str(int(start_month) + 1) if int(start_month) < 12 else "12"
-        if int(start_month) == 12:
-            end_year = str(int(start_year) + 1)
-            end_month = "01"
-        end_date = f"{end_year}-{end_month.zfill(2)}-01"
-        
-        tasks.append(dict(
-            Task=event["text"]["headline"],
-            Start=start_date,
-            Finish=end_date,
-            Description=event["text"]["text"]
-        ))
-    
+    for event in timeline_json.get("events", []):
+        start_date = event["start_date"]
+        year = int(start_date.get("year", "1900"))
+        month = int(start_date.get("month", 1))
+        start = datetime(year, month, 1)
+        # Set an end date 1 month later (or customize as needed)
+        if month == 12:
+            end = datetime(year + 1, 1, 1)
+        else:
+            end = datetime(year, month + 1, 1)
+
+        tasks.append(dict(Task=event["text"]["headline"], Start=start, Finish=end))
+
     df = pd.DataFrame(tasks)
-    
+
     fig = ff.create_gantt(
         df,
         index_col='Task',
         show_colorbar=True,
         group_tasks=True,
-        title=json_data["title"]["text"]["headline"],
-        bar_width=0.3,
-        showgrid_x=True,
-        showgrid_y=True,
-        hover_data=['Description']
+        title="Timeline as Gantt Chart"
     )
     return fig
 
