@@ -8,11 +8,16 @@ def parse_date(date_dict):
     day = int(date_dict.get("day", 1))
     return datetime(year, month, day)
 
-def build_gantt_from_json(timeline_json):
+def build_gantt_from_json(timeline_json, selected_tag="All"):
     tasks = []
+
     for event in timeline_json.get("events", []):
+        tags = event.get("tags", [])
+        if selected_tag != "All" and selected_tag not in tags:
+            continue  # Skip this event if it doesn't match selected tag
+
         start_date = parse_date(event.get("start_date", {}))
-        end_date = parse_date(event.get("end_date", event.get("start_date", {})))  # fallback to start_date if no end_date
+        end_date = parse_date(event.get("end_date", event.get("start_date", {})))
 
         tasks.append(dict(
             Task=event["text"]["headline"],
@@ -21,43 +26,36 @@ def build_gantt_from_json(timeline_json):
             Description=event["text"].get("text", "")
         ))
 
+    if not tasks:
+        return None  # return early if no data
+
     df = pd.DataFrame(tasks)
 
     fig = ff.create_gantt(
         df,
         index_col='Task',
-        show_colorbar=False,  # Hide legend on the right
+        show_colorbar=False,
         group_tasks=True,
-        title="Timeline as Gantt Chart",
+        title=f"Timeline Gantt Chart – {selected_tag}",
         showgrid_x=True,
         showgrid_y=True
     )
 
-    # Set x-axis to finish today
     today = datetime.today()
     fig.update_layout(
         xaxis=dict(
-            range=[df['Start'].min(), today],  # from earliest start to today
+            range=[df['Start'].min(), today],
             title="Date"
         )
     )
 
     return fig
 
+
 def timeline_builder(timeline_json):
     title = timeline_json["title"]["text"]["headline"]
     subtitle = timeline_json["title"]["text"]["text"]
     events = timeline_json["events"]
-
-    # Extract unique tags
-    all_tags = set()
-    for event in events:
-        for tag in event.get("tags", []):
-            all_tags.add(tag)
-    sorted_tags = sorted(list(all_tags))
-
-    # Add 'All' option
-    tag_filter = st.selectbox("Filter by category", options=["All"] + sorted_tags)
 
     def format_date(d):
         try:
@@ -68,13 +66,10 @@ def timeline_builder(timeline_json):
 
     html_events = ""
     for event in events:
-        if tag_filter != "All" and tag_filter not in event.get("tags", []):
-            continue  # Skip event if tag doesn't match selected filter
-
         date_str = format_date(event["start_date"])
         headline = event["text"]["headline"]
         text = event["text"]["text"]
-
+        
         html_events += f"""
         <div class="event" onclick="this.classList.toggle('active')">
           <div class="date">{date_str}</div>
@@ -82,9 +77,6 @@ def timeline_builder(timeline_json):
           <div class="content">{text}</div>
         </div>
         """
-
-    if not html_events:
-        html_events = "<p style='text-align:center;'>No events for selected category.</p>"
 
     html_code = f"""
     <style>
@@ -144,5 +136,4 @@ def timeline_builder(timeline_json):
       {html_events}
     </div>
     """
-
     return html_code

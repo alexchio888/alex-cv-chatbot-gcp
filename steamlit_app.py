@@ -51,12 +51,22 @@ with open("docs/timeline.json", "r") as f:
 # # Render timeline in Streamlit
 # st.components.v1.html(timeline_html, height=600, scrolling=True)
 
+
+####GANT
+all_tags = set()
+for e in timeline_json["events"]:
+    all_tags.update(e.get("tags", []))
+
+selected_tag = st.selectbox("Filter timeline by category", options=["All"] + sorted(all_tags))
+
 with st.expander("Show Timeline Gantt Chart"):
-    gantt_fig = build_gantt_from_json(timeline_json)
-    st.plotly_chart(gantt_fig, use_container_width=True)
+    gantt_fig = build_gantt_from_json(timeline_json, selected_tag=selected_tag)
+    if gantt_fig:
+        st.plotly_chart(gantt_fig, use_container_width=True)
+    else:
+        st.info("No events match the selected tag.")
 
-
-# --- Formatters ---
+# --- Gantt chart ---
 def generate_chat_text():
     lines = []
     for msg in st.session_state.messages:
