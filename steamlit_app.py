@@ -183,6 +183,7 @@ if "context_message_count" not in st.session_state:
 
 if "messages" not in st.session_state:
     reset_conversation()
+    st.rerurun()
 
 
 
