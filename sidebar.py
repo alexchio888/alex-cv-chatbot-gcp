@@ -1,6 +1,6 @@
 import streamlit as st
 
-def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown, reset_conversation):
+def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown):
     tab_contact, tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
         ["📇 Contact", "💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
     )
@@ -121,5 +121,3 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
             format_func=lambda x: f"{x}-dim embedding",
         )
 
-        # if st.button("Reset Chat"):
-        #     reset_conversation()

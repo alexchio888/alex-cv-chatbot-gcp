@@ -122,8 +122,7 @@ render_sidebar(
     st.session_state,
     generate_chat_text,
     generate_chat_json,
-    generate_chat_markdown,
-    reset_conversation
+    generate_chat_markdown
 )
 
 
