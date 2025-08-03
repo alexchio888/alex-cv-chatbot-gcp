@@ -48,18 +48,12 @@ I'm here to help you explore my journey and expertise.
 """)
 st.divider()  # Adds a nice subtle separator line for better layout spacing
 
+
+# --- Gantt chart ---
 # Load JSON file
 with open("docs/timeline.json", "r") as f:
     timeline_json = json.load(f)
 
-# # Generate timeline HTML
-# timeline_html = timeline_builder(timeline_json)
-
-# # Render timeline in Streamlit
-# st.components.v1.html(timeline_html, height=600, scrolling=True)
-
-
-# --- Gantt chart ---
 # Collect all unique tags
 all_tags = sorted({tag for e in timeline_json["events"] for tag in e.get("tags", [])})
 
@@ -82,12 +76,18 @@ filtered_json = {
 }
 
 # Unified expander
-with st.expander("📅 My professional timeline overview", expanded=True):
+with st.expander("📅 My Professional Timeline Overview", expanded=True):
+    st.markdown("""
+    Explore key milestones across my education, work experience, and certifications.  
+    Use the filters above to focus on specific categories or topics of interest.
+    """)
     gantt_fig = build_gantt_from_json(filtered_json)
     if gantt_fig and not gantt_fig.data == []:
         st.plotly_chart(gantt_fig, use_container_width=True)
     else:
         st.info("No events match the selected categories.")
+
+st.divider()  # Second divider
 
 
 def generate_chat_text():
