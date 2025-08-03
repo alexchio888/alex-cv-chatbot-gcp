@@ -35,12 +35,6 @@ html = build_timeline_html(timeline_data)
 st.markdown("## 📅 Timeline")
 components.html(css + html, height=350)
 
-
-with st.expander("📅 Timeline: Career, Education & Life", expanded=False):
-    with open("timeline.json", "r") as f:
-        data = json.load(f)
-        timeline(data, height=600)
-
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 st.title("🎓 Alexandros Chionidis' clone")
