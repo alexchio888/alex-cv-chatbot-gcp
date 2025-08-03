@@ -49,6 +49,16 @@ def timeline_builder(timeline_json):
     subtitle = timeline_json["title"]["text"]["text"]
     events = timeline_json["events"]
 
+    # Extract unique tags
+    all_tags = set()
+    for event in events:
+        for tag in event.get("tags", []):
+            all_tags.add(tag)
+    sorted_tags = sorted(list(all_tags))
+
+    # Add 'All' option
+    tag_filter = st.selectbox("Filter by category", options=["All"] + sorted_tags)
+
     def format_date(d):
         try:
             dt = datetime.strptime(f'{d["year"]}-{d["month"]}', "%Y-%m")
@@ -58,10 +68,13 @@ def timeline_builder(timeline_json):
 
     html_events = ""
     for event in events:
+        if tag_filter != "All" and tag_filter not in event.get("tags", []):
+            continue  # Skip event if tag doesn't match selected filter
+
         date_str = format_date(event["start_date"])
         headline = event["text"]["headline"]
         text = event["text"]["text"]
-        
+
         html_events += f"""
         <div class="event" onclick="this.classList.toggle('active')">
           <div class="date">{date_str}</div>
@@ -69,6 +82,9 @@ def timeline_builder(timeline_json):
           <div class="content">{text}</div>
         </div>
         """
+
+    if not html_events:
+        html_events = "<p style='text-align:center;'>No events for selected category.</p>"
 
     html_code = f"""
     <style>
@@ -128,4 +144,5 @@ def timeline_builder(timeline_json):
       {html_events}
     </div>
     """
+
     return html_code
