@@ -27,9 +27,10 @@
         }
       },
       {
-        "start_date": { "month": "01", "year": "2021" },
+        "start_date": { "month": "09", "year": "2014" },
+        "end_date": { "month": "01", "year": "2021" },
         "text": {
-          "headline": "Completed University Courses",
+          "headline": "Bachelor university",
           "text": "Finished all coursework for my degree in Informatics & Telecommunications."
         }
       },
