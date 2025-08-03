@@ -248,7 +248,11 @@ DOC_TABLE = "app.vector_store"
 #     st.button("Reset Chat", on_click=lambda: reset_conversation())
 
 
+if "model" not in st.session_state:
+    st.session_state.model = "mistral-large"  # default model
 
+if "embedding_size" not in st.session_state:
+    st.session_state.embedding_size = "1024"  # default
 
 if "messages" not in st.session_state:
     reset_conversation()
