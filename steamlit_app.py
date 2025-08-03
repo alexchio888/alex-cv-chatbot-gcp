@@ -22,13 +22,6 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
     # Final pass to ensure proper rendering
     placeholder.markdown(response)
 
-timeline_data = [
-    {"date": "Dec 2020", "event": "Birth of my twins"},
-    {"date": "Jan 2021", "event": "Completed university coursework"},
-    {"date": "Mar 2022", "event": "Joined Waymore as Senior Data Engineer"},
-    {"date": "Jun 2023", "event": "Promoted to Lead Data Engineer"},
-]
-
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -39,11 +32,19 @@ st.caption("Ask me anything about my education, early life, or skills")
 with open("docs/timeline.json", "r") as f:
     timeline_json = json.load(f)
 
-# Generate timeline HTML
-timeline_html = timeline_builder(timeline_json)
+# # Generate timeline HTML
+# timeline_html = timeline_builder(timeline_json)
 
-# Render timeline in Streamlit
-st.components.v1.html(timeline_html, height=600, scrolling=True)
+# # Render timeline in Streamlit
+# st.components.v1.html(timeline_html, height=600, scrolling=True)
+
+# Build gantt figure
+gantt_fig = build_gantt_from_json(timeline_json)
+
+st.plotly_chart(gantt_fig, use_container_width=True)
+
+
+
 # --- Real Me Contact Card ---
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
     st.markdown("**Alexandros Chionidis**")
