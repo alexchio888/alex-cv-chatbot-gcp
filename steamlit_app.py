@@ -165,7 +165,6 @@ def create_session():
 
 
 session = create_session()
-create_chat_logs_table_if_not_exists(session)
 
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
