@@ -37,9 +37,16 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
 
 
 # --- Page Setup ---
+
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-st.title("🎓 Alexandros Chionidis' clone")
-st.caption("Ask me anything about my education, early life, or skills")
+
+st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
+st.markdown("""
+Welcome! 👋  
+Feel free to ask me anything about my education, early life, or skills.  
+I'm here to help you explore my journey and expertise.
+""")
+st.divider()  # Adds a nice subtle separator line for better layout spacing
 
 # Load JSON file
 with open("docs/timeline.json", "r") as f:
