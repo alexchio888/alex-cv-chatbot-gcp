@@ -16,9 +16,11 @@ def create_chat_logs_table_if_not_exists(session: Session):
 
 def log_message_to_snowflake(session: Session, session_id: str, role: str, message: str):
     timestamp = datetime.utcnow().isoformat()
-    # Optional: truncate to avoid Snowflake size issues
-    message = message[:2000]
+    message = message.replace("'", "''")[:2000]  # escape single quotes and truncate
+    session_id = session_id.replace("'", "''")
+    role = role.replace("'", "''")
+
     session.sql(f"""
         INSERT INTO {TABLE_NAME} (session_id, timestamp, role, message)
-        SELECT '{session_id}', '{timestamp}', '{role}', %s
-    """, params=(message,)).collect()
+        VALUES ('{session_id}', '{timestamp}', '{role}', '{message}')
+    """).collect()
