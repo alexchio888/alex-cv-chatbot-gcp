@@ -101,7 +101,9 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
     with tab_settings:
         st.markdown("### ⚙️ Chat Settings")
         st.markdown("_For experimentation and dev purposes_")
-        model = st.selectbox(
+
+        # Model selection, directly updates session_state["model"]
+        st.session_state.model = st.selectbox(
             "Change chatbot model:",
             [
                 "mistral-large",
@@ -111,13 +113,33 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
                 "mixtral-8x7b",
                 "mistral-7b",
             ],
-            index=0,
+            index=["mistral-large", "reka-flash", "llama2-70b-chat", "gemma-7b", "mixtral-8x7b", "mistral-7b"].index(st.session_state.get("model", "mistral-large")),
         )
 
-        embedding_size = st.selectbox(
+        # Embedding size selection, directly updates session_state["embedding_size"]
+        st.session_state.embedding_size = st.selectbox(
             "Select embedding dimension:",
             ["1024", "768"],
-            index=0,
+            index=["1024", "768"].index(st.session_state.get("embedding_size", "1024")),
             format_func=lambda x: f"{x}-dim embedding",
         )
 
+        st.divider()
+
+        # New: Chat Context Settings
+        st.markdown("### ⚙️ Chat Context Settings")
+
+        st.session_state.include_history = st.checkbox(
+            "Include previous messages in prompt context",
+            value=st.session_state.get("include_history", True),
+            help="Add previous chat messages to the prompt context for better understanding."
+        )
+
+        st.session_state.context_message_count = st.number_input(
+            "Number of previous messages to include (max 20)",
+            min_value=1,
+            max_value=20,
+            value=st.session_state.get("context_message_count", 5),
+            step=1,
+            help="How many previous messages to include in the prompt context."
+        )

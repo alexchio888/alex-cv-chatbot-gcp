@@ -11,6 +11,20 @@ import streamlit.components.v1 as components
 from timeline_builder import *
 from sidebar import *
 
+
+def get_previous_chat_context(n=5):
+    # Take the last n messages from chat history, format them nicely
+    messages = st.session_state.messages[-n:]
+    lines = []
+    for msg in messages:
+        role = "User" if msg["role"] == "user" else "Assistant"
+        content = msg["content"]
+        if isinstance(content, dict):  # if assistant content is a dict (full text)
+            content = content.get("full", "")
+        content = content.replace("\n", " ")  # flatten new lines for prompt
+        lines.append(f"{role}: {content}")
+    return "\n".join(lines)
+
 # --- Reset Chat ---
 def reset_conversation():
     st.session_state.messages = [
@@ -153,8 +167,16 @@ if "model" not in st.session_state:
 if "embedding_size" not in st.session_state:
     st.session_state.embedding_size = "1024"  # default
 
+if "include_history" not in st.session_state:
+    st.session_state.include_history = False
+
+if "context_message_count" not in st.session_state:
+    st.session_state.context_message_count = 5
+
+
 if "messages" not in st.session_state:
     reset_conversation()
+
 
 
 # --- Chat Context Helpers ---
@@ -206,8 +228,44 @@ def get_context(latest_user_message, DOC_TABLE):
 
 
 # --- Prompt Builder ---
+# def get_prompt(latest_user_message, context):
+#     current_date = datetime.now().strftime("%Y-%m-%d")
+#     return f"""
+# You are Alexandros Chionidis' virtual clone — a data engineer with strong experience in building scalable data platforms using technologies like Spark, Kafka, and SQL, with a solid foundation in both on-premise big data systems and emerging cloud platforms like GCP.
+# Career Summary: Started data engineering in 2021 with Intrasoft (internship turned full-time). Currently working at Waymore since 2023. Prior work in retail (2015–2019) unrelated to tech. Academic background in Department of Informatics and Telecommunications, University of Athens.
+
+# Assume the user asking questions is likely a recruiter, interviewer, or hiring manager evaluating your fit for a data engineering role.
+
+# Current date: {current_date}
+
+# Use the relevant information below to answer clearly, personally, and professionally in first person. 
+# Focus on your technical skills, work experience, education, and key achievements — and how they relate to modern data engineering.
+
+# Relevant Information:
+# {context}
+
+# User’s Question:
+# {latest_user_message}
+
+# - If it's a question about your background, experience, or tools you’ve used, reply in first person with accurate, confident, and professional information.
+# - If the question is vague or unclear, politely ask the user to clarify.
+# - If the answer isn't in the context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
+# Keep the answer below 4 sentences
+# """
+
+
 def get_prompt(latest_user_message, context):
     current_date = datetime.now().strftime("%Y-%m-%d")
+    
+    # Include previous chat context if enabled
+    if st.session_state.get("include_history", True):
+        history_context = get_previous_chat_context(
+            min(st.session_state.get("context_message_count", 5), 20)
+        )
+    else:
+        history_context = ""
+
+    # Construct prompt with optional history
     return f"""
 You are Alexandros Chionidis' virtual clone — a data engineer with strong experience in building scalable data platforms using technologies like Spark, Kafka, and SQL, with a solid foundation in both on-premise big data systems and emerging cloud platforms like GCP.
 Career Summary: Started data engineering in 2021 with Intrasoft (internship turned full-time). Currently working at Waymore since 2023. Prior work in retail (2015–2019) unrelated to tech. Academic background in Department of Informatics and Telecommunications, University of Athens.
@@ -216,10 +274,10 @@ Assume the user asking questions is likely a recruiter, interviewer, or hiring m
 
 Current date: {current_date}
 
-Use the relevant information below to answer clearly, personally, and professionally in first person. 
-Focus on your technical skills, work experience, education, and key achievements — and how they relate to modern data engineering.
+Relevant Chat History:
+{history_context}
 
-Relevant Information:
+Relevant Information from documents:
 {context}
 
 User’s Question:
@@ -228,7 +286,7 @@ User’s Question:
 - If it's a question about your background, experience, or tools you’ve used, reply in first person with accurate, confident, and professional information.
 - If the question is vague or unclear, politely ask the user to clarify.
 - If the answer isn't in the context, say: "I'm sorry, I don't have that information right now, but I'd be happy to provide it later."
-Keep the answer below 4 sentences
+Keep the answer below 4 sentences.
 """
 
 
