@@ -6,35 +6,52 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
     )
 
     with tab_contact:
-        st.markdown("**Alexandros Chionidis**")
+        st.markdown("## 👤 Alexandros Chionidis")
+        
+        # Location
         maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
         st.markdown(
-            f'<a href="{maps_url}" target="_blank" style="text-decoration:none; font-weight:bold;">🏠 Melissia, Athens, Greece</a>',
+            f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
+            f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
             unsafe_allow_html=True,
         )
 
-        linkedin_html = """<a href="https://www.linkedin.com/in/alexandros-chionidis-51579421b/" target="_blank" style="text-decoration:none;">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle; margin-right:8px;"/> LinkedIn
-        </a>"""
-        github_html = """<a href="https://github.com/alexchio888" target="_blank" style="text-decoration:none;">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" width="24" style="vertical-align:middle; margin-right:8px;"/> GitHub
-        </a>"""
-        email_html = """<a href="mailto:alexandroschio@gmail.com" target="_blank" style="text-decoration:none;">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="24" style="vertical-align:middle; margin-right:8px;"/> Email
-        </a>"""
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown(linkedin_html, unsafe_allow_html=True)
-        with col2:
-            st.markdown(github_html, unsafe_allow_html=True)
-        with col3:
-            st.markdown(email_html, unsafe_allow_html=True)
+        st.markdown("---")
 
-        cv_html = """<a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" style="text-decoration:none;">
-            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="24" style="vertical-align:middle; margin-right:8px;"/> Download CV
+        # Contact Links
+        contact_links = [
+            {
+                "label": "LinkedIn",
+                "icon": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
+                "url": "https://www.linkedin.com/in/alexandros-chionidis-51579421b/",
+            },
+            {
+                "label": "GitHub",
+                "icon": "https://cdn-icons-png.flaticon.com/512/733/733553.png",
+                "url": "https://github.com/alexchio888",
+            },
+            {
+                "label": "Email",
+                "icon": "https://cdn-icons-png.flaticon.com/512/732/732200.png",
+                "url": "mailto:alexandroschio@gmail.com",
+            },
+        ]
+
+        for contact in contact_links:
+            st.markdown(
+                f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0;">'
+                f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("---")
+
+        # Download CV
+        cv_html = """<a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" style="text-decoration:none; display: flex; align-items: center;">
+            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="20" style="margin-right:8px;" /> Download CV
         </a>"""
         st.markdown(cv_html, unsafe_allow_html=True)
+
 
     with tab_prompts:
         st.markdown("### 💡 Try asking about:")
