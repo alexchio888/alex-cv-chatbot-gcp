@@ -90,6 +90,15 @@
           "text": "Certified by University of Athens. Training in education theory and classroom methodologies."
         },
         "tags": ["Certifications"]
+      },
+      {
+        "start_date": { "month": "03", "year": "2025" },
+        "end_date": { "month": "09", "year": "2025" },
+        "text": {
+          "headline": "📘 GCP Professional Data Engineer — In Progress",
+          "text": "Currently studying for the Google Cloud Professional Data Engineer certification. Focused on designing, building, and managing scalable data infrastructure on GCP."
+        },
+        "tags": ["Certifications"]
       }
     ]
   }

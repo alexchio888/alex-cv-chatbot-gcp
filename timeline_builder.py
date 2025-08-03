@@ -36,7 +36,7 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
         index_col='Task',
         show_colorbar=False,
         group_tasks=True,
-        title=f"Timeline Gantt Chart – {selected_tag}",
+        # title=f"Timeline Gantt Chart – {selected_tag}",
         showgrid_x=True,
         showgrid_y=True
     )

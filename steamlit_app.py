@@ -75,7 +75,7 @@ filtered_json = {
 }
 
 # Unified expander
-with st.expander("📅 Career Timeline Overview", expanded=True):
+with st.expander("📅 My professional timeline overview", expanded=True):
     gantt_fig = build_gantt_from_json(filtered_json)
     if gantt_fig and not gantt_fig.data == []:
         st.plotly_chart(gantt_fig, use_container_width=True)
