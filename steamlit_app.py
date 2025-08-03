@@ -183,7 +183,7 @@ if "include_history" not in st.session_state:
     st.session_state.include_history = True
 
 if "context_message_count" not in st.session_state:
-    st.session_state.context_message_count = 10
+    st.session_state.context_message_count = 5
 
 
 if "messages" not in st.session_state:
@@ -272,7 +272,7 @@ def get_prompt(latest_user_message, context):
     # Include previous chat context if enabled
     if st.session_state.get("include_history", True):
         history_context = get_previous_chat_context(
-            min(st.session_state.get("context_message_count", 5), 20)
+            min(st.session_state.get("context_message_count", 5), 10)
         )
     else:
         history_context = ""

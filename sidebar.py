@@ -136,10 +136,10 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
         )
 
         st.session_state.context_message_count = st.number_input(
-            "Number of previous messages to include (max 15)",
+            "Number of previous messages to include",
             min_value=1,
-            max_value=20,
-            value=st.session_state.get("context_message_count", 10),
+            max_value=10,
+            value=st.session_state.get("context_message_count", 5),
             step=1,
             help="How many previous messages to include in the prompt context."
         )
