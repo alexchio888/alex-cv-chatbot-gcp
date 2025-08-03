@@ -1,0 +1,64 @@
+{
+    "title": {
+      "media": {
+        "url": "",
+        "caption": ""
+      },
+      "text": {
+        "headline": "Alexandros Chionidis — Life & Career",
+        "text": "A personal and professional timeline of key milestones."
+      }
+    },
+    "events": [
+      {
+        "start_date": { "year": "2015" },
+        "text": {
+          "headline": "Started Working in Retail",
+          "text": "Worked in retail roles from 2015 to 2019 before transitioning to tech."
+        }
+      },
+      {
+        "start_date": { "month": "12", "year": "2020" },
+        "text": {
+          "headline": "Birth of My Children 👶👶",
+          "text": "A beautiful personal milestone — my twins were born in December 2020."
+        }
+      },
+      {
+        "start_date": { "month": "1", "year": "2021" },
+        "text": {
+          "headline": "Completed University Courses",
+          "text": "Finished all coursework for my degree in Informatics & Telecommunications."
+        }
+      },
+      {
+        "start_date": { "month": "3", "year": "2021" },
+        "text": {
+          "headline": "Internship at Intrasoft",
+          "text": "Started a data engineering internship that later turned into a full-time role."
+        }
+      },
+      {
+        "start_date": { "month": "9", "year": "2021" },
+        "text": {
+          "headline": "Full-Time Data Engineer at Intrasoft",
+          "text": "Focused on on-premise big data solutions using Spark and Scala."
+        }
+      },
+      {
+        "start_date": { "month": "7", "year": "2023" },
+        "text": {
+          "headline": "Joined Waymore",
+          "text": "Led the delivery of a real-time data platform using Spark, Kafka, and GCP."
+        }
+      },
+      {
+        "start_date": { "month": "8", "year": "2025" },
+        "text": {
+          "headline": "Today",
+          "text": "Actively working at Waymore and continuously growing as a data engineer."
+        }
+      }
+    ]
+  }
+  

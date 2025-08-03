@@ -7,6 +7,7 @@ from datetime import datetime
 import json
 import io
 import time
+from streamlit_timeline import timeline
 
 
 def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
@@ -20,6 +21,10 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
     # Final pass to ensure proper rendering
     placeholder.markdown(response)
 
+with st.expander("📅 Timeline: Career, Education & Life", expanded=False):
+    with open("timeline.json", "r") as f:
+        data = json.load(f)
+        timeline(data, height=600)
 
 # --- Page Setup ---
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
@@ -103,7 +108,6 @@ for category, prompts in categories.items():
             if st.button(prompt, key=prompt):
                 # Insert prompt as a user message and rerun app to trigger chat
                 st.session_state.messages.append({"role": "user", "content": prompt})
-                # st.experimental_rerun() #throws error
 
 # --- Formatters ---
 def generate_chat_text():
@@ -358,7 +362,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
 
         simulate_typing(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
-    st.rerun()
+
 
 elif intent == "casual_greeting":
     with st.chat_message("assistant"):
