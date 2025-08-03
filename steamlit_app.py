@@ -53,19 +53,26 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
 # --- Page Setup ---
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-
 st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
-st.markdown("""
-Welcome! 👋  
-Feel free to ask me anything about my education, early life, or skills.  
-I'm here to help you explore my journey and expertise.
 
----
 
-### My Professional Timeline
-Explore key milestones across education, work experience, and certifications.  
-Use the filters below to focus on categories that interest you.
-""")
+col1, col2 = st.columns([1, 6])
+with col1:
+    st.image("docs/avatar.png", width=80)  # adjust path/size as needed
+
+with col2:
+    st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
+    st.markdown("""
+    Welcome! 👋  
+    Feel free to ask me anything about my education, early life, or skills.  
+    I'm here to help you explore my journey and expertise.
+
+    ---
+
+    ### My Professional Timeline
+    Explore key milestones across education, work experience, and certifications.  
+    Use the filters below to focus on categories that interest you.
+    """)
 
 # --- Gantt chart ---
 # Load JSON file
@@ -322,12 +329,13 @@ if st.button("🔄 Reset Chat"):
     reset_conversation()
 
 # --- Chat Loop ---
-if user_message := st.chat_input(placeholder="Type your question about my background…"):
+if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+    # Truncate input silently to 1000 characters
+    user_message = user_message[:1000]
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
 else:
     intent = None
-
 
 # --- Display chat messages (Full response only) ---
 for message in st.session_state.messages:
