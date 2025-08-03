@@ -274,6 +274,7 @@ def get_latest_user_message():
 # --- RAG Helpers ---
 def find_similar_doc(text, DOC_TABLE):
     safe_text = text.replace("'", "''")
+    embedding_size = st.session_state.get("embedding_size", "1024")
     if embedding_size == "768":
         embedding_column = "chunk_embedding"
         embedding_func = f"SNOWFLAKE.CORTEX.EMBED_TEXT_768('snowflake-arctic-embed-m-v1.5', '{safe_text}')"
@@ -353,6 +354,7 @@ Question:
 
 Return only the category name.
 """
+    model = st.session_state.get("model", "mistral-large")
     response = complete(model, classification_prompt)
     intent = "".join(response).strip().lower()
     return intent
@@ -386,6 +388,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         with st.status("Thinking…", expanded=True):
             context = get_context(latest_user_message, DOC_TABLE)
             prompt = get_prompt(latest_user_message, context)
+            model = st.session_state.get("model", "mistral-large")
             full_response = complete(model, prompt)
             response = full_response
 
@@ -398,7 +401,8 @@ elif intent == "casual_greeting":
         prompt = f"""
 You are Alexandros Chionidis. The user said: "{latest_user_message}"
 Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
-"""
+"""    
+        model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
         simulate_typing(response)
 
@@ -411,6 +415,7 @@ The user said: "{latest_user_message}"
 
 As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
 """
+        model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
         simulate_typing(response)
 
