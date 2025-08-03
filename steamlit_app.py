@@ -337,8 +337,9 @@ Question:
 
 Return only the category name.
 """
-    return Complete(model, classification_prompt).strip().lower()
-
+    response = Complete(model, classification_prompt)
+    intent = "".join(response).strip().lower()
+    return intent
 
 latest_user_message = ""
 
