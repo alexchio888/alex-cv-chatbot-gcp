@@ -7,7 +7,8 @@ from datetime import datetime
 import json
 import io
 import time
-from streamlit_timeline import timeline
+import streamlit.components.v1 as components
+from timeline_builder import get_timeline_css, build_timeline_html
 
 
 def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
@@ -20,6 +21,20 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
         time.sleep(typing_speed)
     # Final pass to ensure proper rendering
     placeholder.markdown(response)
+
+timeline_data = [
+    {"date": "Dec 2020", "event": "Birth of my twins"},
+    {"date": "Jan 2021", "event": "Completed university coursework"},
+    {"date": "Mar 2022", "event": "Joined Waymore as Senior Data Engineer"},
+    {"date": "Jun 2023", "event": "Promoted to Lead Data Engineer"},
+]
+
+css = get_timeline_css()
+html = build_timeline_html(timeline_data)
+
+st.markdown("## 📅 Timeline")
+components.html(css + html, height=350)
+
 
 with st.expander("📅 Timeline: Career, Education & Life", expanded=False):
     with open("timeline.json", "r") as f:
