@@ -58,7 +58,7 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
         st.markdown("### 💡 Try asking about:")
         categories = {
             "Education": ["Where did you study?", "Tell me about your academic background."],
-            "Work Experience": ["What was your role at Intrasoft?", "Describe your work at Waymore.", "What projects did you do in retail before tech?"],
+            "Work Experience": ["What was your role at Netcompany - Intrasoft?", "Describe your work at Waymore.", "What is your work experience besides tech?"],
             "Skills & Tools": ["What technologies are you proficient with?", "How do you use Spark and Kafka in your work?", "Tell me about your experience with GCP."],
             "Certifications": ["Do you have any certifications?", "Are you planning to get any certifications soon?"],
             "Projects": ["Can you describe a key data engineering project?", "What was your biggest technical challenge?"],

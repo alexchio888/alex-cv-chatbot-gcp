@@ -331,5 +331,5 @@ elif intent == "farewell":
         )
         st.session_state.messages.append({"role": "assistant", "content": response})
         simulate_typing(response)
-        st.info("💾 You can download the chat history anytime from the sidebar under 💬 Export Chat")
+        st.info("💾 You can download the chat history anytime from the sidebar")
     st.session_state["session_ended"] = True
