@@ -45,9 +45,14 @@ st.markdown("""
 Welcome! 👋  
 Feel free to ask me anything about my education, early life, or skills.  
 I'm here to help you explore my journey and expertise.
-""")
-st.divider()  # Adds a nice subtle separator line for better layout spacing
 
+---
+
+### My Professional Timeline
+Explore key milestones across education, work experience, and certifications.  
+Use the filters below to focus on categories that interest you.
+""")
+st.divider()
 
 # --- Gantt chart ---
 # Load JSON file
@@ -76,11 +81,7 @@ filtered_json = {
 }
 
 # Unified expander
-with st.expander("📅 My Professional Timeline Overview", expanded=True):
-    st.markdown("""
-    Explore key milestones across my education, work experience, and certifications.  
-    Use the filters above to focus on specific categories or topics of interest.
-    """)
+with st.expander("📅 My Professional Timeline", expanded=True):
     gantt_fig = build_gantt_from_json(filtered_json)
     if gantt_fig and not gantt_fig.data == []:
         st.plotly_chart(gantt_fig, use_container_width=True)
