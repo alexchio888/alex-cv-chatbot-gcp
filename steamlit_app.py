@@ -52,7 +52,6 @@ I'm here to help you explore my journey and expertise.
 Explore key milestones across education, work experience, and certifications.  
 Use the filters below to focus on categories that interest you.
 """)
-st.divider()
 
 # --- Gantt chart ---
 # Load JSON file
@@ -64,7 +63,7 @@ all_tags = sorted({tag for e in timeline_json["events"] for tag in e.get("tags",
 
 # Multiselect widget for filtering
 selected_tags = st.multiselect(
-    "📂 Filter timeline by categories",
+    "Selected categories",
     options=all_tags,
     default=all_tags  # default: show all
 )
@@ -81,7 +80,7 @@ filtered_json = {
 }
 
 # Unified expander
-with st.expander("📅 My Professional Timeline", expanded=True):
+with st.expander("📅 My Professional Timeline chart", expanded=False):
     gantt_fig = build_gantt_from_json(filtered_json)
     if gantt_fig and not gantt_fig.data == []:
         st.plotly_chart(gantt_fig, use_container_width=True)
