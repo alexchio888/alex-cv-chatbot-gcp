@@ -14,7 +14,7 @@
         "start_date": { "month": "01", "year": "2015" },
         "end_date": { "month": "08", "year": "2019" },
         "text": {
-          "headline": "Started Working in Retail",
+          "headline": "Retail store manager",
           "text": "Worked in retail roles from 2015 to 2019 before transitioning to tech."
         }
       },
@@ -22,7 +22,7 @@
         "start_date": { "month": "09", "year": "2014" },
         "end_date": { "month": "01", "year": "2021" },
         "text": {
-          "headline": "Bachelor university",
+          "headline": "Bachelor of Science in Informatics and Telecommunications",
           "text": "Finished all coursework for my degree in Informatics & Telecommunications."
         }
       },
@@ -30,31 +30,24 @@
         "start_date": { "month": "03", "year": "2021" },
         "end_date": { "month": "09", "year": "2020" },
         "text": {
-          "headline": "Internship at Intrasoft",
+          "headline": "Intern Data engineer at Netcompany - Intrasoft",
           "text": "Started a data engineering internship that later turned into a full-time role."
         }
       },
       {
-        "start_date": { "month": "09", "year": "2021" },
+        "start_date": { "month": "03", "year": "2021" },
         "end_date": { "month": "01", "year": "2023" },
         "text": {
-          "headline": "Full-Time Data Engineer at Intrasoft",
+          "headline": "Data Engineer at Netcompany - Intrasoft",
           "text": "Focused on on-premise big data solutions using Spark and Scala."
         }
       },
       {
-        "start_date": { "month": "07", "year": "2023" },
+        "start_date": { "month": "01", "year": "2023" },
         "end_date": { "month": "08", "year": "2025" },
         "text": {
-          "headline": "Joined Waymore",
+          "headline": "Data Engineer at Waymore",
           "text": "Led the delivery of a real-time data platform using Spark, Kafka, and GCP."
-        }
-      },
-      {
-        "start_date": { "month": "08", "year": "2025" },
-        "text": {
-          "headline": "Today",
-          "text": "Actively working at Waymore and continuously growing as a data engineer."
         }
       }
     ]
