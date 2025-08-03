@@ -7,7 +7,8 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
 
     with tab_contact:
         st.markdown("## 👤 Alexandros Chionidis")
-        
+        st.markdown("---")
+                
         # Location
         maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
         st.markdown(
