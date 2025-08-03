@@ -39,12 +39,9 @@ with open("docs/timeline.json", "r") as f:
 # # Render timeline in Streamlit
 # st.components.v1.html(timeline_html, height=600, scrolling=True)
 
-# Build gantt figure
-gantt_fig = build_gantt_from_json(timeline_json)
-
-st.plotly_chart(gantt_fig, use_container_width=True)
-
-
+with st.expander("Show Timeline Gantt Chart"):
+    gantt_fig = build_gantt_from_json(timeline_json)
+    st.plotly_chart(gantt_fig, use_container_width=True)
 
 # --- Real Me Contact Card ---
 with st.sidebar.expander("📇 Contact Alexandros", expanded=True):
