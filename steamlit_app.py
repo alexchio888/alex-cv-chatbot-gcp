@@ -183,7 +183,6 @@ if "context_message_count" not in st.session_state:
 
 if "messages" not in st.session_state:
     reset_conversation()
-    st.rerurun()
 
 
 
@@ -353,7 +352,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message() or ""
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar = "docs/avatar.png"):
         with st.status("Thinking…", expanded=True):
             context = get_context(latest_user_message, DOC_TABLE)
             prompt = get_prompt(latest_user_message, context)
@@ -378,7 +377,7 @@ Respond briefly and warmly in first person, acknowledging their message, and inv
 
 
 elif intent == "unknown":
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar = "docs/avatar.png"):
         prompt = f"""
 The user said: "{latest_user_message}"
 
@@ -391,7 +390,7 @@ As Alexandros Chionidis, politely say you didn’t fully understand and ask them
 
 
 elif intent == "farewell":
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar = "docs/avatar.png"):
         response = (
             "Thank you for your time! I'm wrapping up the session now. "
             "If you have more questions about my background or skills later, feel free to return anytime."
