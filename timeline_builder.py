@@ -1,6 +1,7 @@
 from datetime import datetime
 import pandas as pd
 import plotly.figure_factory as ff
+import calendar
 
 def parse_date(date_dict):
     year = int(date_dict.get("year", 1900))
@@ -14,7 +15,7 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
     for event in timeline_json.get("events", []):
         tags = event.get("tags", [])
         if selected_tag != "All" and selected_tag not in tags:
-            continue  # Skip this event if it doesn't match selected tag
+            continue  # Skip events that don't match tag
 
         start_date = parse_date(event.get("start_date", {}))
         end_date = parse_date(event.get("end_date", event.get("start_date", {})))
@@ -27,7 +28,7 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
         ))
 
     if not tasks:
-        return None  # return early if no data
+        return None  # No events to show
 
     df = pd.DataFrame(tasks)
 
@@ -36,19 +37,29 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
         index_col='Task',
         show_colorbar=False,
         group_tasks=True,
-        # title=f"Selected categories – {selected_tag}",
         title="",
         showgrid_x=True,
         showgrid_y=True
     )
 
     today = datetime.today()
+
+    # Calculate last day of next month
+    year = today.year
+    month = today.month + 1
+    if month == 13:
+        month = 1
+        year += 1
+    last_day_next_month = calendar.monthrange(year, month)[1]
+    end_of_next_month = datetime(year, month, last_day_next_month)
+
     fig.update_layout(
         xaxis=dict(
-            range=[df['Start'].min(), today],
+            range=[df['Start'].min(), end_of_next_month],  # limit max to next month end
             title="Date",
-            rangeselector=dict(buttons=[]),  # Disable range selector
-            rangeslider=dict(visible=False)  # Optionally disable range slider too
+            rangeselector=dict(buttons=[]),  # Disable range selector buttons
+            rangeslider=dict(visible=False),  # Disable range slider
+            constrain='range'  # Constrain zoom/pan to range
         )
     )
 
