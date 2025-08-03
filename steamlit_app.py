@@ -58,7 +58,7 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 col1, col2 = st.columns([1, 6])
 with col1:
-    st.image("docs/avatar.png", width=240)  # adjust path/size as needed
+    st.image("docs/avatar.png", width=560)  # adjust path/size as needed
 
 with col2:
     st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
