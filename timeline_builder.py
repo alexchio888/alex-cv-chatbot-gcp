@@ -2,29 +2,34 @@ from datetime import datetime
 import plotly.figure_factory as ff
 import pandas as pd
 
+def parse_date(date_dict):
+    year = int(date_dict.get("year", 1900))
+    month = int(date_dict.get("month", 1))
+    day = int(date_dict.get("day", 1))
+    return datetime(year, month, day)
+
 def build_gantt_from_json(timeline_json):
     tasks = []
     for event in timeline_json.get("events", []):
-        start_date = event["start_date"]
-        year = int(start_date.get("year", "1900"))
-        month = int(start_date.get("month", 1))
-        start = datetime(year, month, 1)
-        # Set an end date 1 month later (or customize as needed)
-        if month == 12:
-            end = datetime(year + 1, 1, 1)
-        else:
-            end = datetime(year, month + 1, 1)
-
-        tasks.append(dict(Task=event["text"]["headline"], Start=start, Finish=end))
+        start_date = parse_date(event.get("start_date", {}))
+        end_date = parse_date(event.get("end_date", event.get("start_date", {})))  # fallback to start_date if no end_date
+        
+        tasks.append(dict(
+            Task=event["text"]["headline"],
+            Start=start_date,
+            Finish=end_date,
+            Description=event["text"].get("text", "")
+        ))
 
     df = pd.DataFrame(tasks)
-
     fig = ff.create_gantt(
         df,
         index_col='Task',
         show_colorbar=True,
         group_tasks=True,
-        title="Timeline as Gantt Chart"
+        title="Timeline as Gantt Chart",
+        showgrid_x=True,
+        showgrid_y=True
     )
     return fig
 
