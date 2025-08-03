@@ -1,6 +1,6 @@
 from datetime import datetime
-import plotly.figure_factory as ff
 import pandas as pd
+import plotly.figure_factory as ff
 
 def parse_date(date_dict):
     year = int(date_dict.get("year", 1900))
@@ -13,7 +13,7 @@ def build_gantt_from_json(timeline_json):
     for event in timeline_json.get("events", []):
         start_date = parse_date(event.get("start_date", {}))
         end_date = parse_date(event.get("end_date", event.get("start_date", {})))  # fallback to start_date if no end_date
-        
+
         tasks.append(dict(
             Task=event["text"]["headline"],
             Start=start_date,
@@ -22,15 +22,26 @@ def build_gantt_from_json(timeline_json):
         ))
 
     df = pd.DataFrame(tasks)
+
     fig = ff.create_gantt(
         df,
         index_col='Task',
-        show_colorbar=True,
+        show_colorbar=False,  # Hide legend on the right
         group_tasks=True,
         title="Timeline as Gantt Chart",
         showgrid_x=True,
         showgrid_y=True
     )
+
+    # Set x-axis to finish today
+    today = datetime.today()
+    fig.update_layout(
+        xaxis=dict(
+            range=[df['Start'].min(), today],  # from earliest start to today
+            title="Date"
+        )
+    )
+
     return fig
 
 def timeline_builder(timeline_json):
