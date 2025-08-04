@@ -6,15 +6,17 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    tabs = st.tabs([cat["name"] for cat in categories])
+    category_names = [cat["name"] for cat in categories]
+    selected_category = st.sidebar.radio("Select Category", category_names)
 
-    for tab, category in zip(tabs, categories):
-        with tab:
-            # Sort skills by level descending before rendering
-            sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
+    # Find selected category
+    category = next(cat for cat in categories if cat["name"] == selected_category)
 
-            for skill in sorted_skills:
-                render_skill_row(skill)
+    # Sort skills by level descending
+    sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
+
+    for skill in sorted_skills:
+        render_skill_row(skill)
 
 
 def render_skill_row(skill):
