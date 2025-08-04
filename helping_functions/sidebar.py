@@ -1,29 +1,25 @@
 import streamlit as st
 
 def render_sidebar(
-    st_session_state, 
-    generate_chat_text=None, 
-    generate_chat_json=None, 
+    st_session_state,
+    generate_chat_text=None,
+    generate_chat_json=None,
     generate_chat_markdown=None,
-    tabs="all"  # "all" or "contact_only"
+    show_tabs=True,  # controls whether to show tabs below contact
 ):
-    if tabs == "all":
-        tab_contact, tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
-            ["📇 Contact", "💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
+    # Always render contact info at top
+    _render_contact()
+
+    if show_tabs:
+        tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
+            ["💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
         )
-        with tab_contact:
-            _render_contact()
         with tab_prompts:
             _render_prompts(st_session_state)
         with tab_download:
             _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown)
         with tab_settings:
             _render_settings(st_session_state)
-    elif tabs == "contact_only":
-        with st.sidebar:
-            _render_contact()
-    else:
-        raise ValueError(f"Unknown tabs option: {tabs}")
 
     # --- FOOTER ---
     st.sidebar.markdown("---")
@@ -34,20 +30,18 @@ def render_sidebar(
 
 
 def _render_contact():
-    st.markdown("## 👤 Alexandros Chionidis")
-    st.markdown("---")
+    st.sidebar.markdown("## 👤 Alexandros Chionidis")
+    st.sidebar.markdown("---")
 
-    # Location
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    st.markdown(
+    st.sidebar.markdown(
         f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
         f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
         unsafe_allow_html=True,
     )
 
-    st.markdown("---")
+    st.sidebar.markdown("---")
 
-    # Contact Links
     contact_links = [
         {
             "label": "LinkedIn",
@@ -67,19 +61,18 @@ def _render_contact():
     ]
 
     for contact in contact_links:
-        st.markdown(
+        st.sidebar.markdown(
             f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0;">'
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
 
-    st.markdown("---")
+    st.sidebar.markdown("---")
 
-    # Download CV
     cv_html = """<a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" style="text-decoration:none; display: flex; align-items: center;">
         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="20" style="margin-right:8px;" /> Download CV
     </a>"""
-    st.markdown(cv_html, unsafe_allow_html=True)
+    st.sidebar.markdown(cv_html, unsafe_allow_html=True)
 
 
 def _render_prompts(st_session_state):
@@ -132,7 +125,6 @@ def _render_settings(st_session_state):
     st.markdown("### ⚙️ Chat Settings")
     st.markdown("_For experimentation and dev purposes_")
 
-    # Model selection, directly updates session_state["model"]
     st.session_state.model = st.selectbox(
         "Change chatbot model:",
         [
@@ -146,7 +138,6 @@ def _render_settings(st_session_state):
         index=["mistral-large", "reka-flash", "llama2-70b-chat", "gemma-7b", "mixtral-8x7b", "mistral-7b"].index(st.session_state.get("model", "mistral-large")),
     )
 
-    # Embedding size selection, directly updates session_state["embedding_size"]
     st.session_state.embedding_size = st.selectbox(
         "Select embedding dimension:",
         ["1024", "768"],
@@ -156,7 +147,6 @@ def _render_settings(st_session_state):
 
     st.divider()
 
-    # New: Chat Context Settings
     st.markdown("### ⚙️ Chat Context Settings")
 
     st.session_state.include_history = st.checkbox(
