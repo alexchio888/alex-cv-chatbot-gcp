@@ -32,8 +32,9 @@
         ]
       },
       {
-        "name": "Cloud & Modern Stack",
+        "name": "Cloud & On-Prem Environments",
         "skills": [
+          { "name": "On-Premise Hadoop Infrastructure", "level": 8, "experience_years": 4 },
           {"name": "Google Cloud Platform (GCP)", "level": 4, "experience_years": 1},
           {"name": "Snowflake", "level": 5, "experience_years": 1},
           {"name": "Microsoft Azure", "level": 1, "experience_years": 0},
@@ -56,7 +57,9 @@
           {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
           {"name": "Tableau", "level": 4, "experience_years": 1},
           {"name": "Apache Superset", "level": 7, "experience_years": 2},
-          {"name": "Power BI", "level": 1, "experience_years": 0}
+          {"name": "Power BI", "level": 1, "experience_years": 0},
+          {"name": "Apache Zeppelin", "level": 6, "experience_years": 2}
+
         ]
       },
       {

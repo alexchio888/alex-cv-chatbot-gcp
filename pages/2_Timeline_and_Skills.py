@@ -12,8 +12,11 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
-st.title("Alexandros' Career Overview")
+st.title("Skills & Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
+
+st.markdown("---")
+
 render_sidebar(st.session_state, show_tabs=False)
 
 
