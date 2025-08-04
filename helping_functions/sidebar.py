@@ -26,25 +26,29 @@ def send_feedback_email(feedback_text, user_email=None):
         return False
 
 def star_rating():
-    # Unicode stars, can be replaced with icons if needed
-    stars = ["☆", "☆", "☆", "☆", "☆"]
-    selected = st.session_state.get("rating", 0)
-    
-    cols = st.columns(5)
-    for i in range(5):
-        star_label = stars.copy()
-        for j in range(i + 1):
-            star_label[j] = "★"  # filled star
-        if cols[i].button("".join(star_label), key=f"star_{i}"):
-            st.session_state.rating = i + 1
-    
     rating = st.session_state.get("rating", 0)
-    if rating > 0:
-        st.caption(f"Your rating: {rating} star{'s' if rating > 1 else ''}")
-    else:
-        st.caption("Tap a star to rate")
+    cols = st.columns(5)
 
-    return rating
+    for i in range(5):
+        # Filled star if selected, empty if not
+        if i < rating:
+            star = "★"
+            color = "gold"
+        else:
+            star = "☆"
+            color = "gray"
+
+        # Custom CSS styles to color the stars
+        # Use st.markdown with unsafe_allow_html for color styling in buttons is tricky,
+        # so we do a workaround with buttons labeled with stars and color via markdown below
+
+        if cols[i].button(star, key=f"star_{i}", help=f"Rate {i+1} stars"):
+            st.session_state.rating = i + 1
+
+        # Display stars with color below buttons
+        cols[i].markdown(f"<p style='color:{color}; font-size:32px; margin-top:-30px;'>{star}</p>", unsafe_allow_html=True)
+
+    return st.session_state.get("rating", 0)
 
 def render_sidebar(
     st_session_state,
@@ -68,29 +72,27 @@ def render_sidebar(
             _render_settings(st_session_state)
 
     # --- FEEDBACK FORM ---
-    st.sidebar.markdown("---")
     with st.sidebar:
         st.markdown("## 💬 Feedback")
-        st.markdown(
-            "How helpful was this chatbot? Please rate and share your thoughts."
-        )
-        
+        st.markdown("**How helpful was this chatbot?**")
+
         rating = star_rating()
 
+        st.caption(f"Your rating: {rating} star{'s' if rating != 1 else ''}" if rating else "Tap a star to rate")
+
         comments = st.text_area("Additional comments (optional)", placeholder="Tell us how we can improve...")
-        name = st.text_input("Your name (optional)")
         email = st.text_input("Your email (optional)")
 
         if st.button("Submit Feedback"):
             if rating == 0:
                 st.warning("Please select a star rating before submitting.")
             else:
-                feedback_text = f"Rating: {rating}\nComments: {comments}\nName: {name or 'Anonymous'}"
+                feedback_text = f"Rating: {rating}\nComments: {comments}"
                 user_email = email if email.strip() else None
                 success = send_feedback_email(feedback_text, user_email)
                 if success:
                     st.success("Thanks for your feedback! 🙌")
-                    st.session_state.rating = 0  # reset rating
+                    st.session_state.rating = 0
                 else:
                     st.error("Oops! Something went wrong sending your feedback. Please try again later.")
 
