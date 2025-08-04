@@ -103,9 +103,13 @@ def generate_chat_markdown():
     return "\n---\n".join(lines)
 
 
-render_sidebar(st.session_state, generate_chat_text, generate_chat_json, generate_chat_markdown, tabs="all")
-
-
+render_sidebar(
+    st.session_state, 
+    generate_chat_text=generate_chat_text, 
+    generate_chat_json=generate_chat_json, 
+    generate_chat_markdown=generate_chat_markdown, 
+    show_tabs=True
+)
 
 # --- Connect to Snowflake ---
 @st.cache_resource
