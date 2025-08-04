@@ -39,10 +39,13 @@ def _render_contact():
     )
     # Phone number (added)
     phone_number = "+30 6933419882"  # Replace with your actual number
+    phone_display = "+30 6933419882"  # Nicely formatted for display
     phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
+
     st.sidebar.markdown(
         f'<p style="margin: 0 0 10px 0; display: flex; align-items: center;">'
-        f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> {phone_number}</p>',
+        f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
+        f'<a href="tel:{phone_number}" style="text-decoration:none; color: inherit;">{phone_display}</a></p>',
         unsafe_allow_html=True,
     )
 
