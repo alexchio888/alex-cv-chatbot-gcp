@@ -1,4 +1,30 @@
 import streamlit as st
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+def send_feedback_email(feedback_text, user_email=None):
+    from_email = st.secrets["sendgrid"]["sender_email"]
+    api_key = st.secrets["sendgrid"]["api_key"]
+    
+    formatted_feedback = feedback_text.replace("\n", "<br>")
+    html_content = f'<p>{formatted_feedback}</p><p>From: {user_email or "Anonymous"}</p>'
+
+    message = Mail(
+        from_email=from_email,
+        to_emails=from_email,
+        subject='New Chatbot Feedback',
+        html_content=html_content
+    )
+    try:
+        sg = SendGridAPIClient(api_key)
+        response = sg.send(message)
+        print("SendGrid response code:", response.status_code)
+        return True
+    except Exception as e:
+        print("Error sending feedback email:", e)
+        return False
+
 
 def render_sidebar(
     st_session_state,
@@ -20,7 +46,7 @@ def render_sidebar(
             _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown)
         with tab_settings:
             _render_settings(st_session_state)
-            
+
     # --- FEEDBACK FORM ---
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 💬 Feedback")
@@ -35,9 +61,15 @@ def render_sidebar(
         email = st.text_input("Your email (optional)")
         submitted = st.form_submit_button("Submit Feedback")
         
-        if submitted:
-            # TODO: Save/send feedback data (rating, comments, email)
-            st.success("Thanks for your feedback!")
+    if submitted:
+        feedback_text = f"Rating: {rating}\nComments: {comments}"
+        user_email = email if email.strip() else None
+        success = send_feedback_email(feedback_text, user_email)
+        if success:
+            st.success("Thanks for your feedback! 🙌")
+        else:
+            st.error("Oops! Something went wrong sending your feedback. Please try again later.")
+
     # --- FOOTER ---
     st.sidebar.markdown("---")
     st.sidebar.markdown(
@@ -190,3 +222,5 @@ def _render_settings(st_session_state):
         step=2,
         help="How many previous messages to include in the prompt context."
     )
+
+
