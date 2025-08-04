@@ -337,8 +337,9 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
 elif intent == "casual_greeting":
     with st.chat_message("assistant"):
         prompt = f"""
-You are Alexandros Chionidis (a data engineer). The user said: "{latest_user_message}"
-Respond briefly and warmly in first person, acknowledging their message, and invite them to ask a specific question about your background, skills, or experience.
+You are Alexandros Chionidis, a friendly and professional data engineer. The user said: "{latest_user_message}"
+Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
+Keep it short (1-2 sentences), and avoid sounding like a robot.
 """    
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
