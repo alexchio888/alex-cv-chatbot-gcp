@@ -12,6 +12,7 @@ def log_message_to_snowflake(
     role: str,
     message: str,
     *,
+    user_id: str = None,
     intent: str = None,
     model_used: str = None,
     embedding_size: str = None,
@@ -23,18 +24,21 @@ def log_message_to_snowflake(
     
     # Escape strings
     escape = lambda s: s.replace("'", "''") if s else None
+    session_id = escape(session_id)
+    role = escape(role)
     message = escape(message)[:2000] if message else None
     prompt = escape(prompt)[:5000] if prompt else None
     context_snippet = escape(context_snippet)[:5000] if context_snippet else None
-    
+    user_id = escape(user_id)
+
     session.sql(f"""
         INSERT INTO {TABLE_NAME} (
-            session_id, timestamp, role, message,
+            session_id, user_id, timestamp, role, message,
             intent, model_used, embedding_size,
             context_snippet, prompt, message_type
         )
         VALUES (
-            '{escape(session_id)}', '{timestamp}', '{escape(role)}', '{message}',
+            '{session_id}', {'NULL' if not user_id else f"'{user_id}'"}, '{timestamp}', '{role}', {f"'{message}'" if message else 'NULL'},
             {'NULL' if not intent else f"'{escape(intent)}'"},
             {'NULL' if not model_used else f"'{escape(model_used)}'"},
             {'NULL' if not embedding_size else f"'{escape(embedding_size)}'"},
@@ -43,6 +47,7 @@ def log_message_to_snowflake(
             {'NULL' if not message_type else f"'{escape(message_type)}'"}
         )
     """).collect()
+
 
 
 def ensure_user_id():
@@ -83,6 +88,6 @@ def ensure_user_id():
         </script>
     """, height=0)
 
-    # Temporary placeholder — updated below via JS event
-    st.session_state["user_id"] = generated_id
+    # # Temporary placeholder — updated below via JS event
+    # st.session_state["user_id"] = generated_id
     return generated_id
