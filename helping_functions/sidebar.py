@@ -25,30 +25,6 @@ def send_feedback_email(feedback_text, user_email=None):
         print("Error sending feedback email:", e)
         return False
 
-def star_rating():
-    rating = st.session_state.get("rating", 0)
-    cols = st.columns(5)
-
-    for i in range(5):
-        # Filled star if selected, empty if not
-        if i < rating:
-            star = "★"
-            color = "gold"
-        else:
-            star = "☆"
-            color = "gray"
-
-        # Custom CSS styles to color the stars
-        # Use st.markdown with unsafe_allow_html for color styling in buttons is tricky,
-        # so we do a workaround with buttons labeled with stars and color via markdown below
-
-        if cols[i].button(star, key=f"star_{i}", help=f"Rate {i+1} stars"):
-            st.session_state.rating = i + 1
-
-        # Display stars with color below buttons
-        cols[i].markdown(f"<p style='color:{color}; font-size:32px; margin-top:-30px;'>{star}</p>", unsafe_allow_html=True)
-
-    return st.session_state.get("rating", 0)
 
 def render_sidebar(
     st_session_state,
@@ -74,25 +50,22 @@ def render_sidebar(
     # --- FEEDBACK FORM ---
     with st.sidebar:
         st.markdown("## 💬 Feedback")
-        st.markdown("**How helpful was this chatbot?**")
+        st.markdown("**We’d love to hear your thoughts!**")
 
-        rating = star_rating()
-
-        st.caption(f"Your rating: {rating} star{'s' if rating != 1 else ''}" if rating else "Tap a star to rate")
-
-        comments = st.text_area("Additional comments (optional)", placeholder="Tell us how we can improve...")
-        email = st.text_input("Your email (optional)")
+        comments = st.text_area("Your feedback", placeholder="Share your thoughts or suggestions here...")
+        email = st.text_input("Your name (optional)")
 
         if st.button("Submit Feedback"):
-            if rating == 0:
-                st.warning("Please select a star rating before submitting.")
+            if not comments.strip():
+                st.warning("Please enter your feedback before submitting.")
             else:
-                feedback_text = f"Rating: {rating}\nComments: {comments}"
-                user_email = email if email.strip() else None
+                user_email = email.strip() or None
+                feedback_text = f"Comments: {comments}"
                 success = send_feedback_email(feedback_text, user_email)
                 if success:
                     st.success("Thanks for your feedback! 🙌")
-                    st.session_state.rating = 0
+                    st.session_state.comments = ""
+                    st.session_state.email = ""
                 else:
                     st.error("Oops! Something went wrong sending your feedback. Please try again later.")
 
