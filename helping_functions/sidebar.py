@@ -49,8 +49,8 @@ def render_sidebar(
 
     # --- FEEDBACK FORM ---
     with st.sidebar:
-        # st.markdown("---")  # horizontal separator
-        st.markdown('<div style="margin-top:150px;"></div>', unsafe_allow_html=True)
+        st.markdown("---")  # horizontal separator
+        st.markdown('<div style="margin-top:200px;"></div>', unsafe_allow_html=True)
         st.markdown("## 💬 Feedback")
         st.markdown("**We’d love to hear your thoughts!**")
 
