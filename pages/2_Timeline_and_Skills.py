@@ -27,6 +27,7 @@ render_skills_dashboard(skills_json)
 
 
 # --- Timeline ---
+st.markdown("---")
 st.subheader("📅 Professional Timeline")
 
 with open("docs/timeline.json", "r") as f:
