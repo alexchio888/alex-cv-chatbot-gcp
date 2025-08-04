@@ -34,12 +34,12 @@ def _render_contact():
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.sidebar.markdown(
         f'<p style="margin: 0 0 12px 0;">'
-        f'<a href="{maps_url}" target="_blank" style="text-decoration: underline; color: #0645AD;">'
+        f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF;">'
         f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
         unsafe_allow_html=True,
     )
     
-    # Phone number with blue link and underline
+    # Phone number with lighter blue link and no underline
     phone_number = "+306933419882"  # no spaces for tel: link
     phone_display = "+30 693 341 9882"
     phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
@@ -47,7 +47,7 @@ def _render_contact():
     st.sidebar.markdown(
         f'<p style="margin: 0 0 12px 0; display: flex; align-items: center;">'
         f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
-        f'<a href="tel:{phone_number}" style="text-decoration: underline; color: #0645AD;">{phone_display}</a></p>',
+        f'<a href="tel:{phone_number}" style="text-decoration: none; color: #3399FF;">{phone_display}</a></p>',
         unsafe_allow_html=True,
     )
     
@@ -72,7 +72,7 @@ def _render_contact():
 
     for contact in contact_links:
         st.sidebar.markdown(
-            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0;">'
+            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0; color: #3399FF;">'
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
@@ -80,11 +80,10 @@ def _render_contact():
     # Download CV link
     cv_html = """
     <a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" 
-       style="text-decoration:none; display: flex; align-items: center;">
+       style="text-decoration:none; display: flex; align-items: center; color: #3399FF;">
         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="20" style="margin-right:8px;" /> Download CV
     </a>"""
     st.sidebar.markdown(cv_html, unsafe_allow_html=True)
-
 
 def _render_prompts(st_session_state):
     st.markdown("### 💡 Try asking about:")
