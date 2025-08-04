@@ -9,7 +9,7 @@ def render_sidebar(
 ):
     # Always render contact info at top
     _render_contact()
-
+    st.sidebar.markdown("---")
     if show_tabs:
         tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
             ["💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
@@ -30,16 +30,13 @@ def render_sidebar(
 
 
 def _render_contact():
-    st.sidebar.markdown("## 👤 Alexandros Chionidis")
-
     # Location
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    st.sidebar.markdown(
-        f'<p style="margin: 0 0 10px 0;">'
-        f'🏠 <a href="{maps_url}" target="_blank" style="text-decoration:none; color: inherit;">Melissia, Athens, Greece</a></p>',
+    st.markdown(
+        f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
+        f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
         unsafe_allow_html=True,
     )
-
     # Phone number (added)
     phone_number = "+30 6933419882"  # Replace with your actual number
     phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
