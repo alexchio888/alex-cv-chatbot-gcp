@@ -6,13 +6,17 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    tabs = st.tabs([cat["name"] for cat in categories])
-    for tab, category in zip(tabs, categories):
-        with tab:
-            sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
-            for skill in sorted_skills:
-                render_skill_row(skill)
+    # Sort once
+    sorted_categories = []
+    for category in categories:
+        sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
+        sorted_categories.append({"name": category["name"], "skills": sorted_skills})
 
+    tabs = st.tabs([cat["name"] for cat in sorted_categories])
+    for tab, category in zip(tabs, sorted_categories):
+        with tab:
+            for skill in category["skills"]:
+                render_skill_row(skill)
 
 
 
