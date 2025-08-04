@@ -2,7 +2,7 @@
 
 import streamlit as st
 import json
-from timeline_builder import *
+from pages.timeline_builder import *
 
 
 st.set_page_config(
