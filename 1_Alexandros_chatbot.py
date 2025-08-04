@@ -385,7 +385,7 @@ As Alexandros Chionidis (a data engineer), politely say you didn’t fully under
 
 
 elif intent == "farewell":
-    with st.chat_message("assistant", avatar = "docs/avatar.png"):
+    with st.chat_message("assistant", avatar="docs/avatar.png"):
         response = (
             "Thank you for your time! I'm wrapping up the session now. "
             "If you have more questions about my background or skills later, feel free to return anytime."
@@ -405,4 +405,20 @@ elif intent == "farewell":
         )
         simulate_typing(response)
         st.info("💾 You can download the chat history anytime from the sidebar")
+
+    # Show feedback button or form
+    if st.button("💬 Give Feedback"):
+        st.session_state.show_feedback_form = True
+
+    if st.session_state.get("show_feedback_form", False):
+        with st.form("feedback_form"):
+            rating = st.radio("How helpful was this chat?", ["Very helpful", "Somewhat helpful", "Not helpful"])
+            comments = st.text_area("Additional comments (optional):")
+            email = st.text_input("Your email (optional):")
+            submitted = st.form_submit_button("Submit Feedback")
+            if submitted:
+                # Here you can handle feedback: save, send email, etc.
+                st.success("Thank you for your feedback!")
+                st.session_state.show_feedback_form = False
+
     st.session_state["session_ended"] = True
