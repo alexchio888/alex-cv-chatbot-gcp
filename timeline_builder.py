@@ -2,6 +2,7 @@ from datetime import datetime
 import pandas as pd
 import plotly.figure_factory as ff
 import calendar
+import plotly.graph_objects as go
 
 def parse_date(date_dict):
     year = int(date_dict.get("year", 1900))
@@ -10,94 +11,116 @@ def parse_date(date_dict):
     return datetime(year, month, day)
 
 def build_gantt_from_json(timeline_json):
-    import plotly.graph_objects as go
-    tasks_by_tag = {}
+    events_by_tag = {}
+    all_events = []
 
+    # Parse and group events
     for event in timeline_json.get("events", []):
-        tags = event.get("tags", [])
-        start_date = parse_date(event.get("start_date", {}))
-        end_date = parse_date(event.get("end_date", event.get("start_date", {})))
-        task = dict(
-            Task=event["text"]["headline"],
-            Start=start_date,
-            Finish=end_date,
-            Description=event["text"].get("text", ""),
-            Tags=", ".join(tags)
-        )
-        for tag in tags or ["Uncategorized"]:
-            tasks_by_tag.setdefault(tag, []).append(task)
+        tags = event.get("tags", []) or ["Uncategorized"]
+        start = parse_date(event.get("start_date", {}))
+        end = parse_date(event.get("end_date", event.get("start_date", {})))
+        headline = event["text"]["headline"]
+        description = event["text"].get("text", "")
+        for tag in tags:
+            events_by_tag.setdefault(tag, []).append(dict(
+                task=headline,
+                start=start,
+                end=end,
+                description=description,
+                tag=tag
+            ))
+        all_events.append(dict(
+            task=headline,
+            start=start,
+            end=end,
+            description=description,
+            tag=", ".join(tags)
+        ))
 
-    if not tasks_by_tag:
-        return None
-
-    # All tasks combined
-    all_tasks = sum(tasks_by_tag.values(), [])
-
-    # Base figure
-    df = pd.DataFrame(all_tasks)
-    fig = ff.create_gantt(
-        df,
-        index_col='Task',
-        show_colorbar=False,
-        group_tasks=True,
-        title="",
-        showgrid_x=True,
-        showgrid_y=True,
-        bar_width=0.2
-    )
-
-    # Add dropdown for filtering
+    fig = go.Figure()
     buttons = []
-    for tag, task_list in tasks_by_tag.items():
-        visible = [t["Task"] in [task["Task"] for task in task_list] for t in all_tasks]
+
+    # Utility: add traces for a group of events
+    def add_event_traces(events, visible):
+        for i, e in enumerate(events):
+            fig.add_trace(go.Bar(
+                x=[(e["end"] - e["start"]).days],
+                y=[e["task"]],
+                base=e["start"],
+                orientation='h',
+                text=e["description"],
+                hovertemplate=f"{e['task']}<br>{e['start'].date()} to {e['end'].date()}<br>{e['description']}",
+                marker_color='steelblue',
+                visible=visible
+            ))
+
+    # Add all event traces (first tag: visible, others: hidden)
+    tag_names = sorted(events_by_tag.keys())
+    for i, tag in enumerate(["All"] + tag_names):
+        if tag == "All":
+            add_event_traces(all_events, True)
+        else:
+            add_event_traces(events_by_tag[tag], False)
+
+    # Create visibility masks and buttons
+    traces_per_tag = { "All": len(all_events) }
+    for tag in tag_names:
+        traces_per_tag[tag] = len(events_by_tag[tag])
+
+    start_idx = 0
+    for i, tag in enumerate(["All"] + tag_names):
+        total = sum(traces_per_tag.values())
+        visible = [False] * total
+        count = traces_per_tag[tag]
+        visible[start_idx:start_idx + count] = [True] * count
+
+        y_labels = [e["task"] for e in all_events] if tag == "All" else [e["task"] for e in events_by_tag[tag]]
+
         buttons.append(dict(
             label=tag,
             method="update",
             args=[
                 {"visible": visible},
-                {"title": f"Gantt Chart - {tag}"}
+                {"yaxis": {"categoryorder": "array", "categoryarray": y_labels[::-1]}}
             ]
         ))
+        start_idx += count
 
-    # Add "All" option
-    buttons.insert(0, dict(
-        label="All",
-        method="update",
-        args=[
-            {"visible": [True] * len(all_tasks)},
-            {"title": "Gantt Chart - All Events"}
-        ]
-    ))
-
-    fig.update_layout(
-        updatemenus=[dict(
-            active=0,
-            buttons=buttons,
-            direction="down",
-            showactive=True,
-            x=0.1,
-            xanchor="left",
-            y=1.15,
-            yanchor="top"
-        )]
-    )
-
-    # Limit x-axis to today → end of next month
+    # Layout
     today = datetime.today()
     year = today.year
     month = today.month + 1
     if month == 13:
         month = 1
         year += 1
-    last_day_next_month = calendar.monthrange(year, month)[1]
-    end_of_next_month = datetime(year, month, last_day_next_month)
+    last_day = calendar.monthrange(year, month)[1]
+    end_of_next_month = datetime(year, month, last_day)
 
     fig.update_layout(
+        title="Professional Timeline",
+        barmode='stack',
         xaxis=dict(
-            range=[df['Start'].min(), end_of_next_month],
             title="Date",
-            constrain='range'
-        )
+            range=[min(e["start"] for e in all_events), end_of_next_month],
+            constrain='range',
+            showgrid=True
+        ),
+        yaxis=dict(
+            title="",
+            categoryorder="array",
+            categoryarray=[e["task"] for e in all_events][::-1]
+        ),
+        updatemenus=[dict(
+            active=0,
+            buttons=buttons,
+            direction="down",
+            showactive=True,
+            x=0,
+            xanchor="left",
+            y=1.15,
+            yanchor="top"
+        )],
+        height=600
     )
 
     return fig
