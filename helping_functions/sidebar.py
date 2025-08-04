@@ -30,25 +30,27 @@ def render_sidebar(
 
 
 def _render_contact():
-    # Location
+    # Location with bottom margin for spacing
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.sidebar.markdown(
-        f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
+        f'<p style="margin: 0 0 12px 0;">'
+        f'<a href="{maps_url}" target="_blank" style="text-decoration:none; color: inherit;">'
         f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
         unsafe_allow_html=True,
     )
-    # Phone number (added)
-    phone_number = "+30 6933419882"  # Replace with your actual number
-    phone_display = "+30 6933419882"  # Nicely formatted for display
+    
+    # Phone number with blue link and underline
+    phone_number = "+306933419882"  # no spaces for tel: link
+    phone_display = "+30 693 341 9882"
     phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
 
     st.sidebar.markdown(
-        f'<p style="margin: 0 0 10px 0; display: flex; align-items: center;">'
+        f'<p style="margin: 0 0 12px 0; display: flex; align-items: center;">'
         f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
-        f'<a href="tel:{phone_number}" style="text-decoration:none; color: inherit;">{phone_display}</a></p>',
+        f'<a href="tel:{phone_number}" style="text-decoration: underline; color: #0645AD;">{phone_display}</a></p>',
         unsafe_allow_html=True,
     )
-
+    
     # Contact Links
     contact_links = [
         {
