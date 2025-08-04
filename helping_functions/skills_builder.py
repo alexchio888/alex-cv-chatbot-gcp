@@ -1,29 +1,23 @@
 import streamlit as st
 
 def render_skills_dashboard(skills_data):
-    """
-    Render a skills overview dashboard in Streamlit with two-column layout.
-    """
     st.subheader("🧠 Skills Overview")
 
     categories = skills_data.get("categories", [])
-
     if not categories:
         st.info("No skills data available.")
         return
 
-    for category in categories:
-        st.markdown(f"### {category['name']}")
+    # Split categories into pairs
+    for i in range(0, len(categories), 2):
+        pair = categories[i:i + 2]
+        cols = st.columns(2)
 
-        col1, col2 = st.columns(2)
-
-        skills = category.get("skills", [])
-        half = (len(skills) + 1) // 2
-
-        for idx, skill in enumerate(skills):
-            target_col = col1 if idx < half else col2
-            with target_col:
-                render_skill_row(skill)
+        for idx, category in enumerate(pair):
+            with cols[idx]:
+                st.markdown(f"### {category['name']}")
+                for skill in category["skills"]:
+                    render_skill_row(skill)
 
 
 def render_skill_row(skill):
@@ -40,10 +34,9 @@ def render_skill_row(skill):
     st.markdown(
         f"""
         <div style="display: flex; justify-content: space-between; align-items: center;
-                    padding: 6px 10px; margin-bottom: 4px; border: 1px solid #e0e0e0;
-                    border-radius: 8px;">
+                    padding: 6px 10px; border-bottom: 1px solid #DDD;">
             <div>{stars_html}</div>
-            <div style="text-align: right; margin-left: 12px;">
+            <div style="text-align: right;">
                 <strong>{name}</strong><br>
                 <span style="font-size: 0.85em; color: gray;">{exp} years</span>
             </div>
