@@ -3,17 +3,16 @@ import plotly.graph_objects as go
 
 def render_skills_dashboard(skills_data):
     """
-    Render a skills overview dashboard in Streamlit.
-
+    Render a skills overview dashboard using bar charts per skill category.
     Args:
-        skills_data (dict): Skills JSON data with structure:
+        skills_data (dict): Skills JSON structure with:
             {
               "title": str,
               "categories": [
                 {
                   "name": str,
                   "skills": [
-                    {"name": str, "level": int (1-5), "experience_years": int (optional)},
+                    {"name": str, "level": int (1–10), "experience_years": float (optional)},
                     ...
                   ]
                 },
@@ -21,47 +20,38 @@ def render_skills_dashboard(skills_data):
               ]
             }
     """
-    st.subheader("🧠 Skills Overview")
-
     categories = skills_data.get("categories", [])
-
     if not categories:
         st.info("No skills data available.")
         return
 
-    # Prepare data for average skill level per category
-    categories_names = [cat["name"] for cat in categories]
-    avg_levels = []
-    for cat in categories:
-        levels = [skill["level"] for skill in cat["skills"] if "level" in skill]
-        avg_level = sum(levels) / len(levels) if levels else 0
-        avg_levels.append(avg_level)
+    for category in categories:
+        st.markdown(f"### {category['name']}")
+        skills = category.get("skills", [])
+        if not skills:
+            st.markdown("_No skills listed._")
+            continue
 
-    # Plot average skill level bar chart
-    fig = go.Figure(data=[
-        go.Bar(
-            x=categories_names,
-            y=avg_levels,
-            text=[f"{lvl:.1f}" for lvl in avg_levels],
-            textposition="auto",
-            marker_color='royalblue'
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=[skill["level"] for skill in skills],
+            y=[skill["name"] for skill in skills],
+            orientation='h',
+            marker=dict(color='lightskyblue'),
+            hovertext=[
+                f"{skill.get('experience_years', '?')} years experience"
+                for skill in skills
+            ],
+            hoverinfo='text+x'
+        ))
+
+        fig.update_layout(
+            xaxis=dict(title='Skill Level (1–10)', range=[0, 10]),
+            yaxis=dict(autorange="reversed"),  # Reverse to show top-down
+            margin=dict(l=80, r=20, t=30, b=30),
+            height=40 * len(skills) + 60,
+            template="plotly_white",
+            showlegend=False
         )
-    ])
-    fig.update_layout(
-        yaxis=dict(title="Average Skill Level", range=[0, 5]),
-        xaxis=dict(title="Skill Categories"),
-        title="Average Skill Level by Category",
-        template="plotly_white",
-        height=400
-    )
-    st.plotly_chart(fig, use_container_width=True)
 
-    # Detailed skill listing with stars and experience
-    st.markdown("#### Detailed Skills")
-    for cat in categories:
-        st.markdown(f"**{cat['name']}**")
-        for skill in cat["skills"]:
-            level = skill.get("level", 0)
-            stars = "⭐" * level + "☆" * (5 - level)
-            exp = skill.get("experience_years", "?")
-            st.markdown(f"- {skill['name']}: {stars} ({exp} years experience)")
+        st.plotly_chart(fig, use_container_width=True)

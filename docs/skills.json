@@ -4,77 +4,68 @@
       {
         "name": "Programming Languages",
         "skills": [
-          {"name": "Python", "level": 5, "experience_years": 4},
-          {"name": "SQL", "level": 5, "experience_years": 4},
-          {"name": "Scala", "level": 3, "experience_years": 2},
-          {"name": "Bash/Shell scripting", "level": 4, "experience_years": 4},
-          {"name": "R", "level": 2, "experience_years": 1}
+          {"name": "Python", "level": 8, "experience_years": 4},
+          {"name": "SQL", "level": 9, "experience_years": 4},
+          {"name": "Scala", "level": 5, "experience_years": 2},
+          {"name": "Bash/Shell scripting", "level": 4, "experience_years": 3},
+          {"name": "R", "level": 3, "experience_years": 1}
         ]
       },
       {
         "name": "Big Data Tools & Platforms",
         "skills": [
-          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 4, "experience_years": 4},
-          {"name": "Spark", "level": 5, "experience_years": 4},
-          {"name": "Kafka", "level": 4, "experience_years": 3},
-          {"name": "Airflow", "level": 3, "experience_years": 2},
-          {"name": "Delta Lake", "level": 4, "experience_years": 2}
+          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 10, "experience_years": 4},
+          {"name": "Spark", "level": 8, "experience_years": 4},
+          {"name": "Kafka", "level": 6, "experience_years": 2},
+          {"name": "Airflow", "level": 9, "experience_years": 4},
+          {"name": "Delta Lake", "level": 7, "experience_years": 2}
         ]
       },
       {
         "name": "Databases & Query Engines",
         "skills": [
-          {"name": "Cassandra", "level": 4, "experience_years": 3},
-          {"name": "Trino (Presto)", "level": 4, "experience_years": 2},
-          {"name": "Impala", "level": 3, "experience_years": 3},
-          {"name": "Snowflake", "level": 3, "experience_years": 1},
-          {"name": "PostgreSQL", "level": 4, "experience_years": 4},
-          {"name": "MySQL", "level": 3, "experience_years": 3}
+          {"name": "Cassandra", "level": 5, "experience_years": 2},
+          {"name": "Trino", "level": 8, "experience_years": 2},
+          {"name": "Impala", "level": 6, "experience_years": 2},
+          {"name": "Snowflake", "level": 4, "experience_years": 1},
+          {"name": "PostgreSQL", "level": 6, "experience_years": 2},
+          {"name": "MySQL", "level": 6, "experience_years": 3}
         ]
       },
       {
         "name": "Data Visualization",
         "skills": [
-          {"name": "Oracle Analytics Server (OAS)", "level": 3, "experience_years": 2},
-          {"name": "Tableau", "level": 3, "experience_years": 2},
-          {"name": "Apache Superset", "level": 3, "experience_years": 1}
+          {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
+          {"name": "Tableau", "level": 4, "experience_years": 1},
+          {"name": "Apache Superset", "level": 7, "experience_years": 2}
         ]
       },
       {
         "name": "Machine Learning",
         "skills": [
           {"name": "Scikit-learn", "level": 3, "experience_years": 2},
-          {"name": "TensorFlow", "level": 2, "experience_years": 1}
+          {"name": "TensorFlow", "level": 2, "experience_years": 2}
         ]
       },
       {
         "name": "Operating Systems",
         "skills": [
-          {"name": "Windows", "level": 4, "experience_years": 6},
-          {"name": "Unix/Linux (Ubuntu, MacOS)", "level": 5, "experience_years": 6}
+            {"name": "Windows", "level": 8, "experience_years": 6},
+            {"name": "Ubuntu", "level": 7, "experience_years": 4},
+            {"name": "MacOS", "level": 9, "experience_years": 6}
         ]
       },
       {
         "name": "Soft Skills & Methodologies",
         "skills": [
-          {"name": "Technical Ownership", "level": 5},
-          {"name": "Stakeholder Communication", "level": 5},
-          {"name": "Problem Solving & Critical Thinking", "level": 5},
-          {"name": "Cross-Functional Collaboration", "level": 5},
-          {"name": "Product-Oriented Thinking", "level": 4},
-          {"name": "Agile Methodologies (Scrum, Jira, Kanban)", "level": 4},
-          {"name": "Collaboration & Knowledge Sharing", "level": 5},
-          {"name": "Detail Orientation", "level": 5}
-        ]
-      },
-      {
-        "name": "Certifications",
-        "skills": [
-          {"name": "Snowflake Data Engineering Specialization", "level": 4},
-          {"name": "Google Advanced Data Analytics Specialization", "level": 4},
-          {"name": "Google Data Analytics Specialization", "level": 4},
-          {"name": "Modern Big Data Analysis with SQL (Cloudera)", "level": 4},
-          {"name": "Pedagogical and Teaching Competence", "level": 3}
+          {"name": "Technical Ownership", "level": 9},
+          {"name": "Stakeholder Communication", "level": 9},
+          {"name": "Problem Solving & Critical Thinking", "level": 9},
+          {"name": "Cross-Functional Collaboration", "level": 9},
+          {"name": "Product-Oriented Thinking", "level": 7},
+          {"name": "Agile Methodologies (Scrum, Jira, Kanban)", "level": 8},
+          {"name": "Collaboration & Knowledge Sharing", "level": 9},
+          {"name": "Detail Orientation", "level": 9}
         ]
       }
     ]
