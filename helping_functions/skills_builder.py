@@ -7,16 +7,14 @@ def render_skills_dashboard(skills_data):
         return
 
     category_names = [cat["name"] for cat in categories]
-    selected_category = st.sidebar.radio("Select Category", category_names)
+    selected_category = st.selectbox("Select Category", category_names)
 
-    # Find selected category
     category = next(cat for cat in categories if cat["name"] == selected_category)
-
-    # Sort skills by level descending
     sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
     for skill in sorted_skills:
         render_skill_row(skill)
+
 
 
 def render_skill_row(skill):
