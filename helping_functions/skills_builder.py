@@ -7,14 +7,32 @@ def render_skills_dashboard(skills_data):
         return
 
     category_names = [cat["name"] for cat in categories]
-    selected_category = st.radio("Select Category", category_names, horizontal=True)
 
-    category = next(cat for cat in categories if cat["name"] == selected_category)
+    # Number of columns to split the categories into
+    num_cols = 4  
+    cols = st.columns(num_cols)
+
+    # Flatten buttons into columns in round-robin fashion
+    selected_category = None
+    for i, category_name in enumerate(category_names):
+        col = cols[i % num_cols]
+        if col.button(category_name):
+            selected_category = category_name
+
+    # Remember previously selected category (session state) or default to first
+    if "selected_category" not in st.session_state:
+        st.session_state.selected_category = category_names[0]
+
+    if selected_category is not None:
+        st.session_state.selected_category = selected_category
+
+    # Use the selected category to render skills
+    category = next(cat for cat in categories if cat["name"] == st.session_state.selected_category)
     sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
+    st.write(f"### {st.session_state.selected_category}")
     for skill in sorted_skills:
         render_skill_row(skill)
-
 
 
 def render_skill_row(skill):
