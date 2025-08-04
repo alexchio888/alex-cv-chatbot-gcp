@@ -20,7 +20,24 @@ def render_sidebar(
             _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown)
         with tab_settings:
             _render_settings(st_session_state)
-
+            
+    # --- FEEDBACK FORM ---
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 💬 Feedback")
+    
+    with st.sidebar.form("feedback_form"):
+        rating = st.radio(
+            "How helpful was this chatbot?", 
+            ["Very helpful", "Somewhat helpful", "Not helpful"],
+            index=0
+        )
+        comments = st.text_area("Additional comments")
+        email = st.text_input("Your email (optional)")
+        submitted = st.form_submit_button("Submit Feedback")
+        
+        if submitted:
+            # TODO: Save/send feedback data (rating, comments, email)
+            st.success("Thanks for your feedback!")
     # --- FOOTER ---
     st.sidebar.markdown("---")
     st.sidebar.markdown(
