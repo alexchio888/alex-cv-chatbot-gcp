@@ -1,7 +1,0 @@
-[server]
-headless = true
-port = 8501
-enableCORS = false
-
-# Add this line to specify the main file to run (works in some environments)
-mainScript = "1_Alex_Chatbot.py"
