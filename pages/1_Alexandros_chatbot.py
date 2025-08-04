@@ -58,7 +58,7 @@ st.set_page_config(
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
-)
+) 
 col1, col2 = st.columns([1, 6])
 with col1:
     st.image("docs/avatar.png", width=560)
