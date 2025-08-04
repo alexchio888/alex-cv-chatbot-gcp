@@ -13,7 +13,7 @@ def render_skills_dashboard(skills_data):
 
     for tab, category in zip(tabs, categories):
         with tab:
-            # Category card wrapper inside tab
+            # Category card wrapper without title
             st.markdown(
                 f"""
                 <div style="
@@ -24,13 +24,6 @@ def render_skills_dashboard(skills_data):
                     border: 1.5px solid rgba(180, 180, 180, 0.3);
                     box-shadow: 0 2px 6px rgba(0,0,0,0.07);
                 ">
-                    <h3 style="
-                        border-left: 6px solid #4A90E2;
-                        padding-left: 12px;
-                        margin-bottom: 18px;
-                        font-weight: 700;
-                        color: #333;
-                    ">{category['name']}</h3>
                 """,
                 unsafe_allow_html=True
             )
