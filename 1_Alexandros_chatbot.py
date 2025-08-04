@@ -136,6 +136,8 @@ if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
 if "show_feedback_form" not in st.session_state:
     st.session_state.show_feedback_form = False
+if "feedback_submitted" not in st.session_state:
+    st.session_state.feedback_submitted = False
 
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
@@ -406,22 +408,23 @@ elif intent == "farewell":
             message_type="response"
         )
         simulate_typing(response)
-        st.info("💾 You can download the chat history anytime from the sidebar")
+        # st.info("💾 You can download the chat history anytime from the sidebar")
 
     # Feedback button
     if st.button("💬 Give Feedback"):
         st.session_state.show_feedback_form = True
+        st.session_state.feedback_submitted = False
 
-    # Show feedback form if triggered
-    if st.session_state.show_feedback_form:
+    if st.session_state.show_feedback_form and not st.session_state.feedback_submitted:
         with st.form("feedback_form"):
-            rating = st.radio("How helpful was this chat?", ["Very helpful", "Somewhat helpful", "Not helpful"])
-            comments = st.text_area("Additional comments (optional):")
-            email = st.text_input("Your email (optional):")
+            rating = st.radio("How helpful was this chatbot?", 
+                            ["Very helpful", "Somewhat helpful", "Not helpful"])
+            comments = st.text_area("Additional comments")
+            email = st.text_input("Your email (optional)")
             submitted = st.form_submit_button("Submit Feedback")
+            
             if submitted:
-                # Handle feedback here (save, send email, etc)
-                st.success("Thank you for your feedback!")
+                # Process feedback here: save, log, send email, etc.
+                st.session_state.feedback_submitted = True
+                st.success("Thanks for your feedback!")
                 st.session_state.show_feedback_form = False
-
-    st.session_state["session_ended"] = True
