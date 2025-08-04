@@ -9,29 +9,32 @@ def parse_date(date_dict):
     day = int(date_dict.get("day", 1))
     return datetime(year, month, day)
 
-def build_gantt_from_json(timeline_json, selected_tag="All"):
-    tasks = []
+def build_gantt_from_json(timeline_json):
+    import plotly.graph_objects as go
+    tasks_by_tag = {}
 
     for event in timeline_json.get("events", []):
         tags = event.get("tags", [])
-        if selected_tag != "All" and selected_tag not in tags:
-            continue  # Skip events that don't match tag
-
         start_date = parse_date(event.get("start_date", {}))
         end_date = parse_date(event.get("end_date", event.get("start_date", {})))
-
-        tasks.append(dict(
+        task = dict(
             Task=event["text"]["headline"],
             Start=start_date,
             Finish=end_date,
-            Description=event["text"].get("text", "")
-        ))
+            Description=event["text"].get("text", ""),
+            Tags=", ".join(tags)
+        )
+        for tag in tags or ["Uncategorized"]:
+            tasks_by_tag.setdefault(tag, []).append(task)
 
-    if not tasks:
-        return None  # No events to show
+    if not tasks_by_tag:
+        return None
 
-    df = pd.DataFrame(tasks)
+    # All tasks combined
+    all_tasks = sum(tasks_by_tag.values(), [])
 
+    # Base figure
+    df = pd.DataFrame(all_tasks)
     fig = ff.create_gantt(
         df,
         index_col='Task',
@@ -39,12 +42,48 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
         group_tasks=True,
         title="",
         showgrid_x=True,
-        showgrid_y=True
+        showgrid_y=True,
+        bar_width=0.2
     )
 
-    today = datetime.today()
+    # Add dropdown for filtering
+    buttons = []
+    for tag, task_list in tasks_by_tag.items():
+        visible = [t["Task"] in [task["Task"] for task in task_list] for t in all_tasks]
+        buttons.append(dict(
+            label=tag,
+            method="update",
+            args=[
+                {"visible": visible},
+                {"title": f"Gantt Chart - {tag}"}
+            ]
+        ))
 
-    # Calculate last day of next month
+    # Add "All" option
+    buttons.insert(0, dict(
+        label="All",
+        method="update",
+        args=[
+            {"visible": [True] * len(all_tasks)},
+            {"title": "Gantt Chart - All Events"}
+        ]
+    ))
+
+    fig.update_layout(
+        updatemenus=[dict(
+            active=0,
+            buttons=buttons,
+            direction="down",
+            showactive=True,
+            x=0.1,
+            xanchor="left",
+            y=1.15,
+            yanchor="top"
+        )]
+    )
+
+    # Limit x-axis to today → end of next month
+    today = datetime.today()
     year = today.year
     month = today.month + 1
     if month == 13:
@@ -55,15 +94,14 @@ def build_gantt_from_json(timeline_json, selected_tag="All"):
 
     fig.update_layout(
         xaxis=dict(
-            range=[df['Start'].min(), end_of_next_month],  # limit max to next month end
+            range=[df['Start'].min(), end_of_next_month],
             title="Date",
-            rangeselector=dict(buttons=[]),  # Disable range selector buttons
-            rangeslider=dict(visible=False),  # Disable range slider
-            constrain='range'  # Constrain zoom/pan to range
+            constrain='range'
         )
     )
 
     return fig
+
 
 
 def timeline_builder(timeline_json):
