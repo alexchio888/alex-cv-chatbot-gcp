@@ -7,13 +7,21 @@ def render_skills_dashboard(skills_data):
         return
 
     category_names = [cat["name"] for cat in categories]
-    selected_category = st.selectbox("Select Category", category_names)
+
+    # Create horizontal radio buttons
+    cols = st.columns(len(category_names))
+    selected_category = None
+    for i, cat_name in enumerate(category_names):
+        with cols[i]:
+            if st.radio("", [cat_name], index=0, key=f"cat_radio_{i}"):
+                selected_category = cat_name
 
     category = next(cat for cat in categories if cat["name"] == selected_category)
     sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
     for skill in sorted_skills:
         render_skill_row(skill)
+
 
 
 
