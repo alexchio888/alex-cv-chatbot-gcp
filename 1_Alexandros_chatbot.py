@@ -132,8 +132,11 @@ def create_session():
 
 session = create_session()
 
+
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = ensure_user_id()
 
 # --- Constants ---
 DOC_TABLE = "app.vector_store"

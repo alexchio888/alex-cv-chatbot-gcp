@@ -1,18 +1,10 @@
 from snowflake.snowpark import Session
 from datetime import datetime
+import uuid
+import streamlit as st
+import streamlit.components.v1 as components
 
 TABLE_NAME = "CHAT_LOGS"
-
-def create_chat_logs_table_if_not_exists(session: Session):
-    session.sql(f"""
-        CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
-            session_id STRING,
-            timestamp TIMESTAMP,
-            role STRING,
-            message TEXT
-        )
-    """).collect()
-
 
 def log_message_to_snowflake(
     session: Session,
@@ -51,3 +43,46 @@ def log_message_to_snowflake(
             {'NULL' if not message_type else f"'{escape(message_type)}'"}
         )
     """).collect()
+
+
+def ensure_user_id():
+    """Ensures a persistent user_id using browser cookie via JS."""
+    if "user_id" in st.session_state:
+        return st.session_state["user_id"]
+
+    generated_id = str(uuid.uuid4())
+
+    # This JS reads the cookie or sets it if missing, then passes it to Streamlit via window.postMessage
+    components.html(f"""
+        <script>
+        const COOKIE_NAME = "user_id";
+        function setCookie(name, value, days) {{
+            let expires = "";
+            if (days) {{
+                const date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }}
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }}
+
+        function getCookie(name) {{
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i=0;i < ca.length;i++) {{
+                let c = ca[i].trim();
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }}
+            return null;
+        }}
+
+        const uid = getCookie(COOKIE_NAME) || "{generated_id}";
+        setCookie(COOKIE_NAME, uid, 365);
+
+        window.parent.postMessage({{ user_id: uid }}, "*");
+        </script>
+    """, height=0)
+
+    # Temporary placeholder — updated below via JS event
+    st.session_state["user_id"] = generated_id
+    return generated_id
