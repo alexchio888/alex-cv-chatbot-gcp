@@ -3,6 +3,7 @@
 import streamlit as st
 import json
 from helping_functions.timeline_builder import *
+from helping_functions.sidebar import *
 
 
 st.set_page_config(
@@ -12,6 +13,7 @@ st.set_page_config(
 )
 st.title("Alexandros' Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
+render_sidebar(st.session_state, tabs="contact_only")
 
 # --- Timeline ---
 st.subheader("📅 Professional Timeline")
