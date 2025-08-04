@@ -72,9 +72,10 @@ with col2:
 st.markdown("""
 ---
 ### 📅 My Professional Timeline chart
-Explore key milestones across education, work experience, and certifications.  
-Use the filters below to focus on categories that interest you.
-""")
+<span style='font-size: 0.9em; color: gray;'>Explore key milestones 
+    <span title="Use the filters below to highlight specific types of events like education, certifications, or work experience.">🛈</span>
+</span>
+""", unsafe_allow_html=True)
 
 # --- Gantt chart ---
 # Load JSON file
@@ -88,7 +89,8 @@ all_tags = sorted({tag for e in timeline_json["events"] for tag in e.get("tags",
 selected_tags = st.multiselect(
     "Selected categories",
     options=all_tags,
-    default=all_tags  # default: show all
+    default=all_tags,  # default: show all
+    help="Select one or more categories to filter the timeline."
 )
 
 # Filter events based on selected tags

@@ -12,7 +12,7 @@
     "events": [
       {
         "start_date": { "month": "09", "year": "2014" },
-        "end_date": { "month": "03", "year": "2022" },
+        "end_date": { "month": "03", "year": "2022" , "day":30},
         "text": {
           "headline": "🎓 BSc Informatics & Telecommunications",
           "text": "Completed coursework and thesis at the University of Athens, focusing on software engineering and data systems."
@@ -21,7 +21,7 @@
       },
       {
         "start_date": { "month": "01", "year": "2015" },
-        "end_date": { "month": "08", "year": "2019" },
+        "end_date": { "month": "08", "year": "2019" , "day":30},
         "text": {
           "headline": "🛍️ Store Manager — Retail (Ekali)",
           "text": "Led operations, customer service, and sales strategy for a local retail business in Ekali, Athens."
@@ -30,7 +30,7 @@
       },
       {
         "start_date": { "month": "09", "year": "2021" },
-        "end_date": { "month": "01", "year": "2023" },
+        "end_date": { "month": "01", "year": "2023", "day":30 },
         "text": {
           "headline": "🚀 Data Engineer — Netcompany-Intrasoft",
           "text": "Designed and implemented big data pipelines using Spark and Scala for large-scale analytics on-premise."
@@ -39,7 +39,7 @@
       },
       {
         "start_date": { "month": "01", "year": "2023" },
-        "end_date": { "month": "09", "year": "2025" },
+        "end_date": { "month": "09", "year": "2025" , "day":30},
         "text": {
           "headline": "🚀 Data Engineer — Waymore (Present)",
           "text": "Built and led a real-time data platform using Spark, Kafka, and GCP; improved processing speed and system scalability."
@@ -48,7 +48,7 @@
       },
       {
         "start_date": { "month": "06", "year": "2025" },
-        "end_date": { "month": "07", "year": "2025" },
+        "end_date": { "month": "07", "year": "2025" , "day":30},
         "text": {
           "headline": "📘 Snowflake Data Engineering Specialization",
           "text": "Completed via Coursera. Focused on advanced data engineering techniques using Snowflake."
@@ -57,7 +57,7 @@
       },
       {
         "start_date": { "month": "01", "year": "2024" },
-        "end_date": { "month": "07", "year": "2024" },
+        "end_date": { "month": "07", "year": "2024" , "day":30},
         "text": {
           "headline": "📘 Google Advanced Data Analytics Specialization",
           "text": "Completed via Coursera. Covered advanced data analysis, statistics, and ML fundamentals."
@@ -66,7 +66,7 @@
       },
       {
         "start_date": { "month": "12", "year": "2022" },
-        "end_date": { "month": "05", "year": "2023" },
+        "end_date": { "month": "05", "year": "2023" , "day":30},
         "text": {
           "headline": "📘 Google Data Analytics Specialization",
           "text": "Completed via Coursera. Developed skills in SQL, data visualization, and project-based analysis."
@@ -75,7 +75,7 @@
       },
       {
         "start_date": { "month": "01", "year": "2022" },
-        "end_date": { "month": "02", "year": "2022" },
+        "end_date": { "month": "02", "year": "2022" , "day":28},
         "text": {
           "headline": "📘 Modern Big Data Analysis with SQL",
           "text": "Completed via Coursera by Cloudera. Focused on using SQL in big data environments."
@@ -84,7 +84,7 @@
       },
       {
         "start_date": { "month": "01", "year": "2021" },
-        "end_date": { "month": "01", "year": "2022" },
+        "end_date": { "month": "01", "year": "2022" , "day":30},
         "text": {
           "headline": "📘 Pedagogical and Teaching Competence",
           "text": "Certified by University of Athens. Training in education theory and classroom methodologies."
@@ -93,7 +93,7 @@
       },
       {
         "start_date": { "month": "03", "year": "2025" },
-        "end_date": { "month": "09", "year": "2025" },
+        "end_date": { "month": "09", "year": "2025" , "day":30},
         "text": {
           "headline": "📘 GCP Professional Data Engineer — In Progress",
           "text": "Currently studying for the Google Cloud Professional Data Engineer certification. Focused on designing, building, and managing scalable data infrastructure on GCP."
