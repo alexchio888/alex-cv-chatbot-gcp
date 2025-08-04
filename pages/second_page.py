@@ -4,6 +4,7 @@ import streamlit as st
 import json
 from timeline_builder import build_gantt_from_json
 
+
 st.set_page_config(layout="wide")
 
 st.title("📊 Alexandros' Career Overview")
