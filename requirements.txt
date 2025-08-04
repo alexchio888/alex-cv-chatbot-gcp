@@ -4,3 +4,4 @@ snowflake-ml-python==1.9.0
 pandas==2.1.4
 snowflake-connector-python==3.16.0
 plotly>=5.0.0
+sendgrid==6.9.1
