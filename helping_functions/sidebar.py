@@ -33,15 +33,26 @@ def _render_contact():
     st.sidebar.markdown("## 👤 Alexandros Chionidis")
     st.sidebar.markdown("---")
 
+    # Location
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.sidebar.markdown(
-        f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
-        f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
+        f'<p style="margin: 0 0 10px 0;">'
+        f'🏠 <a href="{maps_url}" target="_blank" style="text-decoration:none; color: inherit;">Melissia, Athens, Greece</a></p>',
+        unsafe_allow_html=True,
+    )
+
+    # Phone number (added)
+    phone_number = "+30 123 456 7890"  # Replace with your actual number
+    phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
+    st.sidebar.markdown(
+        f'<p style="margin: 0 0 10px 0; display: flex; align-items: center;">'
+        f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> {phone_number}</p>',
         unsafe_allow_html=True,
     )
 
     st.sidebar.markdown("---")
 
+    # Contact Links
     contact_links = [
         {
             "label": "LinkedIn",
@@ -69,7 +80,10 @@ def _render_contact():
 
     st.sidebar.markdown("---")
 
-    cv_html = """<a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" style="text-decoration:none; display: flex; align-items: center;">
+    # Download CV link
+    cv_html = """
+    <a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" 
+       style="text-decoration:none; display: flex; align-items: center;">
         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="20" style="margin-right:8px;" /> Download CV
     </a>"""
     st.sidebar.markdown(cv_html, unsafe_allow_html=True)
