@@ -53,31 +53,31 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
 
 
 # --- Page Setup ---
-
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-# st.title("🎓 Hi, I'm Alexandros Chionidis' Virtual Clone!")
-
 
 col1, col2 = st.columns([1, 6])
 with col1:
-    st.image("docs/avatar.png", width=560)  # adjust path/size as needed
+    st.image("docs/avatar.png", width=560)
 
 with col2:
     st.title("Hi, I'm Alexandros Chionidis' Virtual Clone!")
     st.markdown("""
     Welcome! 👋  
-    Feel free to ask me anything about my education, early life, or skills.  
-    I'm here to help you explore my journey and expertise.
+    I'm a chatbot trained on my career, education, and experiences.  
+    You can chat with me below, or explore my timeline visually.
     """)
-st.markdown("""
----
-### 📅 My Professional Timeline chart
-<span style='font-size: 0.9em; color: gray;'>Explore key milestones 
-    <span title="Use the filters below to highlight specific types of events like education, certifications, or work experience.">🛈</span>
-</span>
-""", unsafe_allow_html=True)
 
-# --- Gantt chart ---
+# --- Divider between chatbot and timeline ---
+st.markdown("---")
+
+# --- Timeline Section ---
+st.subheader("📅 Explore My Professional Timeline")
+st.markdown(
+    "Use the filters below to focus on specific areas like *education*, *work*, or *certifications*."
+)
+
+
+# # --- Gantt chart ---
 # Load JSON file
 with open("docs/timeline.json", "r") as f:
     timeline_json = json.load(f)
@@ -85,34 +85,36 @@ with open("docs/timeline.json", "r") as f:
 # Collect all unique tags
 all_tags = sorted({tag for e in timeline_json["events"] for tag in e.get("tags", [])})
 
-# Multiselect widget for filtering
-selected_tags = st.multiselect(
-    "Selected categories",
-    options=all_tags,
-    default=all_tags,  # default: show all
-    help="Select one or more categories to filter the timeline."
-)
 
-# Filter events based on selected tags
-filtered_events = [
-    e for e in timeline_json["events"]
-    if any(tag in e.get("tags", []) for tag in selected_tags)
-] if selected_tags else []  # if none selected, show nothing
+with st.container():
+    # Timeline filters
+    st.markdown("#### 🎯 Filter Timeline Categories")
+    selected_tags = st.multiselect(
+        label="",
+        options=all_tags,
+        default=all_tags,
+        help="These filters apply only to the timeline chart below."
+    )
 
-filtered_json = {
-    "title": timeline_json["title"],
-    "events": filtered_events
-}
+    # Filter timeline events
+    filtered_events = [
+        e for e in timeline_json["events"]
+        if any(tag in e.get("tags", []) for tag in selected_tags)
+    ] if selected_tags else []
 
-# Unified expander
-with st.expander("Click to expand timeline", expanded=False):
-    gantt_fig = build_gantt_from_json(filtered_json)
-    if gantt_fig and not gantt_fig.data == []:
-        st.plotly_chart(gantt_fig, use_container_width=True)
-    else:
-        st.info("No events match the selected categories.")
+    filtered_json = {
+        "title": timeline_json["title"],
+        "events": filtered_events
+    }
 
-st.divider()  # Second divider
+    # Expandable chart section
+    with st.expander("📊 Show/Hide Timeline Chart", expanded=False):
+        gantt_fig = build_gantt_from_json(filtered_json)
+        if gantt_fig and not gantt_fig.data == []:
+            st.plotly_chart(gantt_fig, use_container_width=True)
+        else:
+            st.info("No events match the selected categories.")
+
 
 
 def generate_chat_text():
