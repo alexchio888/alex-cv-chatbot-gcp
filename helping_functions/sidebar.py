@@ -150,7 +150,7 @@ def _render_prompts(st_session_state):
 
 
 def _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown):
-    st.markdown("### 📥 Download Chat History")
+    st.markdown("### Select download format")
     if "messages" in st_session_state and st_session_state.messages:
         chat_txt = generate_chat_text()
         chat_json = generate_chat_json()
