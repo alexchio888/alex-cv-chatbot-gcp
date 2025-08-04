@@ -31,7 +31,6 @@ def render_sidebar(
 
 def _render_contact():
     st.sidebar.markdown("## 👤 Alexandros Chionidis")
-    st.sidebar.markdown("---")
 
     # Location
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
@@ -42,15 +41,13 @@ def _render_contact():
     )
 
     # Phone number (added)
-    phone_number = "+30 123 456 7890"  # Replace with your actual number
+    phone_number = "+30 6933419882"  # Replace with your actual number
     phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
     st.sidebar.markdown(
         f'<p style="margin: 0 0 10px 0; display: flex; align-items: center;">'
         f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> {phone_number}</p>',
         unsafe_allow_html=True,
     )
-
-    st.sidebar.markdown("---")
 
     # Contact Links
     contact_links = [
@@ -77,8 +74,6 @@ def _render_contact():
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
-
-    st.sidebar.markdown("---")
 
     # Download CV link
     cv_html = """
