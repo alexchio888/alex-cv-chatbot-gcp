@@ -92,7 +92,7 @@ def _render_prompts(st_session_state):
         "Work Experience": ["What was your role at Netcompany - Intrasoft?", "Describe your work at Waymore.", "What is your work experience besides tech?"],
         "Skills & Tools": ["What technologies are you proficient with?", "How do you use Spark and Kafka in your work?", "Tell me about your experience with GCP."],
         "Certifications": ["Do you have any certifications?", "Are you planning to get any certifications soon?"],
-        "Projects": ["Can you describe a key data engineering project?", "What was your biggest technical challenge?"],
+        "Projects": ["Can you describe a major data engineering project?", "What was your biggest technical challenge you faced?"],
     }
 
     for category, prompts in categories.items():
