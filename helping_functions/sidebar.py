@@ -49,26 +49,26 @@ def render_sidebar(
 
     # --- FEEDBACK FORM ---
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### 💬 Feedback")
-    
-    with st.sidebar.form("feedback_form"):
-        rating = st.radio(
-            "How helpful was this chatbot?", 
-            ["Very helpful", "Somewhat helpful", "Not helpful"],
-            index=0
-        )
-        comments = st.text_area("Additional comments")
-        email = st.text_input("Your email (optional)")
-        submitted = st.form_submit_button("Submit Feedback")
+    with st.sidebar.expander("💬 Feedback", expanded=False):
         
-    if submitted:
-        feedback_text = f"Rating: {rating}\nComments: {comments}"
-        user_email = email if email.strip() else None
-        success = send_feedback_email(feedback_text, user_email)
-        if success:
-            st.success("Thanks for your feedback! 🙌")
-        else:
-            st.error("Oops! Something went wrong sending your feedback. Please try again later.")
+        with st.sidebar.form("feedback_form"):
+            rating = st.radio(
+                "How helpful was this chatbot?", 
+                ["Very helpful", "Somewhat helpful", "Not helpful"],
+                index=0
+            )
+            comments = st.text_area("Additional comments")
+            email = st.text_input("Your email (optional)")
+            submitted = st.form_submit_button("Submit Feedback")
+            
+        if submitted:
+            feedback_text = f"Rating: {rating}\nComments: {comments}"
+            user_email = email if email.strip() else None
+            success = send_feedback_email(feedback_text, user_email)
+            if success:
+                st.success("Thanks for your feedback! 🙌")
+            else:
+                st.error("Oops! Something went wrong sending your feedback. Please try again later.")
 
     # --- FOOTER ---
     st.sidebar.markdown("---")
