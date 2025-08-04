@@ -1,25 +1,11 @@
 import streamlit as st
-import plotly.graph_objects as go
 
 def render_skills_dashboard(skills_data):
     """
-    Render a skills overview dashboard using bar charts per skill category.
-    Args:
-        skills_data (dict): Skills JSON structure with:
-            {
-              "title": str,
-              "categories": [
-                {
-                  "name": str,
-                  "skills": [
-                    {"name": str, "level": int (1–10), "experience_years": float (optional)},
-                    ...
-                  ]
-                },
-                ...
-              ]
-            }
+    Render a compact, clear skill block layout with star ratings and experience tooltips.
     """
+    st.subheader("🧠 Skills Overview")
+
     categories = skills_data.get("categories", [])
     if not categories:
         st.info("No skills data available.")
@@ -27,31 +13,22 @@ def render_skills_dashboard(skills_data):
 
     for category in categories:
         st.markdown(f"### {category['name']}")
-        skills = category.get("skills", [])
-        if not skills:
-            st.markdown("_No skills listed._")
-            continue
+        cols = st.columns(2)  # Two-column layout for compact view
+        for idx, skill in enumerate(category.get("skills", [])):
+            name = skill.get("name", "Unnamed Skill")
+            level = skill.get("level", 0)
+            experience = skill.get("experience_years", None)
 
-        fig = go.Figure()
-        fig.add_trace(go.Bar(
-            x=[skill["level"] for skill in skills],
-            y=[skill["name"] for skill in skills],
-            orientation='h',
-            marker=dict(color='lightskyblue'),
-            hovertext=[
-                f"{skill.get('experience_years', '?')} years experience"
-                for skill in skills
-            ],
-            hoverinfo='text+x'
-        ))
+            stars = "⭐" * level + "☆" * (10 - level)
 
-        fig.update_layout(
-            xaxis=dict(title='Skill Level (1–10)', range=[0, 10]),
-            yaxis=dict(autorange="reversed"),  # Reverse to show top-down
-            margin=dict(l=80, r=20, t=30, b=30),
-            height=40 * len(skills) + 60,
-            template="plotly_white",
-            showlegend=False
-        )
-
-        st.plotly_chart(fig, use_container_width=True)
+            tooltip = f"{experience} years experience" if experience is not None else "Experience not available"
+            with cols[idx % 2]:
+                st.markdown(
+                    f"""
+                    <div style="margin-bottom: 8px;">
+                        <strong title="{tooltip}">{name}</strong><br>
+                        <span style="font-size: 1.1em;">{stars}</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
