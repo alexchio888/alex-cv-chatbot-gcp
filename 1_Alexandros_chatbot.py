@@ -134,7 +134,9 @@ session = create_session()
 
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
-
+if "show_feedback_form" not in st.session_state:
+    st.session_state.show_feedback_form = False
+    
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
 
