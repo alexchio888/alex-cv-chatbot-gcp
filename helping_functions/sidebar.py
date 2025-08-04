@@ -9,8 +9,8 @@ def render_sidebar(
 ):
     # Always render contact info at top
     _render_contact()
-    st.sidebar.markdown("---")
     if show_tabs:
+        st.sidebar.markdown("---")
         tab_prompts, tab_download, tab_settings = st.sidebar.tabs(
             ["💡 Try Asking", "💬 Export Chat", "⚙️ Settings"]
         )
