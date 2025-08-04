@@ -9,9 +9,9 @@ import io
 import time
 import streamlit.components.v1 as components
 
-from timeline_builder import *
-from sidebar import *
-from session_tracker import *
+from helping_functions.timeline_builder import *
+from helping_functions.sidebar import *
+from helping_functions.session_tracker import *
 
 
 def get_previous_chat_context(n=5):
