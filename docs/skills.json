@@ -12,7 +12,7 @@
         ]
       },
       {
-        "name": "Big Data & Streaming Technologies",
+        "name": "Big Data & Streaming",
         "skills": [
           {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 8, "experience_years": 4},
           {"name": "Spark", "level": 8, "experience_years": 4},
@@ -55,33 +55,46 @@
         "skills": [
           {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
           {"name": "Tableau", "level": 4, "experience_years": 1},
-          {"name": "Apache Superset", "level": 7, "experience_years": 2}
+          {"name": "Apache Superset", "level": 7, "experience_years": 2},
+          {"name": "Power BI", "level": 1, "experience_years": 0}
         ]
       },
       {
-        "name": "Machine Learning & Data Science",
+        "name": "Machine Learning and AI",
         "skills": [
+          {"name": "Feature Engineering", "level": 6, "experience_years": 3},
+          {"name": "Spark (Core & MLlib)", "level": 5, "experience_years": 3},
           {"name": "Scikit-learn", "level": 3, "experience_years": 2},
-          {"name": "TensorFlow", "level": 2, "experience_years": 2}
+          {"name": "TensorFlow", "level": 2, "experience_years": 2},
+          {"name": "LLM & RAG", "level": 4, "experience_years": 1}
         ]
-      },
+      },      
       {
         "name": "Operating Systems",
         "skills": [
           {"name": "Windows", "level": 8, "experience_years": 6},
-          {"name": "Ubuntu/Linux", "level": 8, "experience_years": 4},
+          {"name": "Linux", "level": 8, "experience_years": 4},
           {"name": "MacOS", "level": 9, "experience_years": 6}
         ]
       },
       {
+        "name": "Development Tools & Version Control",
+        "skills": [
+          {"name": "Git", "level": 7, "experience_years": 4},
+          {"name": "Jira", "level": 7, "experience_years": 4},
+          {"name": "Confluence", "level": 6, "experience_years": 2},
+          {"name": "CI/CD Basics", "level": 4, "experience_years": 1}
+        ]
+      },      
+      {
         "name": "Soft Skills & Agile Methodologies",
         "skills": [
-          {"name": "Technical Ownership", "level": 9},
+          {"name": "Technical Ownership", "level": 8},
           {"name": "Stakeholder Communication", "level": 9},
           {"name": "Problem Solving & Critical Thinking", "level": 9},
-          {"name": "Cross-Functional Collaboration", "level": 9},
+          {"name": "Cross-Functional Collaboration", "level": 8},
           {"name": "Product-Oriented Thinking", "level": 7},
-          {"name": "Agile Methodologies (Scrum, Jira, Kanban)", "level": 8},
+          {"name": "Agile Methodologies", "level": 7},
           {"name": "Collaboration & Knowledge Sharing", "level": 9},
           {"name": "Detail Orientation", "level": 9}
         ]
