@@ -53,6 +53,7 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
 
 
 # --- Page Setup ---
+st.set_page_config(page_title="Chat with Alexandros", page_icon="🤖")
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 col1, col2 = st.columns([1, 6])
@@ -69,52 +70,6 @@ with col2:
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
-
-# --- Timeline Section ---
-st.subheader("📅 Explore My Professional Timeline")
-st.markdown(
-    "Use the filters below to focus on specific areas like *education*, *work*, or *certifications*."
-)
-
-
-# # --- Gantt chart ---
-# Load JSON file
-with open("docs/timeline.json", "r") as f:
-    timeline_json = json.load(f)
-
-# Collect all unique tags
-all_tags = sorted({tag for e in timeline_json["events"] for tag in e.get("tags", [])})
-
-
-with st.container():
-    # Timeline filters
-    st.markdown("#### 🎯 Filter Timeline Categories")
-    selected_tags = st.multiselect(
-        label="",
-        options=all_tags,
-        default=all_tags,
-        help="These filters apply only to the timeline chart below."
-    )
-
-    # Filter timeline events
-    filtered_events = [
-        e for e in timeline_json["events"]
-        if any(tag in e.get("tags", []) for tag in selected_tags)
-    ] if selected_tags else []
-
-    filtered_json = {
-        "title": timeline_json["title"],
-        "events": filtered_events
-    }
-
-    # Expandable chart section
-    with st.expander("📊 Show/Hide Timeline Chart", expanded=False):
-        gantt_fig = build_gantt_from_json(filtered_json)
-        if gantt_fig and not gantt_fig.data == []:
-            st.plotly_chart(gantt_fig, use_container_width=True)
-        else:
-            st.info("No events match the selected categories.")
-
 
 
 def generate_chat_text():
