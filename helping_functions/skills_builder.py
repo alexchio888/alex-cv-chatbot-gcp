@@ -10,14 +10,14 @@ def render_skills_dashboard(skills_data):
 
     for category in categories:
         st.markdown(f"### {category['name']}")
-        cols = st.columns(2)
 
-        for idx, skill in enumerate(category["skills"]):
-            with cols[idx % 2]:
-                render_skill_card(skill)
+        for skill in category["skills"]:
+            render_skill_row(skill)
+
+        st.markdown("---")
 
 
-def render_skill_card(skill):
+def render_skill_row(skill):
     name = skill.get("name", "Unnamed Skill")
     level = skill.get("level", 0)
     exp = skill.get("experience_years", "?")
@@ -26,15 +26,13 @@ def render_skill_card(skill):
 
     st.markdown(
         f"""
-        <div style="
-            background-color: #f8f9fa;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-            margin-bottom: 10px;
-        ">
-            <strong>{name}</strong><br>
-            <abbr title='{exp} years experience'>{stars}</abbr>
+        <div style="display: flex; justify-content: space-between; align-items: center;
+                    padding: 6px 10px; border-bottom: 1px solid #DDD;">
+            <div style="white-space: nowrap; font-family: monospace;">{stars}</div>
+            <div style="text-align: right;">
+                <strong>{name}</strong><br>
+                <span style="font-size: 0.85em; color: gray;">{exp} years</span>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
