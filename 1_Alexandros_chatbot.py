@@ -136,7 +136,7 @@ if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
 if "show_feedback_form" not in st.session_state:
     st.session_state.show_feedback_form = False
-    
+
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
 
@@ -408,18 +408,19 @@ elif intent == "farewell":
         simulate_typing(response)
         st.info("💾 You can download the chat history anytime from the sidebar")
 
-    # Show feedback button or form
+    # Feedback button
     if st.button("💬 Give Feedback"):
         st.session_state.show_feedback_form = True
 
-    if st.session_state.get("show_feedback_form", False):
+    # Show feedback form if triggered
+    if st.session_state.show_feedback_form:
         with st.form("feedback_form"):
             rating = st.radio("How helpful was this chat?", ["Very helpful", "Somewhat helpful", "Not helpful"])
             comments = st.text_area("Additional comments (optional):")
             email = st.text_input("Your email (optional):")
             submitted = st.form_submit_button("Submit Feedback")
             if submitted:
-                # Here you can handle feedback: save, send email, etc.
+                # Handle feedback here (save, send email, etc)
                 st.success("Thank you for your feedback!")
                 st.session_state.show_feedback_form = False
 
