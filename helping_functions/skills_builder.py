@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.graph_objects as go
 
 def render_skills_dashboard(skills_data):
     st.subheader("🧠 Skills Overview")
@@ -10,33 +9,33 @@ def render_skills_dashboard(skills_data):
         return
 
     for category in categories:
-        st.markdown(f"#### {category['name']}")
+        st.markdown(f"### {category['name']}")
+        cols = st.columns(2)
 
-        fig = go.Figure()
+        for idx, skill in enumerate(category["skills"]):
+            with cols[idx % 2]:
+                render_skill_card(skill)
 
-        for skill in category.get("skills", []):
-            fig.add_trace(go.Bar(
-                x=[skill["level"]],
-                y=[skill["name"]],
-                orientation='h',
-                hovertemplate=f"{skill['experience_years']} years experience",
-                marker=dict(
-                    color="#1f77b4",
-                    line=dict(color='rgba(0,0,0,0)', width=1)
-                ),
-                text=[f"{skill['level']}/10"],
-                textposition='outside',
-                width=0.4
-            ))
 
-        fig.update_layout(
-            height=300 + len(category["skills"]) * 20,
-            xaxis=dict(title="Skill Level", range=[0, 10]),
-            yaxis=dict(autorange="reversed"),
-            margin=dict(l=50, r=20, t=20, b=30),
-            plot_bgcolor="#f9f9f9",
-            paper_bgcolor="#f9f9f9",
-            showlegend=False
-        )
+def render_skill_card(skill):
+    name = skill.get("name", "Unnamed Skill")
+    level = skill.get("level", 0)
+    exp = skill.get("experience_years", "?")
 
-        st.plotly_chart(fig, use_container_width=True)
+    stars = "⭐" * level + "☆" * (10 - level)
+
+    st.markdown(
+        f"""
+        <div style="
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            margin-bottom: 10px;
+        ">
+            <strong>{name}</strong><br>
+            <abbr title='{exp} years experience'>{stars}</abbr>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
