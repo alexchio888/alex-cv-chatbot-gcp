@@ -14,7 +14,7 @@ from helping_functions.sidebar import *
 from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
 
-with open("docs/skills_data.json", "r") as f:
+with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
 skills_summary_text = get_compact_skill_summary(skills_data)
 
