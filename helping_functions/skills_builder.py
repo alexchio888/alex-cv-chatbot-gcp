@@ -1,8 +1,6 @@
 import streamlit as st
 
 def render_skills_dashboard(skills_data):
-    st.subheader("🧠 Skills Overview")
-
     categories = skills_data.get("categories", [])
     if not categories:
         st.info("No skills data available.")

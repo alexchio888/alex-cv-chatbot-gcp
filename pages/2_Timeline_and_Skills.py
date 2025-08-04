@@ -16,6 +16,16 @@ st.title("Alexandros' Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
 render_sidebar(st.session_state, show_tabs=False)
 
+
+# --- Skills ---
+st.subheader("🧠 Skills Overview")
+with open("docs/skills.json", "r") as f:
+    skills_json = json.load(f)
+
+# Render the skills dashboard
+render_skills_dashboard(skills_json)
+
+
 # --- Timeline ---
 st.subheader("📅 Professional Timeline")
 
@@ -44,12 +54,3 @@ if st.checkbox("Show timeline chart", value=True):
     else:
         st.info("No events match the selected categories.")
 
-# --- Skills placeholder ---
-st.subheader("🧠 Skills Overview (Coming Soon)")
-st.info("This section will show my ranked skills, tools, and strengths in the near future.")
-# Load your skills JSON
-with open("docs/skills.json", "r") as f:
-    skills_json = json.load(f)
-
-# Render the skills dashboard
-render_skills_dashboard(skills_json)
