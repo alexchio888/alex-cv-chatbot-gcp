@@ -53,9 +53,12 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
 
 
 # --- Page Setup ---
-st.set_page_config(page_title="Chat with Alexandros", page_icon="🤖")
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-
+st.set_page_config(
+    page_title="Chat with Alexandros",
+    page_icon="🤖",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 col1, col2 = st.columns([1, 6])
 with col1:
     st.image("docs/avatar.png", width=560)

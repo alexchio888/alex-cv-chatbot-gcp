@@ -5,9 +5,11 @@ import json
 from timeline_builder import build_gantt_from_json
 
 
-st.set_page_config(layout="wide")
-st.set_page_config(page_title="Career Timeline & Skills", page_icon="📊")
-
+st.set_page_config(
+    page_title="Career Timeline & Skills",
+    page_icon="📊",
+    layout="wide"
+)
 st.title("Alexandros' Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
 
