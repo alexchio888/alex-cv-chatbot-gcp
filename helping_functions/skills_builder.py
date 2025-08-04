@@ -6,30 +6,15 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    # Create tabs dynamically for each category
     tabs = st.tabs([cat["name"] for cat in categories])
 
     for tab, category in zip(tabs, categories):
         with tab:
-            # # Category card wrapper without title
-            # st.markdown(
-            #     f"""
-            #     <div style="
-            #         background-color: rgba(220, 220, 220, 0.1);
-            #         border-radius: 15px;
-            #         padding: 20px;
-            #         margin-bottom: 25px;
-            #         border: 1.5px solid rgba(180, 180, 180, 0.3);
-            #         box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-            #     ">
-            #     """,
-            #     unsafe_allow_html=True
-            # )
+            # Sort skills by level descending before rendering
+            sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
-            for skill in category["skills"]:
+            for skill in sorted_skills:
                 render_skill_row(skill)
-
-            st.markdown("</div>", unsafe_allow_html=True)
 
 
 def render_skill_row(skill):

@@ -2,19 +2,19 @@
     "title": "Alexandros Chionidis' Skills Overview",
     "categories": [
       {
-        "name": "Programming Languages",
+        "name": "Programming & Scripting Languages",
         "skills": [
           {"name": "Python", "level": 8, "experience_years": 4},
           {"name": "SQL", "level": 9, "experience_years": 4},
           {"name": "Scala", "level": 5, "experience_years": 2},
-          {"name": "Bash/Shell scripting", "level": 4, "experience_years": 3},
+          {"name": "Bash/Shell scripting", "level": 6, "experience_years": 3},
           {"name": "R", "level": 3, "experience_years": 1}
         ]
       },
       {
-        "name": "Big Data Tools & Platforms",
+        "name": "Big Data & Streaming Technologies",
         "skills": [
-          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 10, "experience_years": 4},
+          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 8, "experience_years": 4},
           {"name": "Spark", "level": 8, "experience_years": 4},
           {"name": "Kafka", "level": 6, "experience_years": 2},
           {"name": "Airflow", "level": 9, "experience_years": 4},
@@ -26,14 +26,32 @@
         "skills": [
           {"name": "Cassandra", "level": 5, "experience_years": 2},
           {"name": "Trino", "level": 8, "experience_years": 2},
-          {"name": "Impala", "level": 6, "experience_years": 2},
-          {"name": "Snowflake", "level": 4, "experience_years": 1},
+          {"name": "Impala", "level": 7, "experience_years": 2},
           {"name": "PostgreSQL", "level": 6, "experience_years": 2},
           {"name": "MySQL", "level": 6, "experience_years": 3}
         ]
       },
       {
-        "name": "Data Visualization",
+        "name": "Cloud & Modern Stack",
+        "skills": [
+          {"name": "Google Cloud Platform (GCP)", "level": 4, "experience_years": 1},
+          {"name": "Snowflake", "level": 5, "experience_years": 1},
+          {"name": "Microsoft Azure", "level": 1, "experience_years": 0},
+          {"name": "AWS", "level": 1, "experience_years": 0}
+        ]
+      },
+      {
+        "name": "Data Warehousing & Lakehouse Solutions",
+        "skills": [
+          {"name": "Delta Lake", "level": 7, "experience_years": 2},
+          {"name": "Snowflake", "level": 4, "experience_years": 1},
+          {"name": "Hive", "level": 8, "experience_years": 4},
+          {"name": "Impala", "level": 7, "experience_years": 2},
+          {"name": "Trino", "level": 8, "experience_years": 2}
+        ]
+      },
+      {
+        "name": "Data Visualization & BI Tools",
         "skills": [
           {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
           {"name": "Tableau", "level": 4, "experience_years": 1},
@@ -41,7 +59,7 @@
         ]
       },
       {
-        "name": "Machine Learning",
+        "name": "Machine Learning & Data Science",
         "skills": [
           {"name": "Scikit-learn", "level": 3, "experience_years": 2},
           {"name": "TensorFlow", "level": 2, "experience_years": 2}
@@ -50,13 +68,13 @@
       {
         "name": "Operating Systems",
         "skills": [
-            {"name": "Windows", "level": 8, "experience_years": 6},
-            {"name": "Ubuntu", "level": 7, "experience_years": 4},
-            {"name": "MacOS", "level": 9, "experience_years": 6}
+          {"name": "Windows", "level": 8, "experience_years": 6},
+          {"name": "Ubuntu/Linux", "level": 8, "experience_years": 4},
+          {"name": "MacOS", "level": 9, "experience_years": 6}
         ]
       },
       {
-        "name": "Soft Skills & Methodologies",
+        "name": "Soft Skills & Agile Methodologies",
         "skills": [
           {"name": "Technical Ownership", "level": 9},
           {"name": "Stakeholder Communication", "level": 9},
