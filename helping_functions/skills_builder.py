@@ -68,3 +68,14 @@ def render_skill_row(skill):
         """,
         unsafe_allow_html=True
     )
+
+def get_compact_skill_summary(skills_data):
+    lines = []
+    for category in skills_data.get("categories", []):
+        lines.append(f"{category['name']}:")
+        for skill in category["skills"]:
+            name = skill["name"]
+            level = skill.get("level", "?")
+            lines.append(f"  - {name} (Lv {level}/10)")
+        lines.append("")  # blank line between categories
+    return "\n".join(lines)
