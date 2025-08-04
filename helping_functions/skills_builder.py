@@ -9,7 +9,7 @@ def render_skills_dashboard(skills_data):
     category_names = [cat["name"] for cat in categories]
 
     # Number of columns to split the categories into
-    num_cols = 4  
+    num_cols = 3  
     cols = st.columns(num_cols)
 
     # Flatten buttons into columns in round-robin fashion
