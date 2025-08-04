@@ -7,41 +7,9 @@ def render_skills_dashboard(skills_data):
         return
 
     category_names = [cat["name"] for cat in categories]
+    selected_category = st.selectbox("Select Category", category_names)
 
-    # Use session state to remember selection across reruns
-    if "selected_category" not in st.session_state:
-        st.session_state.selected_category = category_names[0]
-
-    # Render horizontal category selector
-    cols = st.columns(len(category_names))
-    for idx, cat in enumerate(category_names):
-        is_selected = (cat == st.session_state.selected_category)
-        button_style = """
-            background-color: #4A90E2; 
-            color: white; 
-            font-weight: bold;
-            border-radius: 20px;
-            padding: 8px 20px;
-            border: none;
-            cursor: pointer;
-            """ if is_selected else """
-            background-color: #eee;
-            color: #444;
-            border-radius: 20px;
-            padding: 8px 20px;
-            border: none;
-            cursor: pointer;
-            """
-
-        with cols[idx]:
-            if st.button(cat, key=f"cat_{cat}", help=f"Select {cat}", 
-                         args=None, kwargs=None):
-                st.session_state.selected_category = cat
-            # Hack: Use markdown with button styling instead of real button to style better
-            st.markdown(f'<div style="{button_style}; text-align:center;">{cat}</div>', unsafe_allow_html=True)
-
-    # Find selected category data and show skills sorted by level desc
-    category = next(cat for cat in categories if cat["name"] == st.session_state.selected_category)
+    category = next(cat for cat in categories if cat["name"] == selected_category)
     sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
     for skill in sorted_skills:
