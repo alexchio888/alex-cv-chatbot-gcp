@@ -47,27 +47,31 @@ def render_sidebar(
         with tab_settings:
             _render_settings(st_session_state)
 
-    # # --- FEEDBACK FORM ---
-    # st.sidebar.markdown("---")
-    # with st.sidebar.expander("💬 Feedback", expanded=False):
-    #     with st.form("feedback_form"):
-    #         rating = st.radio(
-    #             "How helpful was this chatbot?", 
-    #             ["Very helpful", "Somewhat helpful", "Not helpful"],
-    #             index=0
-    #         )
-    #         comments = st.text_area("Additional comments", placeholder="Share your thoughts...")
-    #         email = st.text_input("Your email (optional)", placeholder="email@example.com")
-    #         submitted = st.form_submit_button("Submit Feedback")
-            
-    #         if submitted:
-    #             feedback_text = f"Rating: {rating}\nComments: {comments}"
-    #             user_email = email if email.strip() else None
-    #             success = send_feedback_email(feedback_text, user_email)
-    #             if success:
-    #                 st.success("Thanks for your feedback! 🙌")
-    #             else:
-    #                 st.error("Oops! Something went wrong sending your feedback. Please try again later.")
+    # --- FEEDBACK FORM ---
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 💬 We value your feedback")
+
+    with st.sidebar.form("feedback_form", clear_on_submit=True):
+        rating = st.radio(
+            "How helpful was this chatbot?", 
+            ["Very helpful", "Somewhat helpful", "Not helpful"],
+            index=0,
+            horizontal=True  # makes it look cleaner inline
+        )
+        comments = st.text_area("Additional comments", placeholder="Share your thoughts...")
+        name = st.text_input("Your name (optional)", placeholder="John Doe")
+        email = st.text_input("Your email (optional)", placeholder="email@example.com")
+        
+        submitted = st.form_submit_button("Submit Feedback")
+        
+        if submitted:
+            feedback_text = f"Rating: {rating}\nComments: {comments}\nName: {name or 'Anonymous'}"
+            user_email = email if email.strip() else None
+            success = send_feedback_email(feedback_text, user_email)
+            if success:
+                st.success("Thanks for your feedback! 🙌")
+            else:
+                st.error("Oops! Something went wrong sending your feedback. Please try again later.")
     # --- FOOTER ---
     st.sidebar.markdown("---")
     st.sidebar.markdown(
