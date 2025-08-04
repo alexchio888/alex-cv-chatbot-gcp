@@ -408,4 +408,4 @@ elif intent == "farewell":
             message_type="response"
         )
         simulate_typing(response)
-        st.info("💾 You can download the chat history anytime from the sidebar")
+        st.info("Thanks for chatting! You can download the chat history anytime, and I’d appreciate any feedback you share in the sidebar. 😊")

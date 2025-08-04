@@ -51,7 +51,8 @@ def render_sidebar(
     with st.sidebar:
         st.markdown("---")  # horizontal separator
         st.markdown('<div style="margin-top:30px;"></div>', unsafe_allow_html=True)
-        st.markdown("**We’d love to hear your thoughts!**")
+        st.markdown("**I’d love to hear your thoughts! 💬**")
+
 
         comments = st.text_area("Your feedback", placeholder="Share your thoughts or suggestions here...")
         email = st.text_input("Your name (optional)")
