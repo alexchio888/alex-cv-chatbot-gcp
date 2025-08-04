@@ -6,21 +6,13 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    category_names = [cat["name"] for cat in categories]
+    tabs = st.tabs([cat["name"] for cat in categories])
+    for tab, category in zip(tabs, categories):
+        with tab:
+            sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
+            for skill in sorted_skills:
+                render_skill_row(skill)
 
-    # Create horizontal radio buttons
-    cols = st.columns(len(category_names))
-    selected_category = None
-    for i, cat_name in enumerate(category_names):
-        with cols[i]:
-            if st.radio("", [cat_name], index=0, key=f"cat_radio_{i}"):
-                selected_category = cat_name
-
-    category = next(cat for cat in categories if cat["name"] == selected_category)
-    sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
-
-    for skill in sorted_skills:
-        render_skill_row(skill)
 
 
 
