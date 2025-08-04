@@ -25,6 +25,26 @@ def send_feedback_email(feedback_text, user_email=None):
         print("Error sending feedback email:", e)
         return False
 
+def star_rating():
+    # Unicode stars, can be replaced with icons if needed
+    stars = ["☆", "☆", "☆", "☆", "☆"]
+    selected = st.session_state.get("rating", 0)
+    
+    cols = st.columns(5)
+    for i in range(5):
+        star_label = stars.copy()
+        for j in range(i + 1):
+            star_label[j] = "★"  # filled star
+        if cols[i].button("".join(star_label), key=f"star_{i}"):
+            st.session_state.rating = i + 1
+    
+    rating = st.session_state.get("rating", 0)
+    if rating > 0:
+        st.caption(f"Your rating: {rating} star{'s' if rating > 1 else ''}")
+    else:
+        st.caption("Tap a star to rate")
+
+    return rating
 
 def render_sidebar(
     st_session_state,
@@ -49,29 +69,31 @@ def render_sidebar(
 
     # --- FEEDBACK FORM ---
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### 💬 We value your feedback")
-
-    with st.sidebar.form("feedback_form", clear_on_submit=True):
-        rating = st.radio(
-            "How helpful was this chatbot?", 
-            ["Very helpful", "Somewhat helpful", "Not helpful"],
-            index=0,
-            horizontal=True  # makes it look cleaner inline
+    with st.sidebar:
+        st.markdown("## 💬 Feedback")
+        st.markdown(
+            "How helpful was this chatbot? Please rate and share your thoughts."
         )
-        comments = st.text_area("Additional comments", placeholder="Share your thoughts...")
-        name = st.text_input("Your name (optional)", placeholder="John Doe")
-        email = st.text_input("Your email (optional)", placeholder="email@example.com")
         
-        submitted = st.form_submit_button("Submit Feedback")
-        
-        if submitted:
-            feedback_text = f"Rating: {rating}\nComments: {comments}\nName: {name or 'Anonymous'}"
-            user_email = email if email.strip() else None
-            success = send_feedback_email(feedback_text, user_email)
-            if success:
-                st.success("Thanks for your feedback! 🙌")
+        rating = star_rating()
+
+        comments = st.text_area("Additional comments (optional)", placeholder="Tell us how we can improve...")
+        name = st.text_input("Your name (optional)")
+        email = st.text_input("Your email (optional)")
+
+        if st.button("Submit Feedback"):
+            if rating == 0:
+                st.warning("Please select a star rating before submitting.")
             else:
-                st.error("Oops! Something went wrong sending your feedback. Please try again later.")
+                feedback_text = f"Rating: {rating}\nComments: {comments}\nName: {name or 'Anonymous'}"
+                user_email = email if email.strip() else None
+                success = send_feedback_email(feedback_text, user_email)
+                if success:
+                    st.success("Thanks for your feedback! 🙌")
+                    st.session_state.rating = 0  # reset rating
+                else:
+                    st.error("Oops! Something went wrong sending your feedback. Please try again later.")
+
     # --- FOOTER ---
     st.sidebar.markdown("---")
     st.sidebar.markdown(
