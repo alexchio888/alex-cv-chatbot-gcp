@@ -143,3 +143,9 @@ def render_sidebar(st_session_state, generate_chat_text, generate_chat_json, gen
             step=2,
             help="How many previous messages to include in the prompt context."
         )
+    # --- FOOTER ---
+    st.markdown("---")
+    st.markdown(
+        '<p style="font-size: 0.8em; color: gray;">Made by Alexandros • <a href="https://github.com/alexchio888" target="_blank">GitHub</a></p>',
+        unsafe_allow_html=True
+    )
