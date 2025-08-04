@@ -13,7 +13,7 @@ st.set_page_config(
 )
 st.title("Alexandros' Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
-render_sidebar(st.session_state, tabs="contact_only")
+render_sidebar(st.session_state, show_tabs=False)
 
 # --- Timeline ---
 st.subheader("📅 Professional Timeline")
