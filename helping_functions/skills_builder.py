@@ -8,17 +8,36 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    # Split categories into pairs
-    for i in range(0, len(categories), 2):
-        pair = categories[i:i + 2]
-        cols = st.columns(2)
+    for category in categories:
+        # Category card wrapper
+        st.markdown(
+            f"""
+            <div style="
+                background-color: rgba(220, 220, 220, 0.1);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 25px;
+                border: 1.5px solid rgba(180, 180, 180, 0.3);
+                box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            ">
+                <h3 style="
+                    border-left: 6px solid #4A90E2;  /* accent color bar */
+                    padding-left: 12px;
+                    margin-bottom: 18px;
+                    font-weight: 700;
+                    color: #333;
+                ">{category['name']}</h3>
+            """,
+            unsafe_allow_html=True
+        )
 
-        for idx, category in enumerate(pair):
-            with cols[idx]:
-                st.markdown(f"### {category['name']}")
-                for skill in category["skills"]:
-                    render_skill_row(skill)
+        for skill in category["skills"]:
+            render_skill_row(skill)
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # Optional separator between categories
+        # st.markdown("---")
 
 def render_skill_row(skill):
     name = skill.get("name", "Unnamed Skill")
