@@ -22,12 +22,15 @@ def render_sidebar(
             _render_settings(st_session_state)
 
     # --- FOOTER ---
+    # Add a big empty spacer (adjust height as needed)
+    st.sidebar.markdown("<div style='height: 400px;'></div>", unsafe_allow_html=True)
+
+    # Then render the footer
     st.sidebar.markdown("---")
     st.sidebar.markdown(
-        '<p style="font-size: 0.8em; color: gray;">Made by Alexandros • <a href="https://github.com/alexchio888" target="_blank">GitHub</a></p>',
+        '<p style="font-size: 0.8em; color: gray;">Made by Alexandros • <a href="https://github.com/alexchio888" target="_blank" style="color: gray;">GitHub</a></p>',
         unsafe_allow_html=True
     )
-
 
 def _render_contact():
     # Location with bottom margin for spacing
