@@ -26,19 +26,28 @@ def render_skill_row(skill):
     exp = skill.get("experience_years", "?")
 
     stars_html = ''.join([
-        f'<span style="font-size: 1.2em; color: gold;">⭐</span>' if i < level
-        else f'<span style="font-size: 1.2em; color: #ccc;">☆</span>'
+        f'<span style="font-size: 1.1em; color: gold;">⭐</span>' if i < level
+        else f'<span style="font-size: 1.1em; color: #999;">☆</span>'
         for i in range(10)
     ])
 
     st.markdown(
         f"""
-        <div style="display: flex; justify-content: space-between; align-items: center;
-                    padding: 6px 10px; border-bottom: 1px solid #DDD;">
+        <div style="
+            background-color: rgba(240, 240, 240, 0.05); 
+            padding: 12px 16px; 
+            margin-bottom: 10px; 
+            border-radius: 10px; 
+            border: 1px solid rgba(200, 200, 200, 0.15); 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        ">
             <div>{stars_html}</div>
             <div style="text-align: right;">
-                <strong>{name}</strong><br>
-                <span style="font-size: 0.85em; color: gray;">{exp} years</span>
+                <strong style="font-size: 0.95em;">{name}</strong><br>
+                <span style="font-size: 0.8em; color: gray;">{exp} years</span>
             </div>
         </div>
         """,
