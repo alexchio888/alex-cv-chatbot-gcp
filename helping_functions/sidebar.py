@@ -90,7 +90,7 @@ def _render_prompts(st_session_state):
     categories = {
         "Education": ["Where did you study?", "Tell me about your academic background."],
         "Work Experience": ["What was your role at Netcompany - Intrasoft?", "Describe your work at Waymore.", "What is your work experience besides tech?"],
-        "Skills & Tools": ["What technologies are you proficient with?", "How do you use Spark and Kafka in your work?", "Tell me about your experience with GCP."],
+        "Skills & Tools": ["What technologies are you proficient with?", "How do you use Spark and SQL in your work?", "Do you know AI? How did you build this chatbot?","Tell me about your experience with GCP."],
         "Certifications": ["Do you have any certifications?", "Are you planning to get any certifications soon?"],
         "Projects": ["Can you describe a major data engineering project?","Could you walk me through a recent data lakehouse architecture you built?", "What was your biggest technical challenge you faced?"],
     }
