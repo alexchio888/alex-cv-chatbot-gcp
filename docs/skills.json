@@ -1,0 +1,36 @@
+{
+    "title": "Data Engineering Skills",
+    "categories": [
+      {
+        "name": "Programming Languages",
+        "skills": [
+          {"name": "Python", "level": 5, "experience_years": 7},
+          {"name": "SQL", "level": 5, "experience_years": 8},
+          {"name": "Scala", "level": 3, "experience_years": 2}
+        ]
+      },
+      {
+        "name": "Big Data Tools",
+        "skills": [
+          {"name": "Apache Spark", "level": 4, "experience_years": 4},
+          {"name": "Apache Kafka", "level": 4, "experience_years": 3},
+          {"name": "Hadoop", "level": 2, "experience_years": 1}
+        ]
+      },
+      {
+        "name": "Cloud Platforms",
+        "skills": [
+          {"name": "Google Cloud Platform (GCP)", "level": 4, "experience_years": 3},
+          {"name": "AWS", "level": 3, "experience_years": 2}
+        ]
+      },
+      {
+        "name": "Data Warehousing",
+        "skills": [
+          {"name": "BigQuery", "level": 4, "experience_years": 3},
+          {"name": "Snowflake", "level": 3, "experience_years": 1}
+        ]
+      }
+    ]
+  }
+  

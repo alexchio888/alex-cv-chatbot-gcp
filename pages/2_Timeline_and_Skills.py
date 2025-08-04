@@ -4,6 +4,7 @@ import streamlit as st
 import json
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
+from helping_functions.skills_builder import *
 
 
 st.set_page_config(
@@ -46,3 +47,9 @@ if st.checkbox("Show timeline chart", value=True):
 # --- Skills placeholder ---
 st.subheader("🧠 Skills Overview (Coming Soon)")
 st.info("This section will show my ranked skills, tools, and strengths in the near future.")
+# Load your skills JSON
+with open("docs/skills.json", "r") as f:
+    skills_json = json.load(f)
+
+# Render the skills dashboard
+render_skills_dashboard(skills_json)
