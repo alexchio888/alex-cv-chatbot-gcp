@@ -32,7 +32,7 @@ def render_sidebar(
 def _render_contact():
     # Location
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    st.markdown(
+    st.sidebar.markdown(
         f'<p style="margin: 0;"><a href="{maps_url}" target="_blank" style="text-decoration:none;">'
         f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
         unsafe_allow_html=True,
