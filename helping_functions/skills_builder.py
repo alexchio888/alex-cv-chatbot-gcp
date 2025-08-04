@@ -13,20 +13,20 @@ def render_skills_dashboard(skills_data):
 
     for tab, category in zip(tabs, categories):
         with tab:
-            # Category card wrapper without title
-            st.markdown(
-                f"""
-                <div style="
-                    background-color: rgba(220, 220, 220, 0.1);
-                    border-radius: 15px;
-                    padding: 20px;
-                    margin-bottom: 25px;
-                    border: 1.5px solid rgba(180, 180, 180, 0.3);
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-                ">
-                """,
-                unsafe_allow_html=True
-            )
+            # # Category card wrapper without title
+            # st.markdown(
+            #     f"""
+            #     <div style="
+            #         background-color: rgba(220, 220, 220, 0.1);
+            #         border-radius: 15px;
+            #         padding: 20px;
+            #         margin-bottom: 25px;
+            #         border: 1.5px solid rgba(180, 180, 180, 0.3);
+            #         box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            #     ">
+            #     """,
+            #     unsafe_allow_html=True
+            # )
 
             for skill in category["skills"]:
                 render_skill_row(skill)
