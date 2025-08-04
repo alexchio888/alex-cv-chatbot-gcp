@@ -2,7 +2,7 @@
 
 import streamlit as st
 import json
-from pages.timeline_builder import build_gantt_from_json
+from timeline_builder import *
 
 
 st.set_page_config(
