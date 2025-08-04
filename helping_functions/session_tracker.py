@@ -51,16 +51,16 @@ def log_message_to_snowflake(
 
 
 def ensure_user_id():
-    """Ensures a persistent user_id using browser cookie via JS."""
+    """Injects JS to persist and communicate a user_id cookie."""
     if "user_id" in st.session_state:
-        return st.session_state["user_id"]
+        return
 
     generated_id = str(uuid.uuid4())
 
-    # This JS reads the cookie or sets it if missing, then passes it to Streamlit via window.postMessage
     components.html(f"""
         <script>
         const COOKIE_NAME = "user_id";
+
         function setCookie(name, value, days) {{
             let expires = "";
             if (days) {{
@@ -74,7 +74,7 @@ def ensure_user_id():
         function getCookie(name) {{
             const nameEQ = name + "=";
             const ca = document.cookie.split(';');
-            for(let i=0;i < ca.length;i++) {{
+            for (let i = 0; i < ca.length; i++) {{
                 let c = ca[i].trim();
                 if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
             }}
@@ -84,10 +84,10 @@ def ensure_user_id():
         const uid = getCookie(COOKIE_NAME) || "{generated_id}";
         setCookie(COOKIE_NAME, uid, 365);
 
-        window.parent.postMessage({{ user_id: uid }}, "*");
+        // Send it to Streamlit
+        const streamlitEvent = new CustomEvent("streamlit:user_id", {{
+            detail: uid
+        }});
+        window.dispatchEvent(streamlitEvent);
         </script>
     """, height=0)
-
-    # # Temporary placeholder — updated below via JS event
-    # st.session_state["user_id"] = generated_id
-    return generated_id

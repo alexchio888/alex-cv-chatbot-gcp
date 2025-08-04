@@ -18,6 +18,45 @@ with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
 skills_summary_text = get_compact_skill_summary(skills_data)
 
+###--- GENERATE user_id ---###
+user_id_placeholder = st.empty()
+
+user_id_js_listener = """
+<script>
+window.addEventListener("message", (event) => {
+    if (event.data?.user_id) {
+        const streamlitEvent = new CustomEvent("streamlit:user_id", {
+            detail: event.data.user_id
+        });
+        window.dispatchEvent(streamlitEvent);
+    }
+});
+
+window.addEventListener("streamlit:user_id", (event) => {
+    const userId = event.detail;
+    const textarea = window.parent.document.querySelector('textarea[data-streamlit-id="user_id_holder"]');
+    if (textarea) {
+        textarea.value = userId;
+        textarea.dispatchEvent(new Event("input", {{ bubbles: true }}));
+    }
+});
+</script>
+"""
+
+# Create a hidden input to catch the event
+user_id = user_id_placeholder.text_input("user_id_holder", value="", label_visibility="collapsed")
+
+# Inject listener JS
+components.html(user_id_js_listener, height=0)
+
+# Set to session state
+if user_id and "user_id" not in st.session_state:
+    st.session_state["user_id"] = user_id
+
+###--- ---###
+
+
+
 def get_previous_chat_context(n=5):
     # Take the last n messages from chat history, format them nicely
     messages = st.session_state.messages[-n:]
@@ -135,8 +174,7 @@ session = create_session()
 
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = ensure_user_id()
+ensure_user_id()
 
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
