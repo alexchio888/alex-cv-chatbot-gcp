@@ -6,21 +6,13 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    category_names = [cat["name"] for cat in categories]
-    selected_category = st.session_state.get("selected_category", category_names[0])
+    tabs = st.tabs([cat["name"] for cat in categories])
+    for tab, category in zip(tabs, categories):
+        with tab:
+            sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
+            for skill in sorted_skills:
+                render_skill_row(skill)
 
-    cols = st.columns(len(category_names))
-    for i, cat_name in enumerate(category_names):
-        with cols[i]:
-            if st.button(cat_name):
-                st.session_state["selected_category"] = cat_name
-                selected_category = cat_name
-
-    category = next(cat for cat in categories if cat["name"] == selected_category)
-    sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
-
-    for skill in sorted_skills:
-        render_skill_row(skill)
 
 
 
