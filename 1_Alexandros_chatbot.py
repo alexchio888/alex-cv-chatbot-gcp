@@ -372,9 +372,8 @@ if st.session_state.messages[-1]["role"] != "assistant":
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
     status_placeholder = st.empty()
-    status_placeholder.status("🤖 Analyzing your question…", expanded=True)
+    status_placeholder.status("🔍 Searching relevant information…", expanded=True)
     
-    status_placeholder.status("🔍 Searching relevant information…")
     context = get_context(latest_user_message, DOC_TABLE)
     
     status_placeholder.status("💬 Thinking…")
