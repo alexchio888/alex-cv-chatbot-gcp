@@ -26,9 +26,9 @@ def log_message_to_snowflake(
     escape = lambda s: s.replace("'", "''") if s else None
     session_id = escape(session_id)
     role = escape(role)
-    message = escape(message)[:2000] if message else None
-    prompt = escape(prompt)[:5000] if prompt else None
-    context_snippet = escape(context_snippet)[:5000] if context_snippet else None
+    message = escape(message)[:5000] if message else None
+    prompt = escape(prompt)[:64000] if prompt else None
+    context_snippet = escape(context_snippet)[:64000] if context_snippet else None
     user_id = escape(user_id)
 
     session.sql(f"""
