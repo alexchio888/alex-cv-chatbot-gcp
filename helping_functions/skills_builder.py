@@ -7,9 +7,8 @@ def render_skills_dashboard(skills_data):
         return
 
     # Choose display mode
-    is_text_mode = st.toggle("Use text instead of stars")
-    display_mode = "Text" if is_text_mode else "Stars"
-    
+    display_mode = st.radio("Display skill levels as:", ["Stars", "Text"], horizontal=True)
+
     category_names = [cat["name"] for cat in categories]
     num_cols = 3
     cols = st.columns(num_cols)
