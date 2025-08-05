@@ -354,7 +354,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             model = st.session_state.get("model", "mistral-large")
             full_response = complete(model, prompt)
             response = full_response
-
+            status.empty()
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
             session=session,
@@ -368,7 +368,6 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt=prompt,
             message_type="response"
         )
-        status.empty()
         simulate_typing(response)
 
 
