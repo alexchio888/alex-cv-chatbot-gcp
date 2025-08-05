@@ -282,9 +282,19 @@ Question:
 Return only the category name.
 """
     model = st.session_state.get("model", "mistral-large")
-    response = complete(model, classification_prompt)
-    intent = "".join(response).strip().lower()
-    return intent
+    # response = complete(model, classification_prompt)
+    # intent = "".join(response).strip().lower()
+    # return intent
+    try:
+        response = complete(model, classification_prompt)
+        intent = "".join(response).strip().lower()
+        return intent
+    except Exception as e:
+        st.error("Something went wrong while processing your question. Please refresh the page and try again.")
+        # Optional: Log exception for debugging
+        st.exception(e)
+        return "unknown"
+
 
 latest_user_message = ""
 
@@ -419,3 +429,5 @@ elif intent == "farewell":
         )
         simulate_typing(response)
         st.info("Thanks for chatting! You can download the chat history anytime, and I’d appreciate any feedback you share in the sidebar. 😊")
+
+
