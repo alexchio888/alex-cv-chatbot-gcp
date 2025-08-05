@@ -333,9 +333,12 @@ if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message() or ""
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
-    with st.chat_message("assistant", avatar = "docs/avatar.png"):
-        with st.status("Thinking…", expanded=True):
+    with st.chat_message("assistant", avatar="docs/avatar.png"):
+        with st.status("🤖 Analyzing your question…", expanded=True) as status:
+            status.update(label="🔍 Searching relevant information…")
             context = get_context(latest_user_message, DOC_TABLE)
+
+            status.update(label="✍️ Generating a response…")
             prompt = get_prompt(latest_user_message, context, intent)
             model = st.session_state.get("model", "mistral-large")
             full_response = complete(model, prompt)
