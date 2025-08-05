@@ -371,19 +371,21 @@ if st.session_state.messages[-1]["role"] != "assistant":
 #         status.update(label="Finished")
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
+    status_placeholder = st.empty()
+    status_placeholder.status("🤖 Analyzing your question…", expanded=True)
+    
+    status_placeholder.status("🔍 Searching relevant information…")
+    context = get_context(latest_user_message, DOC_TABLE)
+    
+    status_placeholder.status("💬 Thinking…")
+    prompt = get_prompt(latest_user_message, context, intent)
+    model = st.session_state.get("model", "mistral-large")
+    full_response = complete(model, prompt)
+    response = full_response
+    status_placeholder.empty()  # remove status completely
+
     with st.chat_message("assistant", avatar="docs/avatar.png"):
-        status_placeholder = st.empty()
-        status_placeholder.text("🤖 Analyzing your question…")
-        status_placeholder.text("🔍 Searching relevant information…")
-        context = get_context(latest_user_message, DOC_TABLE)
-        status_placeholder.text("💬 Thinking…")
-        prompt = get_prompt(latest_user_message, context, intent)
-        model = st.session_state.get("model", "mistral-large")
-        full_response = complete(model, prompt)
-        response = full_response
-        status_placeholder.text("✅ Finished")
-        time.sleep(1)
-        status_placeholder.empty()  # clears the status message
+        simulate_typing(response)
 
     st.session_state.messages.append({"role": "assistant", "content": response})
     log_message_to_snowflake(
@@ -398,7 +400,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         prompt=prompt,
         message_type="response"
     )
-    simulate_typing(response)
+
 
 
  
