@@ -302,12 +302,14 @@ if st.button("🔄 Reset Chat"):
     reset_conversation()
 
 # --- Chat Loop ---
+user_message = None
 if "ready_prompt" in st.session_state:
     user_message = st.session_state.ready_prompt
-    del st.session_state.ready_prompt  # Clear it so it doesn't fire repeatedly
-elif user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+    del st.session_state.ready_prompt
+else:
+    user_message = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 
-# if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+if user_message:
     # Truncate input silently to 1000 characters
     user_message = user_message[:1000]
     st.session_state.messages.append({"role": "user", "content": user_message})
@@ -322,6 +324,20 @@ elif user_message := st.chat_input(placeholder="Ask me anything about my backgro
     )
 else:
     intent = None
+# if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+#     user_message = user_message[:1000]
+#     st.session_state.messages.append({"role": "user", "content": user_message})
+#     intent = classify_intent(user_message)
+#     log_message_to_snowflake(
+#         session=session,
+#         session_id=st.session_state["session_id"],
+#         role="user",
+#         message=user_message,
+#         intent=intent,
+#         message_type="input"
+#     )
+# else:
+#     intent = None
 
 # --- Display chat messages (Full response only) ---
 for message in st.session_state.messages:
