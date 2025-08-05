@@ -421,7 +421,7 @@ elif intent == "farewell":
             role="assistant",
             message=response,
             intent=intent,
-            model_used=model,
+            model_used=None,
             embedding_size=st.session_state.get("embedding_size"),
             context_snippet=None,
             prompt=None,
