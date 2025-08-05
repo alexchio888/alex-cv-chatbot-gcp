@@ -434,7 +434,7 @@ elif intent == "unknown":
         prompt = f"""
 The user said: "{latest_user_message}"
 
-As Alexandros Chionidis (a data engineer), politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
 """
         model = st.session_state.get("model", "mistral-large")
         response = complete(model, prompt)
