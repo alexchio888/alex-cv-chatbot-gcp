@@ -209,7 +209,7 @@ def get_context(latest_user_message, DOC_TABLE):
     return find_similar_doc(latest_user_message, DOC_TABLE)
 
 
-def get_prompt(latest_user_message, context):
+def get_prompt(latest_user_message, context, intent):
     current_date = datetime.now().strftime("%Y-%m-%d")
     
     # Include previous chat context if enabled
