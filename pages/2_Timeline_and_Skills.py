@@ -14,7 +14,8 @@ st.set_page_config(
 )
 st.title("Skills & Career Overview")
 st.markdown("Explore my professional timeline and, soon, a skills overview.")
-
+if st.button("Take Me Back to the Chatbot ➡️"):
+    st.switch_page("1_Alexandros_chatbot.py")
 st.markdown("---")
 
 render_sidebar(st.session_state, show_tabs=False)
