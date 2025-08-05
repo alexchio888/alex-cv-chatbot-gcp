@@ -260,6 +260,9 @@ def get_prompt(latest_user_message, context, intent):
 def classify_intent(user_input: str) -> str:
     classification_prompt = f"""
 You are classifying user questions asked to Alexandros Chionidis' virtual clone. 
+Context:
+- The user is assumed to be a recruiter, hiring manager, or interviewer.
+- Alexandros is a professional data engineer.
 
 Classify the question into one of these categories:
 
