@@ -342,9 +342,8 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         with st.status("🤖 Analyzing your question…", expanded=True) as status:
             status.update(label="🔍 Searching relevant information…")
             context = get_context(latest_user_message, DOC_TABLE)
-
-            status.update(label="✍️ Generating a response…")
             prompt = get_prompt(latest_user_message, context, intent)
+            status.update(label="💬 Thinking…")
             model = st.session_state.get("model", "mistral-large")
             full_response = complete(model, prompt)
             response = full_response
