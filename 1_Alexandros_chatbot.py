@@ -308,10 +308,10 @@ if user_message := st.chat_input(placeholder="Ask me anything about my backgroun
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
     log_message_to_snowflake(
-        session,
-        st.session_state["session_id"],
-        "user",
-        user_message,
+        session=session,
+        session_id=st.session_state["session_id"],
+        role="user",
+        message=user_message,
         intent=intent,
         message_type="input"
     )
@@ -343,10 +343,10 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
 
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
-            session,
-            st.session_state["session_id"],
-            "assistant",
-            response,
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
             intent=intent,
             model_used=model,
             embedding_size=st.session_state.get("embedding_size"),
@@ -369,10 +369,10 @@ Keep it short (1-2 sentences), and avoid sounding like a robot.
         response = complete(model, prompt)
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
-            session,
-            st.session_state["session_id"],
-            "assistant",
-            response,
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
             intent=intent,
             model_used=model,
             embedding_size=st.session_state.get("embedding_size"),
@@ -394,10 +394,10 @@ As Alexandros Chionidis (a data engineer), politely say you didn’t fully under
         response = complete(model, prompt)
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
-            session,
-            st.session_state["session_id"],
-            "assistant",
-            response,
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
             intent=intent,
             model_used=model,
             embedding_size=st.session_state.get("embedding_size"),
@@ -416,12 +416,12 @@ elif intent == "farewell":
         )
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
-            session,
-            st.session_state["session_id"],
-            "assistant",
-            response,
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
             intent=intent,
-            model_used=None,
+            model_used=model,
             embedding_size=st.session_state.get("embedding_size"),
             context_snippet=None,
             prompt=None,
