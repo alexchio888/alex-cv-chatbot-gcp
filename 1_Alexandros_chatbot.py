@@ -75,8 +75,8 @@ with col2:
     You can chat with me below, or explore my timeline visually.
     """)
     if st.button("📊 Go to Timeline and Skills"):
-        st.switch_page("Timeline and Skills")
-        
+        st.switch_page("pages/2_Timeline_and_Skills.py")
+
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
 
