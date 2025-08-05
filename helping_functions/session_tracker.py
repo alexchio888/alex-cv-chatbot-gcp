@@ -91,3 +91,11 @@ def ensure_user_id():
         window.dispatchEvent(streamlitEvent);
         </script>
     """, height=0)
+
+
+
+# --dark / white theme
+# --Remove thinking after reply
+# --basic questions, kinds of contructs, industries, notice periods and staff
+# --information about what are you looking for
+# --Stars is not good for recruiters (intermediate)

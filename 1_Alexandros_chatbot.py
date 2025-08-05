@@ -74,7 +74,9 @@ with col2:
     I'm a chatbot trained on my career, education, and experiences.  
     You can chat with me below, or explore my timeline visually.
     """)
-
+    if st.button("📊 Go to Timeline and Skills"):
+        st.switch_page("Timeline and Skills")
+        
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
 
