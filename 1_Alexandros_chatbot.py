@@ -302,15 +302,19 @@ if st.button("🔄 Reset Chat"):
     reset_conversation()
 
 # --- Chat Loop ---
+# Always call st.chat_input — Streamlit needs it to render the input box
+chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+
+# Handle ready_prompt or fallback to user input
 user_message = None
 if "ready_prompt" in st.session_state:
     user_message = st.session_state.ready_prompt
     del st.session_state.ready_prompt
-else:
-    user_message = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+elif chat_input:
+    user_message = chat_input
 
+# Proceed if user_message was set
 if user_message:
-    # Truncate input silently to 1000 characters
     user_message = user_message[:1000]
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
