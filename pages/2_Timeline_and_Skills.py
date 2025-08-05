@@ -23,10 +23,10 @@ render_sidebar(st.session_state, show_tabs=False)
 
 # --- Skills ---
 st.subheader("🧠 Skills Overview")
-display_mode = st.selectbox(
-    "Skill display mode:",
-    ["Stars", "Text"]
-)
+# display_mode = st.selectbox(
+#     "Skill display mode:",
+#     ["Stars", "Text"]
+# )
 
 with open("docs/skills.json", "r") as f:
     skills_json = json.load(f)
