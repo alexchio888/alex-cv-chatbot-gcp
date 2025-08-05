@@ -149,7 +149,8 @@ def _render_prompts(st_session_state):
         with st.expander(category, expanded=False):
             for prompt in prompts:
                 if st.button(prompt, key=prompt):
-                    st.session_state.messages.append({"role": "user", "content": prompt})
+                    # st.session_state.messages.append({"role": "user", "content": prompt})
+                    st.session_state.ready_prompt = prompt 
 
 
 def _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown):

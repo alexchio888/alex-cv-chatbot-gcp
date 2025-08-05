@@ -302,7 +302,12 @@ if st.button("🔄 Reset Chat"):
     reset_conversation()
 
 # --- Chat Loop ---
-if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+if "ready_prompt" in st.session_state:
+    user_message = st.session_state.ready_prompt
+    del st.session_state.ready_prompt  # Clear it so it doesn't fire repeatedly
+elif user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
+
+# if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
     # Truncate input silently to 1000 characters
     user_message = user_message[:1000]
     st.session_state.messages.append({"role": "user", "content": user_message})
