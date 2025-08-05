@@ -196,7 +196,7 @@ def find_similar_doc(text, DOC_TABLE):
                VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func}) AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
-        LIMIT 2
+        LIMIT 3
     """
         )
         .to_pandas()
