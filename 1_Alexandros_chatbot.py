@@ -275,6 +275,7 @@ Classify the question into one of these categories:
 - unknown → Question is unclear or cannot be classified.
 - farewell → Polite endings, goodbyes, bb or thank-yous that close the conversation.
 - follow_up → A message that appears to depend on earlier chat, like “what about that project?” or “and after that?”
+- job_description → The input is a job description, role summary, or list of requirements
 
 Question:
 \"\"\"{user_input}\"\"\"
@@ -302,10 +303,8 @@ if st.button("🔄 Reset Chat"):
     reset_conversation()
 
 # --- Chat Loop ---
-# Always call st.chat_input — Streamlit needs it to render the input box
 chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 
-# Handle ready_prompt or fallback to user input
 user_message = None
 if "ready_prompt" in st.session_state:
     user_message = st.session_state.ready_prompt
@@ -328,20 +327,6 @@ if user_message:
     )
 else:
     intent = None
-# if user_message := st.chat_input(placeholder="Ask me anything about my background, skills, or experience…"):
-#     user_message = user_message[:1000]
-#     st.session_state.messages.append({"role": "user", "content": user_message})
-#     intent = classify_intent(user_message)
-#     log_message_to_snowflake(
-#         session=session,
-#         session_id=st.session_state["session_id"],
-#         role="user",
-#         message=user_message,
-#         intent=intent,
-#         message_type="input"
-#     )
-# else:
-#     intent = None
 
 # --- Display chat messages (Full response only) ---
 for message in st.session_state.messages:
@@ -365,7 +350,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt = get_prompt(latest_user_message, context, intent)
             status.update(label="💬 Thinking…")
             model = st.session_state.get("model", "mistral-large")
-            full_response = complete(model, prompt)
+            full_response = complete(model, prompt, max_tokens=8192)
             response = full_response
 
         st.session_state.messages.append({"role": "assistant", "content": response})
