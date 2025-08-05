@@ -354,22 +354,22 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             model = st.session_state.get("model", "mistral-large")
             full_response = complete(model, prompt)
             response = full_response
-            status.empty()
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            log_message_to_snowflake(
-                session=session,
-                session_id=st.session_state["session_id"],
-                role="assistant",
-                message=response,
-                intent=intent,
-                model_used=model,
-                embedding_size=st.session_state.get("embedding_size"),
-                context_snippet=context,
-                prompt=prompt,
-                message_type="response"
-            )
-            simulate_typing(response)
-
+        status.update(label="Typing…")
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
+            intent=intent,
+            model_used=model,
+            embedding_size=st.session_state.get("embedding_size"),
+            context_snippet=context,
+            prompt=prompt,
+            message_type="response"
+        )
+        simulate_typing(response)
+        status.update(label="Done ✅")
 
  
 
