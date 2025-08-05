@@ -344,31 +344,62 @@ for message in st.session_state.messages:
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message() or ""
 
+# if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
+#     with st.chat_message("assistant", avatar="docs/avatar.png"):
+#         with st.status("🤖 Analyzing your question…", expanded=True) as status:
+#             status.update(label="🔍 Searching relevant information…")
+#             context = get_context(latest_user_message, DOC_TABLE)
+#             prompt = get_prompt(latest_user_message, context, intent)
+#             status.update(label="💬 Thinking…")
+#             model = st.session_state.get("model", "mistral-large")
+#             full_response = complete(model, prompt)
+#             response = full_response
+#         st.session_state.messages.append({"role": "assistant", "content": response})
+#         log_message_to_snowflake(
+#             session=session,
+#             session_id=st.session_state["session_id"],
+#             role="assistant",
+#             message=response,
+#             intent=intent,
+#             model_used=model,
+#             embedding_size=st.session_state.get("embedding_size"),
+#             context_snippet=context,
+#             prompt=prompt,
+#             message_type="response"
+#         )
+#         simulate_typing(response)
+#         status.update(label="Finished")
+
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
     with st.chat_message("assistant", avatar="docs/avatar.png"):
-        with st.status("🤖 Analyzing your question…", expanded=True) as status:
-            status.update(label="🔍 Searching relevant information…")
-            context = get_context(latest_user_message, DOC_TABLE)
-            prompt = get_prompt(latest_user_message, context, intent)
-            status.update(label="💬 Thinking…")
-            model = st.session_state.get("model", "mistral-large")
-            full_response = complete(model, prompt)
-            response = full_response
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        log_message_to_snowflake(
-            session=session,
-            session_id=st.session_state["session_id"],
-            role="assistant",
-            message=response,
-            intent=intent,
-            model_used=model,
-            embedding_size=st.session_state.get("embedding_size"),
-            context_snippet=context,
-            prompt=prompt,
-            message_type="response"
-        )
-        simulate_typing(response)
-        status.update(label="Finished")
+        status_placeholder = st.empty()
+        status_placeholder.text("🤖 Analyzing your question…")
+        status_placeholder.text("🔍 Searching relevant information…")
+        context = get_context(latest_user_message, DOC_TABLE)
+        status_placeholder.text("💬 Thinking…")
+        prompt = get_prompt(latest_user_message, context, intent)
+        model = st.session_state.get("model", "mistral-large")
+        full_response = complete(model, prompt)
+        response = full_response
+        status_placeholder.text("✅ Finished")
+        time.sleep(1)
+        status_placeholder.empty()  # clears the status message
+
+    st.session_state.messages.append({"role": "assistant", "content": response})
+    log_message_to_snowflake(
+        session=session,
+        session_id=st.session_state["session_id"],
+        role="assistant",
+        message=response,
+        intent=intent,
+        model_used=model,
+        embedding_size=st.session_state.get("embedding_size"),
+        context_snippet=context,
+        prompt=prompt,
+        message_type="response"
+    )
+    simulate_typing(response)
+
 
  
 
