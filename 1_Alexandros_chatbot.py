@@ -350,7 +350,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt = get_prompt(latest_user_message, context, intent)
             status.update(label="💬 Thinking…")
             model = st.session_state.get("model", "mistral-large")
-            full_response = complete(model, prompt, max_tokens=8192)
+            full_response = complete(model, prompt, options={"max_tokens": 8192})
             response = full_response
 
         st.session_state.messages.append({"role": "assistant", "content": response})
