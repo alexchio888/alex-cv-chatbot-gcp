@@ -368,8 +368,10 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt=prompt,
             message_type="response"
         )
-
+        status.update(label="✍️ Typing response…")
         simulate_typing(response)
+        status.empty()
+
  
 
 elif intent == "casual_greeting":
