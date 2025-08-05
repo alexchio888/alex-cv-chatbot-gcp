@@ -7,7 +7,7 @@ def render_skills_dashboard(skills_data):
         return
 
     # Choose display mode
-    display_mode = st.selectbox("Skill display mode:", ["Stars", "Text"])
+    display_mode = st.radio("Skill display mode:", ["Stars", "Text"])
 
     category_names = [cat["name"] for cat in categories]
     num_cols = 3
