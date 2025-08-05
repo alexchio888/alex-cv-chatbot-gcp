@@ -37,13 +37,23 @@ def render_skill_row(skill, display_mode="Stars"):
     level = skill.get("level", 0)
     exp = skill.get("experience_years", "?")
 
-    # Level to text mapping (you can refine these thresholds)
-    level_text = (
-        "Beginner" if level <= 3 else
-        "Intermediate" if level <= 6 else
-        "Advanced" if level <= 8 else
-        "Expert"
-    )
+    # Text label mapping
+    level_map = {
+        "Beginner": {"max": 3, "color": "#fcd34d"},      # amber-300
+        "Intermediate": {"max": 6, "color": "#60a5fa"},  # blue-400
+        "Advanced": {"max": 8, "color": "#34d399"},      # green-400
+        "Expert": {"max": 10, "color": "#a78bfa"}        # purple-400
+    }
+
+    # Determine level label
+    for label, meta in level_map.items():
+        if level <= meta["max"]:
+            level_text = label
+            badge_color = meta["color"]
+            break
+    else:
+        level_text = "Unknown"
+        badge_color = "#ccc"
 
     if display_mode == "Stars":
         stars_html = ''.join([
@@ -53,7 +63,18 @@ def render_skill_row(skill, display_mode="Stars"):
         ])
         detail_html = f"{stars_html}"
     else:
-        detail_html = f"<span style='font-size: 0.9em; color: #444;'>{level_text}</span>"
+        detail_html = f"""
+            <span style="
+                background-color: {badge_color}33; 
+                color: {badge_color}; 
+                padding: 4px 10px; 
+                font-size: 0.85em; 
+                font-weight: 600; 
+                border-radius: 999px;
+            ">
+                {level_text}
+            </span>
+        """
 
     st.markdown(
         f"""
