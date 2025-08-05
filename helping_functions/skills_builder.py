@@ -6,33 +6,30 @@ def render_skills_dashboard(skills_data):
         st.info("No skills data available.")
         return
 
-    category_names = [cat["name"] for cat in categories]
+    # Choose display mode
+    display_mode = st.selectbox("Skill display mode:", ["Stars", "Text"])
 
-    # Number of columns to split the categories into
-    num_cols = 3  
+    category_names = [cat["name"] for cat in categories]
+    num_cols = 3
     cols = st.columns(num_cols)
 
-    # Flatten buttons into columns in round-robin fashion
     selected_category = None
     for i, category_name in enumerate(category_names):
         col = cols[i % num_cols]
         if col.button(category_name):
             selected_category = category_name
 
-    # Remember previously selected category (session state) or default to first
     if "selected_category" not in st.session_state:
         st.session_state.selected_category = category_names[0]
-
     if selected_category is not None:
         st.session_state.selected_category = selected_category
 
-    # Use the selected category to render skills
     category = next(cat for cat in categories if cat["name"] == st.session_state.selected_category)
     sorted_skills = sorted(category["skills"], key=lambda s: s.get("level", 0), reverse=True)
 
     st.write(f"### {st.session_state.selected_category}")
     for skill in sorted_skills:
-        render_skill_row(skill)
+        render_skill_row(skill, display_mode)
 
 
 # def render_skill_row(skill):
