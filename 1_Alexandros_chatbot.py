@@ -287,7 +287,8 @@ def get_prompt(latest_user_message, context, intent):
     - If the question is vague or ambiguous, ask for clarification politely.
     - If question is outside the scope of your CV or background, say: "That question is outside my professional scope; I’d be happy to discuss it in person."
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
-"""
+    - Avoid answering about notice period, expected salaries, say: "That this is something to be discussed with Alexandros in person" politely
+    """
 
 
 # --- Intent Classifier ---
