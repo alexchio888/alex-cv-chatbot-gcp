@@ -38,16 +38,17 @@ def render_skill_row(skill, display_mode="Stars"):
     exp = skill.get("experience_years", "?")
 
     # Text label mapping
-    level_map = {
-        "Novice": {"max": 2, "color": "#9ca3af"},          # gray-400
-        "Beginner": {"max": 4, "color": "#fcd34d"},        # amber-300
-        "Intermediate": {"max": 6, "color": "#60a5fa"},    # blue-400
-        "Advanced": {"max": 8, "color": "#34d399"},        # green-400
-        "Expert": {"max": 10, "color": "#a78bfa"}          # purple-400
-    }
+    level_map = [
+        ("Novice", {"max": 2, "color": "#9ca3af"}),         # gray-400
+        ("Beginner", {"max": 4, "color": "#fcd34d"}),       # amber-300
+        ("Intermediate", {"max": 6, "color": "#60a5fa"}),   # blue-400
+        ("Advanced", {"max": 8, "color": "#34d399"}),       # green-400
+        ("Expert", {"max": 10, "color": "#a78bfa"})         # purple-400
+    ]
+
 
     # Determine level label
-    for label, meta in level_map.items():
+    for label, meta in level_map:
         if level <= meta["max"]:
             level_text = label
             badge_color = meta["color"]
