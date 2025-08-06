@@ -145,29 +145,13 @@ def _render_prompts(st_session_state):
         "Projects": ["Can you describe a major data engineering project?","Could you walk me through a recent data lakehouse architecture you built?", "What was your biggest technical challenge you faced?"],
     }
 
-    # for category, prompts in categories.items():
-    #     with st.expander(category, expanded=False):
-    #         for prompt in prompts:
-    #             if st.button(prompt, key=prompt):
-    #                 st.session_state.ready_prompt = prompt 
-
     for category, prompts in categories.items():
         with st.expander(category, expanded=False):
-            # Store the selected prompt for this category in session_state
-            selected = st_session_state.get(f"selected_{category}", None)
-
-            cols = st.columns(len(prompts))  # arrange buttons horizontally
-            for i, prompt in enumerate(prompts):
-                is_selected = prompt == selected
-                # Button style tweak: use emoji or text style to show selection
-                button_label = f"✅ {prompt}" if is_selected else prompt
-
-                if cols[i].button(button_label, key=f"{category}_{i}"):
-                    st_session_state[f"selected_{category}"] = prompt
-                    st_session_state.ready_prompt = prompt
+            for prompt in prompts:
+                if st.button(prompt, key=prompt):
+                    st.session_state.ready_prompt = prompt 
 
 
-                    
 def _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown):
     st.markdown("### Select download format")
     if "messages" in st_session_state and st_session_state.messages:
