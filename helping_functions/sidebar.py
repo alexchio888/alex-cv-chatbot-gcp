@@ -145,13 +145,17 @@ def _render_prompts(st_session_state):
         "Projects": ["Can you describe a major data engineering project?","Could you walk me through a recent data lakehouse architecture you built?", "What was your biggest technical challenge you faced?"],
     }
 
+    # for category, prompts in categories.items():
+    #     with st.expander(category, expanded=False):
+    #         for prompt in prompts:
+    #             if st.button(prompt, key=prompt):
+    #                 st.session_state.ready_prompt = prompt 
+
     for category, prompts in categories.items():
         with st.expander(category, expanded=False):
-            for prompt in prompts:
-                if st.button(prompt, key=prompt):
-                    # st.session_state.messages.append({"role": "user", "content": prompt})
-                    st.session_state.ready_prompt = prompt 
-
+            choice = st.radio(f"Select a prompt from {category}", prompts, key=category)
+            if choice:
+                st.session_state.ready_prompt = choice
 
 def _render_download(st_session_state, generate_chat_text, generate_chat_json, generate_chat_markdown):
     st.markdown("### Select download format")
