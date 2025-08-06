@@ -14,11 +14,12 @@ st.set_page_config(
 )
 st.title("Skills & Career Overview")
 st.markdown("""
-Welcome! Explore my core skills with interactive visualizations—choose how you'd like to view skill levels, from stars to text badges to progress indicators.  
+Welcome! Explore my core skills with interactive visualizations. 
+Choose how you'd like to view skill levels, from stars to text badges to progress indicators.  
 
 Below, dive into my career timeline with key milestones and projects, presented in an easy-to-navigate format.  
 """)
-if st.button("← Back to the Chatbot"):
+if st.button("⬅️ Back to the Chatbot"):
     st.switch_page("1_Alexandros_chatbot.py")
 st.markdown("---")
 
