@@ -68,10 +68,26 @@ def render_skill_row(skill, display_mode="Stars"):
         ])
         detail_html = f"{stars_html}"
     elif display_mode == "Bars":
-        bar_width = int((level / 10) * 100)
+        percent = int((level / 10) * 100)
         detail_html = f"""
-            <div style="width: 100px; height: 12px; background-color: #e5e7eb; border-radius: 6px; overflow: hidden;">
-                <div style="width: {bar_width}%; height: 100%; background-color: {badge_color}; transition: width 0.3s;"></div>
+            <div style="
+                width: 150px; 
+                background: #e5e7eb; 
+                border-radius: 999px; 
+                overflow: hidden; 
+                font-size: 0.75em;
+                border: 1px solid #d1d5db;
+            ">
+                <div style="
+                    width: {percent}%; 
+                    padding: 4px 8px; 
+                    background: linear-gradient(90deg, {badge_color}, {badge_color}CC); 
+                    color: white; 
+                    text-align: center;
+                    font-weight: 600;
+                ">
+                    {level_text}
+                </div>
             </div>
         """
     else:
