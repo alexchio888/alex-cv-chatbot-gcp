@@ -361,7 +361,7 @@ elif chat_input:
 
 # Proceed if user_message was set
 if user_message:
-    user_message = user_message[:1000]
+    user_message = user_message[:2000]
     st.session_state.messages.append({"role": "user", "content": user_message})
     intent = classify_intent(user_message)
     log_message_to_snowflake(
