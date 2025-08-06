@@ -7,7 +7,7 @@ def render_skills_dashboard(skills_data):
         return
 
     # Choose display mode
-    col1, col2 = st.columns([1, 4])  # adjust ratio as needed
+    col1, col2 = st.columns([2, 4])  # adjust ratio as needed
     with col1:
         st.markdown("**Display skill levels as:**")
 
