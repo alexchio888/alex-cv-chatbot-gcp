@@ -69,25 +69,38 @@ def render_skill_row(skill, display_mode="Stars"):
         detail_html = f"{stars_html}"
     elif display_mode == "Bars":
         percent = int((level / 10) * 100)
+
+        # Choose emoji/icon based on level
+        if level <= 2:
+            icon = "🐣"
+        elif level <= 4:
+            icon = "🚶"
+        elif level <= 6:
+            icon = "🏃"
+        elif level <= 8:
+            icon = "🧠"
+        else:
+            icon = "🧙‍♂️"
+
         detail_html = f"""
-            <div style="
-                width: 150px; 
-                background: #e5e7eb; 
-                border-radius: 999px; 
-                overflow: hidden; 
-                font-size: 0.75em;
-                border: 1px solid #d1d5db;
-            ">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.2em;">{icon}</span>
                 <div style="
-                    width: {percent}%; 
-                    padding: 4px 8px; 
-                    background: linear-gradient(90deg, {badge_color}, {badge_color}CC); 
-                    color: white; 
-                    text-align: center;
-                    font-weight: 600;
+                    flex-grow: 1;
+                    height: 12px;
+                    background-color: #e5e7eb;
+                    border-radius: 999px;
+                    overflow: hidden;
+                    position: relative;
                 ">
-                    {level_text}
+                    <div style="
+                        width: {percent}%;
+                        background: linear-gradient(to right, {badge_color}, {badge_color}99);
+                        height: 100%;
+                        border-radius: 999px;
+                    "></div>
                 </div>
+                <span style="font-size: 0.85em; color: #6b7280; font-weight: 500;">{level_text}</span>
             </div>
         """
     else:
