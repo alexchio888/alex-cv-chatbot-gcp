@@ -67,6 +67,13 @@ def render_skill_row(skill, display_mode="Stars"):
             for i in range(10)
         ])
         detail_html = f"{stars_html}"
+    elif display_mode == "Bars":
+        bar_width = int((level / 10) * 100)
+        detail_html = f"""
+            <div style="width: 100px; height: 12px; background-color: #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <div style="width: {bar_width}%; height: 100%; background-color: {badge_color}; transition: width 0.3s;"></div>
+            </div>
+        """
     else:
         detail_html = f"""
             <span style="
