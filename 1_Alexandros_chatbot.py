@@ -294,8 +294,7 @@ def get_prompt(latest_user_message, context, intent):
     - Answer concisely (under 4 sentences), focusing primarily on the user’s question and the relevant document information.
     - Use the chat history only if the question appears to be a follow-up or requires context.
     - Do not reveal your skill levels or ratings explicitly in your answers.
-    - If the question is vague or unclear, politely ask for clarification.
-    - If the question is vague or ambiguous, ask for clarification politely.
+    - If the question is vague, ambiguous or unclear, politely ask for clarification.
     - If question is outside the scope of your CV or background, say: "That question is outside my professional scope; I’d be happy to discuss it in person."
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
     - If the question is about sensitive topics (salary, notice, job change), say: "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
@@ -415,7 +414,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         intent=intent,
         model_used=model,
         embedding_size=st.session_state.get("embedding_size"),
-        context_snippet=None,
+        context_snippet=context,
         prompt=prompt,
         message_type="response"
     )
