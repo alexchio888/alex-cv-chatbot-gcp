@@ -177,6 +177,31 @@ def get_latest_user_message():
 
 
 # --- RAG Helpers ---
+def create_rag_search_query(user_message, intent, chat_history=None):
+    history_text = "\n".join(chat_history) if chat_history else ""
+    prompt = f"""
+You are a helpful assistant creating a precise search query for a data engineer CV chatbot's document retrieval system.
+The user's intent is: {intent}
+User's latest question: "{user_message}"
+
+{f'Chat history: {history_text}' if history_text else ''}
+
+Rewrite or expand the question into a clear, specific search query that would best retrieve relevant information from a CV, skills, projects, and experience database.
+Return only the rewritten search query (1-2 sentences), no extra text.
+"""
+    model = st.session_state.get("model", "mistral-large")
+    try:
+        response = complete(model, prompt)
+        search_query = "".join(response).strip()
+        return search_query
+    except Exception as e:
+        st.error("Failed to create improved search query.")
+        st.exception(e)
+        return user_message  # fallback
+
+
+
+
 def find_similar_doc(text, DOC_TABLE, intent_mapped):
     safe_text = text.replace("'", "''")
     embedding_size = st.session_state.get("embedding_size", "1024")
@@ -196,7 +221,7 @@ def find_similar_doc(text, DOC_TABLE, intent_mapped):
         SELECT input_text,
                source_desc,
                VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func})
-                * (CASE WHEN source = '{intent}' THEN 1.5 ELSE 1 END)  AS dist
+                * (CASE WHEN source = '{intent_mapped}' THEN 1.5 ELSE 1 END)  AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
         LIMIT 3
@@ -208,10 +233,15 @@ def find_similar_doc(text, DOC_TABLE, intent_mapped):
     return "\n\n".join(docs["INPUT_TEXT"].tolist())
 
 
+# def get_context(latest_user_message, DOC_TABLE, intent):
+#     intent_mapped = intent
+#     return find_similar_doc(latest_user_message, DOC_TABLE, intent_mapped)
+
 def get_context(latest_user_message, DOC_TABLE, intent):
     intent_mapped = intent
-    return find_similar_doc(latest_user_message, DOC_TABLE, intent_mapped)
-
+    chat_history = get_previous_chat_context(n=3).split("\n")
+    improved_query = create_rag_search_query(latest_user_message, intent_mapped, chat_history)
+    return find_similar_doc(improved_query, DOC_TABLE, intent_mapped)
 
 def get_prompt(latest_user_message, context, intent):
     current_date = datetime.now().strftime("%Y-%m-%d")
