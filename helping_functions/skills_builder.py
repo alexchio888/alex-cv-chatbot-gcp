@@ -39,10 +39,11 @@ def render_skill_row(skill, display_mode="Stars"):
 
     # Text label mapping
     level_map = {
-        "Beginner": {"max": 2, "color": "#fcd34d"},      # amber-300
-        "Intermediate": {"max": 6, "color": "#60a5fa"},  # blue-400
-        "Advanced": {"max": 8, "color": "#34d399"},      # green-400
-        "Expert": {"max": 10, "color": "#a78bfa"}        # purple-400
+        "Novice": {"max": 2, "color": "#9ca3af"},          # gray-400
+        "Beginner": {"max": 4, "color": "#fcd34d"},        # amber-300
+        "Intermediate": {"max": 6, "color": "#60a5fa"},    # blue-400
+        "Advanced": {"max": 8, "color": "#34d399"},        # green-400
+        "Expert": {"max": 10, "color": "#a78bfa"}          # purple-400
     }
 
     # Determine level label
