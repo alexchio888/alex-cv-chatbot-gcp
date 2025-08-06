@@ -138,12 +138,42 @@ def _render_contact():
 def _render_prompts(st_session_state):
     st.markdown("### 💡 Try asking about:")
     categories = {
-        "Education": ["Where did you study?", "Tell me about your academic background."],
-        "Work Experience": ["What was your role at Netcompany - Intrasoft?", "Describe your work at Waymore.", "What is your work experience besides tech?"],
-        "Skills & Tools": ["What technologies are you proficient with?", "How do you use Spark and SQL in your work?", "Do you know AI? How did you build this chatbot?","Tell me about your experience with GCP."],
-        "Certifications": ["Do you have any certifications?", "Are you planning to get any certifications soon?"],
-        "Projects": ["Can you describe a major data engineering project?","Could you walk me through a recent data lakehouse architecture you built?", "What was your biggest technical challenge you faced?"],
+        "Education": [
+            "Where did you study?",
+            "Tell me about your academic background."
+        ],
+        "Work Experience": [
+            "What was your role at Netcompany - Intrasoft?",
+            "Describe your work at Waymore.",
+            "What is your work experience besides tech?"
+        ],
+        "Skills & Tools": [
+            "What technologies are you proficient with?",
+            "How do you use Spark and SQL in your work?",
+            "Do you know AI? How did you build this chatbot?",
+            "Tell me about your experience with GCP."
+        ],
+        "Certifications": [
+            "Do you have any certifications?",
+            "Are you planning to get any certifications soon?"
+        ],
+        "Projects": [
+            "Can you describe a major data engineering project?",
+            "Could you walk me through a recent data lakehouse architecture you built?",
+            "What was your biggest technical challenge you faced?"
+        ],
+        "Career Goals": [
+            "What are your goals in data engineering for the next 2-3 years?",
+            "Are you interested in branching into data science or machine learning?"
+        ],
+        "Personal & Motivation": [
+            "What motivates you as a data engineer?",
+            "What do you like to do outside of work?",
+            "How do you maintain work-life balance?",
+            "What’s a fun fact about you?"
+        ]
     }
+
 
     for category, prompts in categories.items():
         with st.expander(category, expanded=False):
