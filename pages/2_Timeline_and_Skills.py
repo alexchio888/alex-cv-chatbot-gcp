@@ -13,8 +13,12 @@ st.set_page_config(
     layout="wide"
 )
 st.title("Skills & Career Overview")
-st.markdown("Explore my professional timeline and, soon, a skills overview.")
-if st.button("Take Me Back to the Chatbot ➡️"):
+st.markdown("""
+Welcome! Explore my core skills with interactive visualizations—choose how you'd like to view skill levels, from stars to text badges to progress indicators.  
+
+Below, dive into my career timeline with key milestones and projects, presented in an easy-to-navigate format.  
+""")
+if st.button("← Back to the Chatbot"):
     st.switch_page("1_Alexandros_chatbot.py")
 st.markdown("---")
 

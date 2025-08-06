@@ -9,7 +9,7 @@ def render_skills_dashboard(skills_data):
     # Choose display mode
     display_mode = st.radio(
         label="**Display mode:**",
-        options=["Stars", "Text", "Bars"],
+        options=["Dot Meter", "Stars", "Text"],
         horizontal=True
     )
     category_names = [cat["name"] for cat in categories]
@@ -67,7 +67,7 @@ def render_skill_row(skill, display_mode="Stars"):
             for i in range(10)
         ])
         detail_html = f"{stars_html}"
-    elif display_mode == "Bars":
+    elif display_mode == "Dot Meter":
         filled = "🟢"
         empty = "⚪"
         gauge = filled * level + empty * (10 - level)
