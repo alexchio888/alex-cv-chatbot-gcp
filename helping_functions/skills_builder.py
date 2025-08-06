@@ -7,8 +7,16 @@ def render_skills_dashboard(skills_data):
         return
 
     # Choose display mode
-    display_mode = st.radio("Display skill levels as:", ["Stars", "Text"], horizontal=True)
+    col1, col2 = st.columns([1, 4])  # adjust ratio as needed
+    with col1:
+        st.markdown("**Display skill levels as:**")
 
+    with col2:
+        display_mode = st.radio(
+            label="",
+            options=["Stars", "Text", "Bars"],
+            horizontal=True
+        )
     category_names = [cat["name"] for cat in categories]
     num_cols = 3
     cols = st.columns(num_cols)
