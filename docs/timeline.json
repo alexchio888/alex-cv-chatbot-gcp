@@ -30,7 +30,7 @@
       },
       {
         "start_date": { "month": "09", "year": "2021" },
-        "end_date": { "month": "01", "year": "2023", "day":30 },
+        "end_date": { "month": "01", "year": "2023", "day":22 },
         "text": {
           "headline": "🚀 Data Engineer — Netcompany-Intrasoft",
           "text": "Designed and implemented big data pipelines using Spark and Scala for large-scale analytics on-premise."
@@ -38,7 +38,7 @@
         "tags": ["Experience tech"]
       },
       {
-        "start_date": { "month": "01", "year": "2023" },
+        "start_date": { "month": "01", "year": "2023", "day":23  },
         "end_date": { "month": "09", "year": "2025" , "day":30},
         "text": {
           "headline": "🚀 Data Engineer — Waymore (Present)",
