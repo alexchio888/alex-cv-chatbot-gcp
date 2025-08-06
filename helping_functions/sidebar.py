@@ -139,36 +139,44 @@ def _render_prompts(st_session_state):
     st.markdown("### 💡 Try asking about:")
     categories = {
         "Education": [
-            "Where did you study?",
             "Tell me about your academic background.",
-            "Do you have any certifications?",
+            "What certifications have you earned recently to advance your data engineering skills?",
             "Are you planning to get any certifications soon?"
         ],
         "Work Experience": [
             "What was your role at Netcompany - Intrasoft?",
             "Describe your work at Waymore.",
-            "What is your work experience besides tech?"
+            "Do you have non-tech work experience?",
+            "How did your internship start your career?"
         ],
         "Skills & Tools": [
-            "What technologies are you proficient with?",
+            "What tools do you use daily?",
             "How do you use Spark and SQL in your work?",
-            "Do you know AI? How did you build this chatbot?",
-            "Tell me about your experience with GCP."
+            "What's your experience with Airflow?",
+            "What's your experience with ML and AI as data engineer?",
+            "What's your experience with snowflake?",
+            "What's your experience with cloud?"
         ],
         "Projects": [
-            "Can you describe a major data engineering project?",
+            "Can you describe a big data project you worked with?",
             "Could you walk me through a recent data lakehouse architecture you built?",
             "What was your biggest technical challenge you faced?"
         ],
         "Career Goals": [
-            "What are your goals in data engineering for the next 2-3 years?",
-            "Are you interested in branching into data science or machine learning?"
+            "What are your next career steps?",
+            "Do you enjoy mentoring others?"
         ],
         "Personal & Motivation": [
             "What motivates you as a data engineer?",
-            "What do you like to do outside of work?",
-            "How do you maintain work-life balance?",
-            "What’s a fun fact about you?"
+            "What motivates you outside work?",
+            "How do you balance work and life?"
+        ],
+        "🎉 Just for Fun": [
+            "Turn your career into a rap verse.",
+            "Turn your career into a poem.",
+            "What would your resume look like in pirate speak?",
+            "What's a dad joke about SQL?",
+            "Write a haiku about Airflow."
         ]
     }
 
