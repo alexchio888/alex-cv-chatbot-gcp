@@ -177,7 +177,7 @@ def get_latest_user_message():
 
 
 # --- RAG Helpers ---
-def find_similar_doc(text, DOC_TABLE):
+def find_similar_doc(text, DOC_TABLE, intent_mapped):
     safe_text = text.replace("'", "''")
     embedding_size = st.session_state.get("embedding_size", "1024")
     if embedding_size == "768":
@@ -195,7 +195,8 @@ def find_similar_doc(text, DOC_TABLE):
             f"""
         SELECT input_text,
                source_desc,
-               VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func}) AS dist
+               VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func})
+                * (CASE WHEN source = '{intent}' THEN 1.5 ELSE 1 END)  AS dist
         FROM {DOC_TABLE}
         ORDER BY dist DESC
         LIMIT 3
@@ -207,8 +208,9 @@ def find_similar_doc(text, DOC_TABLE):
     return "\n\n".join(docs["INPUT_TEXT"].tolist())
 
 
-def get_context(latest_user_message, DOC_TABLE):
-    return find_similar_doc(latest_user_message, DOC_TABLE)
+def get_context(latest_user_message, DOC_TABLE, intent):
+    intent_mapped = intent
+    return find_similar_doc(latest_user_message, DOC_TABLE, intent_mapped)
 
 
 def get_prompt(latest_user_message, context, intent):
@@ -344,37 +346,12 @@ for message in st.session_state.messages:
 if st.session_state.messages[-1]["role"] != "assistant":
     latest_user_message = get_latest_user_message() or ""
 
-# if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
-#     with st.chat_message("assistant", avatar="docs/avatar.png"):
-#         with st.status("🤖 Analyzing your question…", expanded=True) as status:
-#             status.update(label="🔍 Searching relevant information…")
-#             context = get_context(latest_user_message, DOC_TABLE)
-#             prompt = get_prompt(latest_user_message, context, intent)
-#             status.update(label="💬 Thinking…")
-#             model = st.session_state.get("model", "mistral-large")
-#             full_response = complete(model, prompt)
-#             response = full_response
-#         st.session_state.messages.append({"role": "assistant", "content": response})
-#         log_message_to_snowflake(
-#             session=session,
-#             session_id=st.session_state["session_id"],
-#             role="assistant",
-#             message=response,
-#             intent=intent,
-#             model_used=model,
-#             embedding_size=st.session_state.get("embedding_size"),
-#             context_snippet=context,
-#             prompt=prompt,
-#             message_type="response"
-#         )
-#         simulate_typing(response)
-#         status.update(label="Finished")
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
     status_placeholder = st.empty()
     status_placeholder.status("🔍 Searching relevant information…", expanded=True)
     
-    context = get_context(latest_user_message, DOC_TABLE)
+    context = get_context(latest_user_message, DOC_TABLE, intent)
     
     status_placeholder.status("💬 Thinking…")
     prompt = get_prompt(latest_user_message, context, intent)
@@ -395,7 +372,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         intent=intent,
         model_used=model,
         embedding_size=st.session_state.get("embedding_size"),
-        context_snippet=context,
+        context_snippet=None,
         prompt=prompt,
         message_type="response"
     )
