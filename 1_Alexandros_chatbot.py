@@ -503,10 +503,11 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         response = parsed["text"]
         tts_response = parsed["tts"]
         status_placeholder.empty()  # remove status completely
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
         with st.chat_message("assistant", avatar="docs/avatar.png"):
             simulate_typing(response = response,tts_response = tts_response)
 
-        st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
             session=session,
             session_id=st.session_state["session_id"],
@@ -568,7 +569,9 @@ elif intent == "casual_greeting":
                 prompt=prompt,
                 message_type="response"
             )
-            simulate_typing(response = response,tts_response = tts_response)
+            with st.chat_message("assistant", avatar="docs/avatar.png"):
+                simulate_typing(response = response,tts_response = tts_response)
+
     except Exception as e:
         response = handle_error(
             e,
@@ -614,7 +617,9 @@ elif intent == "unknown":
                 prompt=prompt,
                 message_type="response"
             )
-            simulate_typing(response = response,tts_response = tts_response)
+            with st.chat_message("assistant", avatar="docs/avatar.png"):
+                simulate_typing(response = response,tts_response = tts_response)
+
     except Exception as e:
         response = handle_error(
             e,
@@ -629,6 +634,13 @@ elif intent == "farewell":
             "Thank you for your time! I'm wrapping up the session now. "
             "If you have more questions about my background or skills later, feel free to return anytime."
         )
+        tts_response = """
+                    <speak>
+                    Thanks so much for your time! <break time="300ms"/>
+                    I'm gonna wrap things up for now. <break time="400ms"/>
+                    But hey — if you ever have more questions about my background or skills, <emphasis>feel free</emphasis> to stop by anytime.
+                    </speak>  
+        """
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
             session=session,
@@ -642,7 +654,9 @@ elif intent == "farewell":
             prompt=None,
             message_type="response"
         )
-        simulate_typing(response = response,tts_response = tts_response)
+        with st.chat_message("assistant", avatar="docs/avatar.png"):
+            simulate_typing(response = response,tts_response = tts_response)
+
         st.info("Thanks for chatting! You can download the chat history anytime, and I’d appreciate any feedback you share in the sidebar. 😊")
 
 
