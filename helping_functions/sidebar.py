@@ -104,7 +104,7 @@ def _render_contact():
     # Contact Links
     contact_links = [
         {
-            "label": "LinkedIn",
+            "label": "alexandros-chionidis-51579421b",
             "icon": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
             "url": "https://www.linkedin.com/in/alexandros-chionidis-51579421b/",
         },
@@ -114,7 +114,7 @@ def _render_contact():
             "url": "https://github.com/alexchio888",
         },
         {
-            "label": "Email",
+            "label": "alexandroschio@gmail.com",
             "icon": "https://cdn-icons-png.flaticon.com/512/732/732200.png",
             "url": "mailto:alexandroschio@gmail.com",
         },
