@@ -9,6 +9,7 @@ import io
 import time
 import streamlit.components.v1 as components
 from google.cloud import texttospeech
+import base64
 
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
@@ -48,6 +49,15 @@ def generate_google_tts_audio(text, voice_name="en-US-Wavenet-D", speaking_rate=
 
 def play_audio(audio_bytes):
     st.audio(audio_bytes, format="audio/mp3")
+
+def autoplay_audio(audio_bytes: bytes):
+    b64 = base64.b64encode(audio_bytes).decode()
+    md = f"""
+    <audio autoplay>
+        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+    </audio>
+    """
+    st.markdown(md, unsafe_allow_html=True)
 
 with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
@@ -101,7 +111,7 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
             response = response.get("full", "")
         # speak_text(response)
         audio = generate_google_tts_audio(response)
-        play_audio(audio)
+        autoplay_audio(audio)
 
     placeholder = st.empty()
     typed_text = ""
