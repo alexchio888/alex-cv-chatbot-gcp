@@ -517,7 +517,7 @@ elif intent == "casual_greeting":
                 Respond with:
                 1. "text" — A short, friendly written greeting (1–2 sentences) for a chatbot display. Use complete, professional grammar.
                 2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
-
+                Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
                 Respond in this JSON format:
 
                 {{
@@ -543,7 +543,7 @@ elif intent == "casual_greeting":
                 prompt=prompt,
                 message_type="response"
             )
-            simulate_typing(response,tts_response)
+            simulate_typing(response = response,tts_response = tts_response)
     except Exception as e:
         response = handle_error(
             e,
