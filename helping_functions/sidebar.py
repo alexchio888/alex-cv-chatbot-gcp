@@ -89,20 +89,30 @@ def _render_contact():
         unsafe_allow_html=True,
     )
     
-    # Phone number with lighter blue link and no underline
-    phone_number = "+306933419882"  # no spaces for tel: link
-    phone_display = "+30 693 341 9882"
-    phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
+    # # Phone number with lighter blue link and no underline
+    # phone_number = "+306933419882"  # no spaces for tel: link
+    # phone_display = "+30 693 341 9882"
+    # phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
 
-    st.sidebar.markdown(
-        f'<p style="margin: 0 0 12px 0; display: flex; align-items: center;">'
-        f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
-        f'<a href="tel:{phone_number}" style="text-decoration: none; color: #3399FF;">{phone_display}</a></p>',
-        unsafe_allow_html=True,
-    )
+    # st.sidebar.markdown(
+    #     f'<p style="margin: 0 0 12px 0; display: flex; align-items: center;">'
+    #     f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
+    #     f'<a href="tel:{phone_number}" style="text-decoration: none; color: #3399FF;">{phone_display}</a></p>',
+    #     unsafe_allow_html=True,
+    # )
     
     # Contact Links
     contact_links = [
+        {
+            "label": "+30 693 341 9882",
+            "icon": "https://cdn-icons-png.flaticon.com/512/724/724664.png",
+            "url": "tel:+306933419882",
+        },
+        {
+            "label": "alexandroschio@gmail.com",
+            "icon": "https://cdn-icons-png.flaticon.com/512/732/732200.png",
+            "url": "mailto:alexandroschio@gmail.com",
+        },
         {
             "label": "alexandros-chionidis-51579421b",
             "icon": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
@@ -113,12 +123,8 @@ def _render_contact():
             "icon": "https://cdn-icons-png.flaticon.com/512/733/733553.png",
             "url": "https://github.com/alexchio888",
         },
-        {
-            "label": "alexandroschio@gmail.com",
-            "icon": "https://cdn-icons-png.flaticon.com/512/732/732200.png",
-            "url": "mailto:alexandroschio@gmail.com",
-        },
     ]
+
 
     for contact in contact_links:
         # st.sidebar.markdown(
