@@ -1,6 +1,7 @@
 # tts_utils.py
 from google.cloud import texttospeech
 import base64
+import streamlit as st
 
 def get_voices():
     client = texttospeech.TextToSpeechClient()
