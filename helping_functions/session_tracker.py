@@ -5,6 +5,11 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 TABLE_NAME = "CHAT_LOGS"
+def reset_chat():
+    keys_to_clear = ["messages", "chatbot_error", "error_shown", "ready_prompt", "session_id", "other_state_vars"]
+    for key in keys_to_clear:
+        if key in st.session_state:
+            del st.session_state[key]
 
 def log_message_to_snowflake(
     session: Session,
@@ -100,7 +105,7 @@ def handle_error(e: Exception, user_friendly_message: str = "An unexpected error
         e (Exception): The exception to handle.
         user_friendly_message (str): Optional message to show users.
     """
-
+    reset_chat()
     # Optionally display a user-facing error
     st.error(f"❌ {user_friendly_message}")
 
