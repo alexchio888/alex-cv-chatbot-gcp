@@ -387,35 +387,43 @@ if st.session_state.messages[-1]["role"] != "assistant":
 
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
-    status_placeholder = st.empty()
-    status_placeholder.status("🔍 Searching relevant information…", expanded=True)
-    
-    context = get_context(latest_user_message, DOC_TABLE, intent)
-    
-    status_placeholder.status("💬 Thinking…")
-    prompt = get_prompt(latest_user_message, context, intent)
-    model = st.session_state.get("model", "mistral-large")
-    full_response = complete(model, prompt)
-    response = full_response
-    status_placeholder.empty()  # remove status completely
+    try:
+        status_placeholder = st.empty()
+        status_placeholder.status("🔍 Searching relevant information…", expanded=True)
+        
+        context = get_context(latest_user_message, DOC_TABLE, intent)
+        
+        status_placeholder.status("💬 Thinking…")
+        prompt = get_prompt(latest_user_message, context, intent)
+        model = st.session_state.get("model", "mistral-large")
+        full_response = complete(model, prompt)
+        response = full_response
+        status_placeholder.empty()  # remove status completely
 
-    with st.chat_message("assistant", avatar="docs/avatar.png"):
-        simulate_typing(response)
+        with st.chat_message("assistant", avatar="docs/avatar.png"):
+            simulate_typing(response)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
-    log_message_to_snowflake(
-        session=session,
-        session_id=st.session_state["session_id"],
-        role="assistant",
-        message=response,
-        intent=intent,
-        model_used=model,
-        embedding_size=st.session_state.get("embedding_size"),
-        context_snippet=context,
-        prompt=prompt,
-        message_type="response"
-    )
-
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
+            intent=intent,
+            model_used=model,
+            embedding_size=st.session_state.get("embedding_size"),
+            context_snippet=context,
+            prompt=prompt,
+            message_type="response"
+        )
+    except:
+        with st.chat_message("assistant", avatar="docs/avatar.png"):
+            st.error("🚫 The chatbot is temporarily unavailable due to a technical issue. Please try again later.")
+            simulate_typing("I'm currently unavailable due to high traffic or maintenance. Please try again shortly.")
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": "I'm currently unavailable due to high traffic or maintenance. Please try again shortly."
+        })        
 
 
  
