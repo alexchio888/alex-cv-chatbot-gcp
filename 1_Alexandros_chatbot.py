@@ -363,8 +363,9 @@ Return only the category name.
 
 latest_user_message = ""
 
-if st.button("🔄 Reset Chat"):
-    reset_conversation()
+if not st.session_state.get("chatbot_error", False):
+    if st.button("🔄 Reset Chat"):
+        reset_conversation()
 
 
 # --- Chat Loop ---
