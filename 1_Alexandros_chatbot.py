@@ -344,6 +344,12 @@ def get_prompt(latest_user_message, context, intent):
     1. "text" — The answer as instructed
     2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
     Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+    Ensure the SSML is valid and well-formed:
+    - Always wrap in <speak>...</speak>
+    - Do not include unescaped special characters (e.g., & → &amp;)
+    - Only use supported tags like <break>, <emphasis>, <prosody>
+    - Avoid nesting tags incorrectly (e.g., no <emphasis><break/></emphasis>)
+    - Close all quotes and tags
     
     Respond strictly in this JSON format:
 
