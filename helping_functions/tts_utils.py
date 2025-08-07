@@ -76,3 +76,4 @@ def autoplay_audio(audio_bytes: bytes, volume: float = 1.0):
     </script>
     """
     st.markdown(md, unsafe_allow_html=True)
+
