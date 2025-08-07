@@ -89,12 +89,9 @@ def _render_contact():
     #     unsafe_allow_html=True,
     # )
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    house_icon = "https://cdn-icons-png.flaticon.com/512/25/25694.png"  # example house icon URL
-
     st.sidebar.markdown(
         f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF; display: inline-flex; align-items: center; margin: 0 0 12px 0; white-space: nowrap;">'
-        f'<img src="{house_icon}" width="20" style="margin-right: 8px;" />'
-        f'<strong>Melissia, Athens, Greece</strong></a>',
+        f'🏠 <strong>Melissia, Athens, Greece</strong></a>',
         unsafe_allow_html=True,
     )    
     
