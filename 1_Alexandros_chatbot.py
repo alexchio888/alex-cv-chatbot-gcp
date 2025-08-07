@@ -10,6 +10,7 @@ import time
 import streamlit.components.v1 as components
 from google.cloud import texttospeech
 import base64
+import json
 
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
@@ -57,15 +58,15 @@ def reset_conversation():
     ]
 
 
-def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
+def simulate_typing(response: str,tts_response, typing_speed: float = 0.015):  # typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
 
     # 🔊 Trigger voice in parallel (non-blocking JS)
     if st.session_state.get("speak_responses", False):
-        if isinstance(response, dict):
-            response = response.get("full", "")
+        if isinstance(tts_response, dict):
+            tts_response = response.get("full", "")
         # speak_text(response)
-        audio = generate_google_tts_audio(response, selected_voice)
+        audio = generate_google_tts_audio(tts_response, selected_voice)
         autoplay_audio(audio)
 
     placeholder = st.empty()
@@ -512,9 +513,21 @@ elif intent == "casual_greeting":
     You are Alexandros Chionidis, a friendly and professional data engineer. The user said: "{latest_user_message}"
     Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
     Keep it short (1-2 sentences), and avoid sounding like a robot.
+    
+    The same message rewritten in a natural, conversational style for spoken output.
+
+    Respond in this JSON format:
+
+    {
+    "text": "...", 
+    "tts": "....
+    }    
     """    
             model = st.session_state.get("model", "mistral-large")
-            response = complete(model, prompt)
+            response_json = complete(model, prompt)
+            parsed = json.loads(response)
+            response = parsed["text"]
+            tts_response = parsed["tts"]
             st.session_state.messages.append({"role": "assistant", "content": response})
             log_message_to_snowflake(
                 session=session,
@@ -528,7 +541,7 @@ elif intent == "casual_greeting":
                 prompt=prompt,
                 message_type="response"
             )
-            simulate_typing(response)
+            simulate_typing(response,tts_response)
     except Exception as e:
         response = handle_error(
             e,
