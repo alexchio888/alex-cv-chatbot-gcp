@@ -412,8 +412,8 @@ else:
                     st.markdown(content)
 
 
-if st.session_state.messages[-1]["role"] != "assistant":
-    latest_user_message = get_latest_user_message() or ""
+    if st.session_state.messages[-1]["role"] != "assistant":
+        latest_user_message = get_latest_user_message() or ""
 
 
 if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_message:
