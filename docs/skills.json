@@ -12,13 +12,13 @@
         ]
       },
       {
-        "name": "Big Data & Streaming",
+        "name": "Big Data & Orchestration",
         "skills": [
           {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 9, "experience_years": 4},
           {"name": "Spark", "level": 8, "experience_years": 4},
           {"name": "Kafka", "level": 6, "experience_years": 2},
           {"name": "Airflow", "level": 9, "experience_years": 4},
-          {"name": "Delta Lake", "level": 7, "experience_years": 2}
+          {"name": "Delta Lake", "level": 8, "experience_years": 2}
         ]
       },
       {
@@ -45,7 +45,7 @@
       {
         "name": "Warehousing & Lakehouse Solutions",
         "skills": [
-          {"name": "Delta Lake", "level": 9, "experience_years": 2},
+          {"name": "Delta Lake", "level": 8, "experience_years": 2},
           {"name": "Snowflake", "level": 5, "experience_years": 1},
           {"name": "Hive", "level": 9, "experience_years": 4},
           {"name": "Impala", "level": 7, "experience_years": 2}
