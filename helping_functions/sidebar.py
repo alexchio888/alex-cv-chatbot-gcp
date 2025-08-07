@@ -109,7 +109,7 @@ def _render_contact():
             "url": "https://www.linkedin.com/in/alexandros-chionidis-51579421b/",
         },
         {
-            "label": "GitHub",
+            "label": "alexchio888",
             "icon": "https://cdn-icons-png.flaticon.com/512/733/733553.png",
             "url": "https://github.com/alexchio888",
         },
