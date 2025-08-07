@@ -29,7 +29,7 @@
           {"name": "Impala", "level": 7, "experience_years": 2},
           {"name": "PostgreSQL", "level": 6, "experience_years": 2},
           {"name": "MySQL", "level": 6, "experience_years": 3},
-          {"name": "MongoDB", "level": 4, "experience_years": 1}
+          {"name": "MongoDB", "level": 3, "experience_years": 1}
         ]
       },
       {
