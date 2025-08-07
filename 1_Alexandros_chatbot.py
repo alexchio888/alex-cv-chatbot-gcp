@@ -531,46 +531,45 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
 
 elif intent == "casual_greeting":
     try:
-        with st.chat_message("assistant"):
-            prompt = f"""
-                You are Alexandros Chionidis, a friendly and professional data engineer.
+        prompt = f"""
+            You are Alexandros Chionidis, a friendly and professional data engineer.
 
-                The user said: "{latest_user_message}"
+            The user said: "{latest_user_message}"
 
-                Respond with:
-                1. "text" — Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
-                    Keep it short (1-2 sentences), and avoid sounding like a robot.
-                2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
-                Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
-                
-                Respond strictly in this JSON format:
+            Respond with:
+            1. "text" — Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
+                Keep it short (1-2 sentences), and avoid sounding like a robot.
+            2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
+            Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+            
+            Respond strictly in this JSON format:
 
-                {{
-                "text": "...", 
-                "tts": "<speak>...</speak>"
-                }}
-            """
+            {{
+            "text": "...", 
+            "tts": "<speak>...</speak>"
+            }}
+        """
 
-            model = st.session_state.get("model", "mistral-large")
-            response_json = complete(model, prompt)
-            parsed = json.loads(response_json)
-            response = parsed["text"]
-            tts_response = parsed["tts"]
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            log_message_to_snowflake(
-                session=session,
-                session_id=st.session_state["session_id"],
-                role="assistant",
-                message=response,
-                intent=intent,
-                model_used=model,
-                embedding_size=st.session_state.get("embedding_size"),
-                context_snippet=None,
-                prompt=prompt,
-                message_type="response"
-            )
-            with st.chat_message("assistant", avatar="docs/avatar.png"):
-                simulate_typing(response = response,tts_response = tts_response)
+        model = st.session_state.get("model", "mistral-large")
+        response_json = complete(model, prompt)
+        parsed = json.loads(response_json)
+        response = parsed["text"]
+        tts_response = parsed["tts"]
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
+            intent=intent,
+            model_used=model,
+            embedding_size=st.session_state.get("embedding_size"),
+            context_snippet=None,
+            prompt=prompt,
+            message_type="response"
+        )
+        with st.chat_message("assistant", avatar="docs/avatar.png"):
+            simulate_typing(response = response,tts_response = tts_response)
 
     except Exception as e:
         response = handle_error(
@@ -582,43 +581,42 @@ elif intent == "casual_greeting":
 
 elif intent == "unknown":
     try:
-        with st.chat_message("assistant", avatar = "docs/avatar.png"):
-            prompt = f"""
-    The user said: "{latest_user_message}"
+        prompt = f"""
+            The user said: "{latest_user_message}"
 
-    As Alexandros Chionidis, 
-    Respond with:
-    1. "text" — politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
-    2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
-    Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
-    
-    Respond strictly in this JSON format:
+            As Alexandros Chionidis, 
+            Respond with:
+            1. "text" — politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+            2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
+            Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
 
-    {{
-    "text": "...", 
-    "tts": "<speak>...</speak>"
-    }}
-        """
-            model = st.session_state.get("model", "mistral-large")
-            response_json = complete(model, prompt)
-            parsed = json.loads(response_json)
-            response = parsed["text"]
-            tts_response = parsed["tts"]
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            log_message_to_snowflake(
-                session=session,
-                session_id=st.session_state["session_id"],
-                role="assistant",
-                message=response,
-                intent=intent,
-                model_used=model,
-                embedding_size=st.session_state.get("embedding_size"),
-                context_snippet=None,
-                prompt=prompt,
-                message_type="response"
-            )
-            with st.chat_message("assistant", avatar="docs/avatar.png"):
-                simulate_typing(response = response,tts_response = tts_response)
+            Respond strictly in this JSON format:
+
+            {{
+            "text": "...", 
+            "tts": "<speak>...</speak>"
+            }}
+            """
+        model = st.session_state.get("model", "mistral-large")
+        response_json = complete(model, prompt)
+        parsed = json.loads(response_json)
+        response = parsed["text"]
+        tts_response = parsed["tts"]
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        log_message_to_snowflake(
+            session=session,
+            session_id=st.session_state["session_id"],
+            role="assistant",
+            message=response,
+            intent=intent,
+            model_used=model,
+            embedding_size=st.session_state.get("embedding_size"),
+            context_snippet=None,
+            prompt=prompt,
+            message_type="response"
+        )
+        with st.chat_message("assistant", avatar="docs/avatar.png"):
+            simulate_typing(response = response,tts_response = tts_response)
 
     except Exception as e:
         response = handle_error(
