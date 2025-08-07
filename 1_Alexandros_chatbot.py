@@ -399,14 +399,17 @@ else:
     intent = None
 
 # --- Display chat messages (Full response only) ---
-for message in st.session_state.messages:
-    avatar = "docs/avatar.png" if message["role"] == "assistant" else None
-    with st.chat_message(message["role"], avatar=avatar):
-        content = message["content"]
-        if message["role"] == "assistant" and isinstance(content, dict):
-            st.markdown(content["full"])
-        else:
-            st.markdown(content)
+if st.session_state.chatbot_error == True:
+    st.markdown("testing")
+else: 
+    for message in st.session_state.messages:
+            avatar = "docs/avatar.png" if message["role"] == "assistant" else None
+            with st.chat_message(message["role"], avatar=avatar):
+                content = message["content"]
+                if message["role"] == "assistant" and isinstance(content, dict):
+                    st.markdown(content["full"])
+                else:
+                    st.markdown(content)
 
 
 if st.session_state.messages[-1]["role"] != "assistant":
