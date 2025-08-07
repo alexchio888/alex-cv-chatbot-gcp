@@ -441,8 +441,8 @@ if not st.session_state.get("chatbot_error", False):
 # --- Chat Loop ---
 # Only show input if no chatbot error
 
-if st.session_state["chatbot_error"] == False:
-    chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+# if st.session_state["chatbot_error"] == False:
+chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 # else:
 #     # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
 #     st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
