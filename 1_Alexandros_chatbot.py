@@ -87,6 +87,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 ) 
 
+if "session_id" not in st.session_state:
+    st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
+
 col1, col2 = st.columns([1, 6])
 
 with col1:
@@ -185,8 +188,7 @@ except Exception as e:
         "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
     )
 
-if "session_id" not in st.session_state:
-    st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
+
 if "show_feedback_form" not in st.session_state:
     st.session_state.show_feedback_form = False
 if "feedback_submitted" not in st.session_state:
