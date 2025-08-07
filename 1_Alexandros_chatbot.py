@@ -167,8 +167,7 @@ if "chatbot_error" not in st.session_state:
     st.session_state.chatbot_error = False
 
 if "messages" not in st.session_state:
-    if st.session_state.chatbot_error == False:
-        reset_conversation()
+    reset_conversation()
 
 
 
