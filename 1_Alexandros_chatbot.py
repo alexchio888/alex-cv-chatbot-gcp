@@ -460,7 +460,7 @@ else:
         with col2:
             if st.button("📊 Explore my Skills and Professional Timeline"):
                 st.switch_page("pages/2_Timeline_and_Skills.py")
-    chat_input = None
+    # chat_input = None
 
 user_message = None
 if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
