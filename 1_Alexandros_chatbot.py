@@ -67,9 +67,9 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, vol
             tts_response = tts_response.get("full", "")
         # speak_text(response)
         audio = generate_google_tts_audio(tts_response, selected_voice)
-        st.session_state["last_tts_audio"] = audio
         autoplay_audio(audio,volume=volume)
-
+        st.audio(audio, format="audio/mp3")
+        
     placeholder = st.empty()
     typed_text = ""
     for char in response:
