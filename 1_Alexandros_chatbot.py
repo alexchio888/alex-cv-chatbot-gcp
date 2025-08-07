@@ -370,7 +370,8 @@ if "chatbot_error" not in st.session_state:
 if st.session_state["chatbot_error"] == False:
     chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 else:
-    st.info("Chat is currently disabled due to an error. Please refresh the page to restart.")
+    st.info("The chatbot is temporarily unavailable due to high traffic or maintenance. Please refresh the page to restart.")
+    st.rerun()
     chat_input = None
 
 user_message = None
