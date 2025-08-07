@@ -103,11 +103,21 @@ with col2:
     if st.button("View Timeline & Skills ➡️"):
         st.switch_page("pages/2_Timeline_and_Skills.py")
 
-st.checkbox(
-    label="🔊 Enable Speak Responses (Text-to-Speech)",
+speak_enabled = st.checkbox(
+    label="🔊 Let me speak my answers aloud!",
     key="speak_responses",
-    help="Toggle this option to have the chatbot read its answers aloud."
+    help="Toggle this to hear my responses read out loud."
 )
+
+if speak_enabled:
+    volume = st.slider(
+        label="🔉 Volume",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.7,
+        step=0.05,
+        help="Adjust the volume of my spoken responses."
+    )
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
