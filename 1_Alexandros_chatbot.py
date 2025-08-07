@@ -104,9 +104,9 @@ with col2:
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
 
-voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
-selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Chirp-HD-D") if "en-US-Chirp-HD-D" in voices else 0)
-
+# voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
+# selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Neural2-D") if "en-US-Neural2-D" in voices else 0)
+selected_voice = 'en-US-Neural2-D'
 
 
 def generate_chat_text():
@@ -350,7 +350,7 @@ def get_prompt(latest_user_message, context, intent):
     - Only use supported tags like <break>, <emphasis>, <prosody>
     - Avoid nesting tags incorrectly (e.g., no <emphasis><break/></emphasis>)
     - Close all quotes and tags
-    
+
     Respond strictly in this JSON format:
 
     {{
