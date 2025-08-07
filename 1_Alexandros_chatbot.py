@@ -15,6 +15,11 @@ from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
 from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
+from helping_functions.tts_utils import *
+
+voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
+selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Wavenet-D") if "en-US-Wavenet-D" in voices else 0)
+
 
 # Write the secrets JSON to a temporary file
 key_path = "/tmp/gcp_tts_key.json"
@@ -23,57 +28,10 @@ with open(key_path, "w") as f:
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
 
-def generate_google_tts_audio(text, voice_name="en-US-Chirp3-D", speaking_rate=1.0):
-    client = texttospeech.TextToSpeechClient()
-
-    synthesis_input = texttospeech.SynthesisInput(text=text)
-
-    voice = texttospeech.VoiceSelectionParams(
-        language_code="en-US",
-        name=voice_name,
-        ssml_gender=texttospeech.SsmlVoiceGender.MALE
-    )
-
-    audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3,
-        speaking_rate=speaking_rate
-    )
-
-    response = client.synthesize_speech(
-        input=synthesis_input,
-        voice=voice,
-        audio_config=audio_config
-    )
-
-    return response.audio_content
-
-def play_audio(audio_bytes):
-    st.audio(audio_bytes, format="audio/mp3")
-
-def autoplay_audio(audio_bytes: bytes):
-    b64 = base64.b64encode(audio_bytes).decode()
-    md = f"""
-    <audio autoplay>
-        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-    </audio>
-    """
-    st.markdown(md, unsafe_allow_html=True)
 
 with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
 skills_summary_text = get_compact_skill_summary(skills_data)
-
-def speak_text(text):
-    speak_js = f"""
-    <script>
-    var msg = new SpeechSynthesisUtterance({json.dumps(text)});
-    msg.lang = 'en-US';
-    msg.rate = 1;
-    window.speechSynthesis.cancel();  // stop any current speech
-    window.speechSynthesis.speak(msg);
-    </script>
-    """
-    components.html(speak_js, height=0)
 
 
 def get_previous_chat_context(n=2):
@@ -110,7 +68,7 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
         if isinstance(response, dict):
             response = response.get("full", "")
         # speak_text(response)
-        audio = generate_google_tts_audio(response)
+        audio = generate_google_tts_audio(response, selected_voice)
         autoplay_audio(audio)
 
     placeholder = st.empty()
@@ -441,27 +399,27 @@ if not st.session_state.get("chatbot_error", False):
 # --- Chat Loop ---
 # Only show input if no chatbot error
 
-# if st.session_state["chatbot_error"] == False:
-chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
-# else:
-#     # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
-#     st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
+if st.session_state["chatbot_error"] == False:
+    chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+else:
+    # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
+    st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
 
-#     with st.container():
-#         st.markdown("### 😔 I'm currently offline")
-#         st.markdown(
-#             """
-#             The chatbot isn't available at the moment.  
-#             But feel free to check out my skills and experience while you're here!
-#             """
-#         )
-#         col1, col2 = st.columns([1, 6])
-#         with col1:
-#             st.markdown("### 👉")
-#         with col2:
-#             if st.button("📊 Explore my Skills and Professional Timeline"):
-#                 st.switch_page("pages/2_Timeline_and_Skills.py")
-#     chat_input = None
+    with st.container():
+        st.markdown("### 😔 I'm currently offline")
+        st.markdown(
+            """
+            The chatbot isn't available at the moment.  
+            But feel free to check out my skills and experience while you're here!
+            """
+        )
+        col1, col2 = st.columns([1, 6])
+        with col1:
+            st.markdown("### 👉")
+        with col2:
+            if st.button("📊 Explore my Skills and Professional Timeline"):
+                st.switch_page("pages/2_Timeline_and_Skills.py")
+    chat_input = None
 
 user_message = None
 if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
