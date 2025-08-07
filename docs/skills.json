@@ -54,7 +54,7 @@
       {
         "name": "Visualization & BI Tools",
         "skills": [
-          {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
+          {"name": "Oracle Analytics Server (OAS)", "level": 7, "experience_years": 2},
           {"name": "Tableau", "level": 4, "experience_years": 1},
           {"name": "Apache Superset", "level": 7, "experience_years": 2},
           {"name": "Power BI", "level": 1, "experience_years": 0},
