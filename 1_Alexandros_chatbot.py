@@ -118,7 +118,8 @@ render_sidebar(
 )
 
 # --- Connect to Snowflake ---
-@st.cache_resource
+# @st.cache_resource
+@st.cache_resource(ttl=2*60*60)  # TTL in seconds (24 hours)
 def create_session():
     connection_parameters = {
         "account": st.secrets["account"],
