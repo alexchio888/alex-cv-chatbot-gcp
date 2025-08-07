@@ -109,7 +109,10 @@ with col2:
 speak_enabled = st.checkbox(
     label="🔊 Let me speak my answers aloud!",
     key="speak_responses",
-    help="Toggle this to hear my responses read out loud."
+    help=(
+        "Hear me talk! 🔊 Just a heads-up: browsers and devices all handle sound a little differently, "
+        "so playback or volume might vary."
+    )
 )
 
 volume = st.slider(
@@ -118,7 +121,7 @@ volume = st.slider(
     max_value=1.0,
     value=0.7,
     step=0.05,
-    help="Adjust the volume of my spoken responses.",
+    help="Adjust the volume of my spoken responses. Might not work on some devices or browsers.",
     disabled=not speak_enabled
 )
 
