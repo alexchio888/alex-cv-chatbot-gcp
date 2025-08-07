@@ -2,6 +2,19 @@
 from google.cloud import texttospeech
 import base64
 import streamlit as st
+import xml.etree.ElementTree as ET
+import re
+
+def is_valid_ssml(ssml_text):
+    try:
+        ET.fromstring(ssml_text)
+        return True
+    except ET.ParseError:
+        return False
+
+def strip_ssml_tags(ssml_text: str) -> str:
+    # Remove anything between <...> including the tags
+    return re.sub(r'<[^>]+>', '', ssml_text)
 
 def get_voices():
     client = texttospeech.TextToSpeechClient()
@@ -15,7 +28,11 @@ def get_voices():
             filtered_voices.append(voice.name)
     return filtered_voices
 
-def generate_google_tts_audio(text, voice_name='en-US-Chirp-HD-D', speaking_rate=1):
+def generate_google_tts_audio(text, voice_name='en-US-Neural2-D', speaking_rate=1):
+    if not is_valid_ssml(text):
+        # Fallback: strip tags or log the issue
+        text = strip_ssml_tags(text)
+
     client = texttospeech.TextToSpeechClient()
 
     # Detect if it's SSML
