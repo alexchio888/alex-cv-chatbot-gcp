@@ -166,7 +166,8 @@ if "context_message_count" not in st.session_state:
 if "chatbot_error" not in st.session_state:
     st.session_state.chatbot_error = False
 
-if "messages" not in st.session_state:
+# if "messages" not in st.session_state:
+if "messages" not in st.session_state and not st.session_state.get("chatbot_error", False):
     reset_conversation()
 
 
