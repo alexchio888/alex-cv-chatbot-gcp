@@ -367,12 +367,12 @@ if "chatbot_error" not in st.session_state:
     st.session_state.chatbot_error = False
 # --- Chat Loop ---
 # Only show input if no chatbot error
-if not st.session_state.chatbot_error:
+if st.session_state["chatbot_error"] == False:
     chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 else:
     st.info("Chat is currently disabled due to an error. Please refresh the page to restart.")
     chat_input = None
-    
+
 user_message = None
 if "ready_prompt" in st.session_state:
     user_message = st.session_state.ready_prompt
