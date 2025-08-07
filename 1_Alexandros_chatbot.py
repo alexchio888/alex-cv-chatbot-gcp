@@ -376,7 +376,7 @@ else:
     chat_input = None
 
 user_message = None
-if "ready_prompt" in st.session_state:
+if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
     user_message = st.session_state.ready_prompt
     del st.session_state.ready_prompt
 elif chat_input:
