@@ -64,7 +64,7 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015):  #
     # 🔊 Trigger voice in parallel (non-blocking JS)
     if st.session_state.get("speak_responses", False):
         if isinstance(tts_response, dict):
-            tts_response = response.get("full", "")
+            tts_response = tts_response.get("full", "")
         # speak_text(response)
         audio = generate_google_tts_audio(tts_response, selected_voice)
         autoplay_audio(audio)
