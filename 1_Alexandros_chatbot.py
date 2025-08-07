@@ -199,11 +199,16 @@ Return only the rewritten search query (1-2 sentences), no extra text.
         response = complete(model, prompt)
         search_query = "".join(response).strip()
         return search_query
-    except Exception as e:
-        st.error("Failed to create improved search query.")
-        st.exception(e)
-        return user_message  # fallback
+    # except Exception as e:
+    #     st.error("Failed to create improved search query.")
+    #     st.exception(e)
+    #     return user_message  # fallback
 
+    except Exception as e:
+        response = handle_error(
+            e,
+            "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
+        )
 
 
 
