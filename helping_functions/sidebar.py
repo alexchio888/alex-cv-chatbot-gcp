@@ -91,9 +91,9 @@ def _render_contact():
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.sidebar.markdown(
         f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF; display: inline-flex; align-items: center; margin: 0 0 12px 0; white-space: nowrap;">'
-        f'<span style="margin-right: 28px;">🏠 <strong>Melissia, Athens, Greece</strong></a>',
+        f'<span style="margin-right: 8px;">🏠</span><strong>Melissia, Athens, Greece</strong></a>',
         unsafe_allow_html=True,
-    )    
+    )
     
     # Contact Links
     contact_links = [
@@ -127,7 +127,7 @@ def _render_contact():
         #     unsafe_allow_html=True,
         # )
         st.sidebar.markdown(
-            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: inline-flex; align-items: center; white-space: nowrap; margin: 4px 0; color: #3399FF;">'
+            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: inline-flex; align-items: center; white-space: nowrap; margin: 2px 0; color: #3399FF;">'
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
