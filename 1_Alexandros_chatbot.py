@@ -224,7 +224,7 @@ def find_similar_doc(text, DOC_TABLE, intent_mapped):
                VECTOR_COSINE_SIMILARITY({embedding_column}, {embedding_func})
                 * (
                     CASE WHEN source_desc = 'Language Fluency' THEN 0.3
-                    CASE WHEN source = '{intent_mapped}' THEN 1.5 
+                        WHEN source = '{intent_mapped}' THEN 1.5 
                     ELSE 1 END
                 )  AS dist
         FROM {DOC_TABLE}
