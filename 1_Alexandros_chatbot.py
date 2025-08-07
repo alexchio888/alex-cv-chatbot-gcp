@@ -18,6 +18,24 @@ with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
 skills_summary_text = get_compact_skill_summary(skills_data)
 
+def speak_text(text):
+    speak_js = f"""
+    <script>
+    var msg = new SpeechSynthesisUtterance({json.dumps(text)});
+    msg.lang = 'en-US';
+    msg.rate = 1;
+    window.speechSynthesis.cancel();  // stop any current speech
+    window.speechSynthesis.speak(msg);
+    </script>
+    """
+    components.html(speak_js, height=0)
+
+def maybe_speak_response(response):
+    if st.session_state.get("speak_responses", False):
+        if isinstance(response, dict):
+            response = response.get("full", "")
+        speak_text(response)
+
 def get_previous_chat_context(n=2):
     # Take the last n messages from chat history, format them nicely
     messages = st.session_state.messages[-n:]
@@ -503,6 +521,7 @@ elif intent == "casual_greeting":
                 message_type="response"
             )
             simulate_typing(response)
+            maybe_speak_response(response)
     except Exception as e:
         response = handle_error(
             e,
