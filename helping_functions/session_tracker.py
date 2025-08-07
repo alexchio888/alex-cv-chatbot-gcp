@@ -92,3 +92,27 @@ def ensure_user_id():
         </script>
     """, height=0)
 
+def handle_error(e: Exception, user_friendly_message: str = "An unexpected error occurred."):
+    """
+    General-purpose error handler.
+    
+    Args:
+        e (Exception): The exception to handle.
+        user_friendly_message (str): Optional message to show users.
+    """
+
+    # Optionally display a user-facing error
+    st.error(f"❌ {user_friendly_message}")
+
+    # Expandable for developers
+    with st.expander("🔍 See technical details"):
+        st.exception(e)
+
+    # Optional: Set maintenance flag in session state (or even secrets if needed)
+    st.session_state["chatbot_error"] = True
+
+    # Optional: You can trigger logging to Snowflake or another service here
+    # log_exception_to_snowflake(e)  # example placeholder
+
+    # Optional: Return safe default/fallback message for user-facing components
+    return "Something went wrong. Please try again later."

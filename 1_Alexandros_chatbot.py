@@ -133,15 +133,11 @@ def create_session():
 
 try:
     session = create_session()
-except:
-    with st.chat_message("assistant", avatar="docs/avatar.png"):
-        st.error("🚫 The chatbot is temporarily unavailable due to a technical issue. Please try again later.")
-        simulate_typing("I'm currently unavailable due to high traffic or maintenance. Please try again shortly.")
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": "I'm currently unavailable due to high traffic or maintenance. Please try again shortly."
-    })        
-
+except Exception as e:
+    response = handle_error(
+        e,
+        "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
+    )
 
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
@@ -425,14 +421,11 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
             prompt=prompt,
             message_type="response"
         )
-    except:
-        with st.chat_message("assistant", avatar="docs/avatar.png"):
-            st.error("🚫 The chatbot is temporarily unavailable due to a technical issue. Please try again later.")
-            simulate_typing("I'm currently unavailable due to high traffic or maintenance. Please try again shortly.")
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": "I'm currently unavailable due to high traffic or maintenance. Please try again shortly."
-        })        
+    except Exception as e:
+        response = handle_error(
+            e,
+            "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
+        )
 
 
  
