@@ -9,7 +9,7 @@ def render_skills_dashboard(skills_data):
     # Choose display mode
     display_mode = st.radio(
         label="**Display mode:**",
-        options=["Dot Meter", "Stars", "Text"],
+        options=["Text", "Dot Meter", "Stars"],
         horizontal=True
     )
     category_names = [cat["name"] for cat in categories]
