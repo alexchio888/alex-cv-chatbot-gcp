@@ -14,7 +14,7 @@
       {
         "name": "Big Data & Streaming",
         "skills": [
-          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 8, "experience_years": 4},
+          {"name": "Hadoop Ecosystem (HDFS, Hive, Sqoop)", "level": 9, "experience_years": 4},
           {"name": "Spark", "level": 8, "experience_years": 4},
           {"name": "Kafka", "level": 6, "experience_years": 2},
           {"name": "Airflow", "level": 9, "experience_years": 4},
@@ -25,10 +25,11 @@
         "name": "Databases & Query Engines",
         "skills": [
           {"name": "Cassandra", "level": 5, "experience_years": 2},
-          {"name": "Trino", "level": 8, "experience_years": 2},
+          {"name": "Trino", "level": 9, "experience_years": 2},
           {"name": "Impala", "level": 7, "experience_years": 2},
           {"name": "PostgreSQL", "level": 6, "experience_years": 2},
-          {"name": "MySQL", "level": 6, "experience_years": 3}
+          {"name": "MySQL", "level": 6, "experience_years": 3},
+          {"name": "MongoDB", "level": 4, "experience_years": 1}
         ]
       },
       {
@@ -44,11 +45,10 @@
       {
         "name": "Data Warehousing & Lakehouse Solutions",
         "skills": [
-          {"name": "Delta Lake", "level": 7, "experience_years": 2},
+          {"name": "Delta Lake", "level": 9, "experience_years": 2},
           {"name": "Snowflake", "level": 4, "experience_years": 1},
-          {"name": "Hive", "level": 8, "experience_years": 4},
-          {"name": "Impala", "level": 7, "experience_years": 2},
-          {"name": "Trino", "level": 8, "experience_years": 2}
+          {"name": "Hive", "level": 9, "experience_years": 4},
+          {"name": "Impala", "level": 7, "experience_years": 2}
         ]
       },
       {
