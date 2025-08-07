@@ -65,7 +65,7 @@
       {
         "name": "Machine Learning and AI",
         "skills": [
-          {"name": "Feature Engineering", "level": 6, "experience_years": 3},
+          {"name": "Feature Engineering", "level": 7, "experience_years": 3},
           {"name": "Spark (Core & MLlib)", "level": 5, "experience_years": 3},
           {"name": "Scikit-learn", "level": 3, "experience_years": 2},
           {"name": "TensorFlow", "level": 2, "experience_years": 2},
@@ -93,9 +93,9 @@
         "name": "Soft Skills & Agile Methodologies",
         "skills": [
           {"name": "Technical Ownership", "level": 8},
-          {"name": "Stakeholder Communication", "level": 9},
+          {"name": "Stakeholder Communication", "level": 8},
           {"name": "Problem Solving & Critical Thinking", "level": 9},
-          {"name": "Cross-Functional Collaboration", "level": 8},
+          {"name": "Cross-Functional Collaboration", "level": 9},
           {"name": "Product-Oriented Thinking", "level": 7},
           {"name": "Agile Methodologies", "level": 7},
           {"name": "Collaboration & Knowledge Sharing", "level": 9},
