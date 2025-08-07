@@ -127,7 +127,8 @@ def _render_contact():
         #     unsafe_allow_html=True,
         # )
         st.sidebar.markdown(
-            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: inline-flex; align-items: center; white-space: nowrap; margin: 2px 0; color: #3399FF;">'
+            f'<a href="{contact["url"]}" target="_blank" '
+            f'style="text-decoration: none !important; display: inline-flex; align-items: center; white-space: nowrap; margin: 2px 0; color: #3399FF;">'
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
