@@ -17,9 +17,6 @@ from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
 from helping_functions.tts_utils import *
 
-voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
-selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Wavenet-D") if "en-US-Wavenet-D" in voices else 0)
-
 
 # Write the secrets JSON to a temporary file
 key_path = "/tmp/gcp_tts_key.json"
@@ -105,6 +102,9 @@ with col2:
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
+
+voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
+selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Wavenet-D") if "en-US-Wavenet-D" in voices else 0)
 
 
 
