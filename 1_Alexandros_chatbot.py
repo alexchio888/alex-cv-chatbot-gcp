@@ -525,7 +525,7 @@ elif intent == "casual_greeting":
     """    
             model = st.session_state.get("model", "mistral-large")
             response_json = complete(model, prompt)
-            parsed = json.loads(response)
+            parsed = json.loads(response_json)
             response = parsed["text"]
             tts_response = parsed["tts"]
             st.session_state.messages.append({"role": "assistant", "content": response})
