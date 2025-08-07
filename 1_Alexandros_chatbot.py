@@ -510,19 +510,21 @@ elif intent == "casual_greeting":
     try:
         with st.chat_message("assistant"):
             prompt = f"""
-    You are Alexandros Chionidis, a friendly and professional data engineer. The user said: "{latest_user_message}"
-    Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
-    Keep it short (1-2 sentences), and avoid sounding like a robot.
-    
-    The same message rewritten in a natural, conversational style for spoken output.
+                You are Alexandros Chionidis, a friendly and professional data engineer.
 
-    Respond strictly in this JSON format:
+                The user said: "{latest_user_message}"
 
-    {{
-    "text": "...", 
-    "tts": "....
-    }}    
-    """    
+                Respond with:
+                1. "text" — A short, friendly written greeting (1–2 sentences) for a chatbot display. Use complete, professional grammar.
+                2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
+
+                Respond in this JSON format:
+
+                {{
+                "text": "...", 
+                "tts": "<speak>...</speak>"
+                }}
+            """
             model = st.session_state.get("model", "mistral-large")
             response_json = complete(model, prompt)
             parsed = json.loads(response_json)

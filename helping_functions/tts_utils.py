@@ -15,15 +15,19 @@ def get_voices():
             filtered_voices.append(voice.name)
     return filtered_voices
 
-def generate_google_tts_audio(text, voice_name = 'en-US-Chirp-HD-D', speaking_rate=1):
+def generate_google_tts_audio(text, voice_name='en-US-Chirp-HD-D', speaking_rate=1):
     client = texttospeech.TextToSpeechClient()
 
-    synthesis_input = texttospeech.SynthesisInput(text=text)
+    # Detect if it's SSML
+    if text.strip().startswith("<speak>"):
+        synthesis_input = texttospeech.SynthesisInput(ssml=text)
+    else:
+        synthesis_input = texttospeech.SynthesisInput(text=text)
 
     voice = texttospeech.VoiceSelectionParams(
         language_code="en-US",
         name=voice_name,
-        ssml_gender=texttospeech.SsmlVoiceGender.MALE  # Or you can also make gender selectable
+        ssml_gender=texttospeech.SsmlVoiceGender.MALE
     )
 
     audio_config = texttospeech.AudioConfig(
