@@ -516,12 +516,12 @@ elif intent == "casual_greeting":
     
     The same message rewritten in a natural, conversational style for spoken output.
 
-    Respond in this JSON format:
+    Respond strictly in this JSON format:
 
-    {
+    {{
     "text": "...", 
     "tts": "....
-    }    
+    }}    
     """    
             model = st.session_state.get("model", "mistral-large")
             response_json = complete(model, prompt)
