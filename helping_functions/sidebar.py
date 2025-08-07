@@ -121,8 +121,13 @@ def _render_contact():
     ]
 
     for contact in contact_links:
+        # st.sidebar.markdown(
+        #     f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0; color: #3399FF;">'
+        #     f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
+        #     unsafe_allow_html=True,
+        # )
         st.sidebar.markdown(
-            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0; color: #3399FF;">'
+            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: inline-flex; align-items: center; white-space: nowrap; margin: 4px 0; color: #3399FF;">'
             f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
             unsafe_allow_html=True,
         )
