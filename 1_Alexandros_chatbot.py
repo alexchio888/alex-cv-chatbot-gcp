@@ -18,10 +18,9 @@ from helping_functions.skills_builder import *
 # Write the secrets JSON to a temporary file
 key_path = "/tmp/gcp_tts_key.json"
 with open(key_path, "w") as f:
-    json.dump(st.secrets["gcp_service_account"], f)
+    json.dump(dict(st.secrets["gcp_service_account"]), f)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
-
 
 def generate_google_tts_audio(text, voice_name="en-US-Wavenet-D", speaking_rate=1.0):
     client = texttospeech.TextToSpeechClient()
