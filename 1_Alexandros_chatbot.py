@@ -30,11 +30,6 @@ def speak_text(text):
     """
     components.html(speak_js, height=0)
 
-def maybe_speak_response(response):
-    if st.session_state.get("speak_responses", False):
-        if isinstance(response, dict):
-            response = response.get("full", "")
-        speak_text(response)
 
 def get_previous_chat_context(n=2):
     # Take the last n messages from chat history, format them nicely
@@ -64,6 +59,14 @@ def reset_conversation():
 
 def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
+
+    # 🔊 Trigger voice in parallel (non-blocking JS)
+    if st.session_state.get("speak_responses", False):
+        if isinstance(response, dict):
+            response = response.get("full", "")
+        speak_text(response)
+
+
     placeholder = st.empty()
     typed_text = ""
     for char in response:
@@ -521,7 +524,6 @@ elif intent == "casual_greeting":
                 message_type="response"
             )
             simulate_typing(response)
-            maybe_speak_response(response)
     except Exception as e:
         response = handle_error(
             e,
