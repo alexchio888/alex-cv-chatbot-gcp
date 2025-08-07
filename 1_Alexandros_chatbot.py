@@ -74,6 +74,7 @@ with col2:
     I'm a chatbot trained on my career, education, and experiences.  
     You can chat with me below, or explore my timeline visually.
     """)
+    st.checkbox("🔊 Speak Responses", key="speak_responses")
     if st.button("You can view a timeline of my experience and explore my skills at a glance ➡️"):
         st.switch_page("pages/2_Timeline_and_Skills.py")
 
@@ -146,6 +147,8 @@ if "show_feedback_form" not in st.session_state:
     st.session_state.show_feedback_form = False
 if "feedback_submitted" not in st.session_state:
     st.session_state.feedback_submitted = False
+if "speak_responses" not in st.session_state:
+    st.session_state.speak_responses = False
 
 # --- Constants ---
 DOC_TABLE = "app.vector_store"
