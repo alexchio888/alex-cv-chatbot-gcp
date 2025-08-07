@@ -69,7 +69,7 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, vol
         audio = generate_google_tts_audio(tts_response, selected_voice)
         autoplay_audio(audio,volume=volume)
         st.audio(audio, format="audio/mp3")
-        
+
     placeholder = st.empty()
     typed_text = ""
     for char in response:
@@ -366,7 +366,7 @@ def get_prompt(latest_user_message, context, intent):
 
     Response format:
     Provide a JSON object with:
-    1. `"text"` — A clean, professional chatbot response suitable for reading, following above info and instructions.
+    1. `"text"` — The response based on above instructions.
     2. `"tts"` — A spoken version optimized for Text-to-Speech. Make it sound human:
         - Add contractions and relaxed tone
         - Use SSML tags like <break>, <emphasis>, or <prosody> for rhythm and clarity
