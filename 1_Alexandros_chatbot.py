@@ -383,10 +383,10 @@ else:
             But feel free to check out my skills and experience while you're here!
             """
         )
-
-        col1, col2, col3 = st.columns([1, 4, 1])
+        col1, col2 = st.columns([1, 6])
+        with col1:
+            st.markdown("### 👉")
         with col2:
-            st.markdown("#### 👇 In the meantime:")
             if st.button("📊 Explore my Skills and Professional Timeline"):
                 st.switch_page("pages/2_Timeline_and_Skills.py")
     chat_input = None
