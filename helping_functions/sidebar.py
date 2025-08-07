@@ -98,7 +98,7 @@ def _render_contact():
         {
             "label": "alexandroschio@gmail.com",
             "icon": "https://cdn-icons-png.flaticon.com/512/732/732200.png",
-            "url": "mailto:alexandroschio@gmail.com",
+            "url": "alexandroschio@gmail.com",
         },
         {
             "label": "alexandros-chionidis-51579421b",
