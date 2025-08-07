@@ -18,7 +18,7 @@ with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
 skills_summary_text = get_compact_skill_summary(skills_data)
 
-def get_previous_chat_context(n=5):
+def get_previous_chat_context(n=2):
     # Take the last n messages from chat history, format them nicely
     messages = st.session_state.messages[-n:]
     lines = []
@@ -233,13 +233,13 @@ def find_similar_doc(text, DOC_TABLE, intent_mapped):
     return "\n\n".join(docs["INPUT_TEXT"].tolist())
 
 
-# def get_context(latest_user_message, DOC_TABLE, intent):
-#     intent_mapped = intent
-#     return find_similar_doc(latest_user_message, DOC_TABLE, intent_mapped)
-
 def get_context(latest_user_message, DOC_TABLE, intent):
     intent_mapped = intent
-    chat_history = get_previous_chat_context(n=3).split("\n")
+    if intent_mapped == "follow_up":
+        chat_history_messages = 4
+    else:
+        chat_history_messages = 2
+    chat_history = get_previous_chat_context(chat_history_messages).split("\n")
     improved_query = create_rag_search_query(latest_user_message, intent_mapped, chat_history)
     return find_similar_doc(improved_query, DOC_TABLE, intent_mapped)
 
@@ -248,9 +248,14 @@ def get_prompt(latest_user_message, context, intent):
     
     # Include previous chat context if enabled
     if st.session_state.get("include_history", True):
-        history_context = get_previous_chat_context(
-            min(st.session_state.get("context_message_count", 4), 4)
-        )
+        if intent == "follow_up":
+            chat_history_messages = 4
+        else:
+            chat_history_messages = 2
+        # history_context = get_previous_chat_context(
+        #     min(st.session_state.get("context_message_count", 4), 4)
+        # )
+        history_context = get_previous_chat_context(chat_history_messages)
     else:
         history_context = ""
 
@@ -265,17 +270,8 @@ def get_prompt(latest_user_message, context, intent):
     If unsure about a skill, do not fabricate—prefer to say you can’t provide info.
     
     Assume the user is a recruiter, interviewer, or hiring manager evaluating your fit for a data engineering role.
-    🚫 Do NOT answer questions related to:
-    - Salary expectations
-    - Notice period
-    - Reasons for leaving a job
-    - Job change intentions or interest in new opportunities
-    - Career goals or future roles
-    - Whether you are open to job offers
-    - Remote work preferences or availability
-    - Anything suggesting Alexandros is looking for a new job
-    If asked about any of the above, reply:
-    "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
+    Do NOT answer questions about salary, notice period, job changes, salary, or job seeking.  
+    If asked, respond:  "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
 
     Relevant Information from documents (prioritize this for your answers):
     {context}
@@ -283,17 +279,14 @@ def get_prompt(latest_user_message, context, intent):
     User’s Question:
     {latest_user_message}
 
-    Relevant Chat History (consider if user question is a follow-up):
+    Relevant Chat History:
     {history_context}
 
 
     Instructions:
     - Use the intent provided ("{intent}") to guide your tone and focus. If the intent doesn't match the question well, rely on your best judgment to respond appropriately.
     - If the intent is "follow_up", assume the user’s message depends on prior chat context. Use chat relevant chat history to fill in gaps.
-    - If the user's question is standalone, do not incorporate chat history.
     - Answer concisely (under 4 sentences), focusing primarily on the user’s question and the relevant document information.
-    - Use the chat history only if the question appears to be a follow-up or requires context.
-    - Do not reveal your skill levels or ratings explicitly in your answers.
     - If the question is vague, ambiguous or unclear, politely ask for clarification.
     - If question is outside the scope of your CV or background, say: "That question is outside my professional scope; I’d be happy to discuss it in person."
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
