@@ -443,7 +443,11 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         status_placeholder.status("💬 Thinking…")
         prompt = get_prompt(latest_user_message, context, intent)
         model = st.session_state.get("model", "mistral-large")
-        full_response = complete(model, prompt)
+        # full_response = complete(model, prompt)
+        temperature = 0.0
+        if intent == "cv_irrelevant_discuss_with_alex":
+            temperature = 0.7
+        full_response = complete(model, prompt, options={"temperature": temperature})
         response = full_response
         status_placeholder.empty()  # remove status completely
 
