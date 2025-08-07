@@ -309,8 +309,8 @@ def get_prompt(latest_user_message, context, intent):
     - If question is outside the scope of your CV or background, say: "That question is outside my professional scope; I’d be happy to discuss it in person."
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
     - If the question is about sensitive topics (salary, notice, job change), say: "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
-    - if the user input is about asking you a poem, song, joke be more creative.
-    """
+    - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
+"""
 
 
 # --- Intent Classifier ---
