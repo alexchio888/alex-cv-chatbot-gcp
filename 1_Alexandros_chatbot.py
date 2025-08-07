@@ -339,7 +339,20 @@ def get_prompt(latest_user_message, context, intent):
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
     - If the question is about sensitive topics (salary, notice, job change), say: "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
-"""
+
+    Respond with:
+    1. "text" — The answer as instructed
+    2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
+    Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+    
+    Respond strictly in this JSON format:
+
+    {{
+    "text": "...", 
+    "tts": "<speak>...</speak>"
+    }}    
+    
+    """
 
 
 # --- Intent Classifier ---
@@ -473,16 +486,16 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         status_placeholder.status("💬 Thinking…")
         prompt = get_prompt(latest_user_message, context, intent)
         model = st.session_state.get("model", "mistral-large")
-        # full_response = complete(model, prompt)
         temperature = 0.0
         if intent == "cv_irrelevant_discuss_with_alex":
             temperature = 0.7
-        full_response = complete(model, prompt, options={"temperature": temperature})
-        response = full_response
+        response_json = complete(model, prompt, options={"temperature": temperature})
+        parsed = json.loads(response_json)
+        response = parsed["text"]
+        tts_response = parsed["tts"]
         status_placeholder.empty()  # remove status completely
-
         with st.chat_message("assistant", avatar="docs/avatar.png"):
-            simulate_typing(response)
+            simulate_typing(response = response,tts_response = tts_response)
 
         st.session_state.messages.append({"role": "assistant", "content": response})
         log_message_to_snowflake(
@@ -520,7 +533,7 @@ elif intent == "casual_greeting":
                 2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
                 Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
                 
-                Respond in this JSON format:
+                Respond strictly in this JSON format:
 
                 {{
                 "text": "...", 
@@ -561,10 +574,24 @@ elif intent == "unknown":
             prompt = f"""
     The user said: "{latest_user_message}"
 
-    As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
-    """
+    As Alexandros Chionidis, 
+    Respond with:
+    1. "text" — politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+    2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
+    Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+    
+    Respond strictly in this JSON format:
+
+    {{
+    "text": "...", 
+    "tts": "<speak>...</speak>"
+    }}
+        """
             model = st.session_state.get("model", "mistral-large")
-            response = complete(model, prompt)
+            response_json = complete(model, prompt)
+            parsed = json.loads(response_json)
+            response = parsed["text"]
+            tts_response = parsed["tts"]
             st.session_state.messages.append({"role": "assistant", "content": response})
             log_message_to_snowflake(
                 session=session,
@@ -578,7 +605,7 @@ elif intent == "unknown":
                 prompt=prompt,
                 message_type="response"
             )
-            simulate_typing(response)
+            simulate_typing(response = response,tts_response = tts_response)
     except Exception as e:
         response = handle_error(
             e,
@@ -606,7 +633,7 @@ elif intent == "farewell":
             prompt=None,
             message_type="response"
         )
-        simulate_typing(response)
+        simulate_typing(response = response,tts_response = tts_response)
         st.info("Thanks for chatting! You can download the chat history anytime, and I’d appreciate any feedback you share in the sidebar. 😊")
 
 
