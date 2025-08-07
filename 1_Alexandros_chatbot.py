@@ -119,7 +119,7 @@ render_sidebar(
 )
 
 # --- Connect to Snowflake ---
-@st.cache_resource
+# @st.cache_resource
 def create_session():
     connection_parameters = {
         "account": st.secrets["account"],
@@ -371,7 +371,9 @@ if st.button("🔄 Reset Chat"):
 if st.session_state["chatbot_error"] == False:
     chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
 else:
-    st.error("The chatbot is temporarily unavailable due to high traffic or maintenance. Please refresh the page to restart.")
+    st.error("The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again later.")
+    if st.button("➡️ You can still see my experience and skills"):
+        st.switch_page("pages/2_Timeline_and_Skills.py")
     chat_input = None
 
 user_message = None
