@@ -15,7 +15,7 @@ def get_voices():
             filtered_voices.append(voice.name)
     return filtered_voices
 
-def generate_google_tts_audio(text, voice_name = 'en-US-Chirp-HD-D', speaking_rate=1.0):
+def generate_google_tts_audio(text, voice_name = 'en-US-Chirp-HD-D', speaking_rate=1.8):
     client = texttospeech.TextToSpeechClient()
 
     synthesis_input = texttospeech.SynthesisInput(text=text)
