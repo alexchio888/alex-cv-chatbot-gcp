@@ -86,28 +86,37 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 ) 
+
 col1, col2 = st.columns([1, 6])
+
 with col1:
     st.image("docs/avatar.png", width=560)
 
 with col2:
     st.title("Hi, I'm Alexandros Chionidis' Virtual Clone!")
     st.markdown("""
-    Welcome! 👋  
-    I'm a chatbot trained on my career, education, and experiences.  
-    You can chat with me below, or explore my timeline visually.
+        Welcome! 👋  
+        I'm a chatbot trained on my career, education, and experiences.  
+        Chat with me below or explore my timeline visually.
     """)
-    st.checkbox("🔊 Speak Responses", key="speak_responses")
-    if st.button("You can view a timeline of my experience and explore my skills at a glance ➡️"):
-        st.switch_page("pages/2_Timeline_and_Skills.py")
+    
+    control_col1, control_col2 = st.columns([1, 2])
+    with control_col1:
+        speak_responses = st.checkbox(
+            "🔊 Speak responses", 
+            key="speak_responses", 
+            help="Enable spoken replies from the chatbot"
+        )
+        if speak_responses:
+            st.markdown("🗣️ **Voice Enabled** — I'll read my replies aloud!")
+    with control_col2:
+        if st.button("View Timeline & Skills ➡️"):
+            st.switch_page("pages/2_Timeline_and_Skills.py")
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
 
-# voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
-# selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Neural2-D") if "en-US-Neural2-D" in voices else 0)
 selected_voice = 'en-US-Neural2-D'
-
 
 def generate_chat_text():
     lines = []
