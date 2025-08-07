@@ -131,8 +131,17 @@ def create_session():
     }
     return Session.builder.configs(connection_parameters).create()
 
+try:
+    session = create_session()
+except:
+    with st.chat_message("assistant", avatar="docs/avatar.png"):
+        st.error("🚫 The chatbot is temporarily unavailable due to a technical issue. Please try again later.")
+        simulate_typing("I'm currently unavailable due to high traffic or maintenance. Please try again shortly.")
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": "I'm currently unavailable due to high traffic or maintenance. Please try again shortly."
+    })        
 
-session = create_session()
 
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
