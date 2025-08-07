@@ -61,11 +61,18 @@ def generate_google_tts_audio(text, voice_name='en-US-Neural2-D', speaking_rate=
     return response.audio_content
 
 
-def autoplay_audio(audio_bytes: bytes):
+def autoplay_audio(audio_bytes: bytes, volume: float = 1.0):
+    """
+    volume: float between 0.0 (mute) and 1.0 (max)
+    """
     b64 = base64.b64encode(audio_bytes).decode()
     md = f"""
-    <audio autoplay>
+    <audio id="tts_audio" autoplay>
         <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
     </audio>
+    <script>
+        const audio = document.getElementById('tts_audio');
+        audio.volume = {volume};
+    </script>
     """
     st.markdown(md, unsafe_allow_html=True)

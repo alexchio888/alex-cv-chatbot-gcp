@@ -58,7 +58,7 @@ def reset_conversation():
     ]
 
 
-def simulate_typing(response: str,tts_response, typing_speed: float = 0.015):  # typing_speed = seconds per character
+def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, volume: float = 0.7):  # typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
 
     # 🔊 Trigger voice in parallel (non-blocking JS)
@@ -67,7 +67,7 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015):  #
             tts_response = tts_response.get("full", "")
         # speak_text(response)
         audio = generate_google_tts_audio(tts_response, selected_voice)
-        autoplay_audio(audio)
+        autoplay_audio(audio,volume=volume)
 
     placeholder = st.empty()
     typed_text = ""
@@ -109,15 +109,15 @@ speak_enabled = st.checkbox(
     help="Toggle this to hear my responses read out loud."
 )
 
-if speak_enabled:
-    volume = st.slider(
-        label="🔉 Volume",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.7,
-        step=0.05,
-        help="Adjust the volume of my spoken responses."
-    )
+volume = st.slider(
+    label="🔉 Volume",
+    min_value=0.0,
+    max_value=1.0,
+    value=0.7,
+    step=0.05,
+    help="Adjust the volume of my spoken responses.",
+    disabled=not speak_enabled
+)
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
@@ -525,7 +525,7 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
         st.session_state.messages.append({"role": "assistant", "content": response})
 
         with st.chat_message("assistant", avatar="docs/avatar.png"):
-            simulate_typing(response = response,tts_response = tts_response)
+            simulate_typing(response = response,tts_response = tts_response, volume=volume)
 
         log_message_to_snowflake(
             session=session,
@@ -588,7 +588,7 @@ elif intent == "casual_greeting":
             message_type="response"
         )
         with st.chat_message("assistant", avatar="docs/avatar.png"):
-            simulate_typing(response = response,tts_response = tts_response)
+            simulate_typing(response = response,tts_response = tts_response, volume=volume)
 
     except Exception as e:
         response = handle_error(
@@ -635,7 +635,7 @@ elif intent == "unknown":
             message_type="response"
         )
         with st.chat_message("assistant", avatar="docs/avatar.png"):
-            simulate_typing(response = response,tts_response = tts_response)
+            simulate_typing(response = response,tts_response = tts_response, volume=volume)
 
     except Exception as e:
         response = handle_error(
@@ -671,7 +671,7 @@ elif intent == "farewell":
         message_type="response"
     )
     with st.chat_message("assistant", avatar="docs/avatar.png"):
-        simulate_typing(response = response,tts_response = tts_response)
+        simulate_typing(response = response,tts_response = tts_response, volume=volume)
 
     st.info("Thanks for chatting! You can download the chat history anytime, and I’d appreciate any feedback you share in the sidebar. 😊")
 
