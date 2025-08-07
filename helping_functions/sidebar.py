@@ -91,7 +91,7 @@ def _render_contact():
     maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     st.sidebar.markdown(
         f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF; display: inline-flex; align-items: center; margin: 0 0 12px 0; white-space: nowrap;">'
-        f'<span style="margin-right: 8px;">🏠 <strong>Melissia, Athens, Greece</strong></a>',
+        f'<span style="margin-right: 28px;">🏠 <strong>Melissia, Athens, Greece</strong></a>',
         unsafe_allow_html=True,
     )    
     
