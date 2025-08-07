@@ -338,11 +338,18 @@ Return only the category name.
         response = complete(model, classification_prompt)
         intent = "".join(response).strip().lower()
         return intent
+    # except Exception as e:
+    #     st.error("Something went wrong while processing your question. Please refresh the page and try again.")
+    #     # Optional: Log exception for debugging
+    #     st.exception(e)
+    #     return "unknown"
     except Exception as e:
-        st.error("Something went wrong while processing your question. Please refresh the page and try again.")
-        # Optional: Log exception for debugging
-        st.exception(e)
-        return "unknown"
+        response = handle_error(
+            e,
+            "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
+        )
+
+
 
 
 latest_user_message = ""
