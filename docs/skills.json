@@ -43,16 +43,16 @@
         ]
       },
       {
-        "name": "Data Warehousing & Lakehouse Solutions",
+        "name": "Warehousing & Lakehouse Solutions",
         "skills": [
           {"name": "Delta Lake", "level": 9, "experience_years": 2},
-          {"name": "Snowflake", "level": 4, "experience_years": 1},
+          {"name": "Snowflake", "level": 5, "experience_years": 1},
           {"name": "Hive", "level": 9, "experience_years": 4},
           {"name": "Impala", "level": 7, "experience_years": 2}
         ]
       },
       {
-        "name": "Data Visualization & BI Tools",
+        "name": "Visualization & BI Tools",
         "skills": [
           {"name": "Oracle Analytics Server (OAS)", "level": 6, "experience_years": 2},
           {"name": "Tableau", "level": 4, "experience_years": 1},
@@ -71,17 +71,9 @@
           {"name": "TensorFlow", "level": 2, "experience_years": 2},
           {"name": "LLM & RAG", "level": 4, "experience_years": 1}
         ]
-      },      
-      {
-        "name": "Operating Systems",
-        "skills": [
-          {"name": "Windows", "level": 8, "experience_years": 6},
-          {"name": "Linux", "level": 8, "experience_years": 4},
-          {"name": "MacOS", "level": 9, "experience_years": 6}
-        ]
       },
       {
-        "name": "Development Tools & Version Control",
+        "name": "Development Tools & Collaboration",
         "skills": [
           {"name": "Git", "level": 7, "experience_years": 4},
           {"name": "Jira", "level": 7, "experience_years": 4},
