@@ -104,7 +104,7 @@ with col2:
 st.markdown("---")
 
 voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
-selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Wavenet-D") if "en-US-Wavenet-D" in voices else 0)
+selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Chirp-HD-D") if "en-US-Chirp-HD-D" in voices else 0)
 
 
 
