@@ -23,7 +23,7 @@ with open(key_path, "w") as f:
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
 
-def generate_google_tts_audio(text, voice_name="en-US-Wavenet-D", speaking_rate=1.0):
+def generate_google_tts_audio(text, voice_name="en-US-Chirp3-D", speaking_rate=1.0):
     client = texttospeech.TextToSpeechClient()
 
     synthesis_input = texttospeech.SynthesisInput(text=text)
