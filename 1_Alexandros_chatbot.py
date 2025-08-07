@@ -515,9 +515,11 @@ elif intent == "casual_greeting":
                 The user said: "{latest_user_message}"
 
                 Respond with:
-                1. "text" — A short, friendly written greeting (1–2 sentences) for a chatbot display. Use complete, professional grammar.
+                1. "text" — Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
+                    Keep it short (1-2 sentences), and avoid sounding like a robot.
                 2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
                 Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+                
                 Respond in this JSON format:
 
                 {{
@@ -525,6 +527,7 @@ elif intent == "casual_greeting":
                 "tts": "<speak>...</speak>"
                 }}
             """
+
             model = st.session_state.get("model", "mistral-large")
             response_json = complete(model, prompt)
             parsed = json.loads(response_json)
