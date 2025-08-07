@@ -123,7 +123,7 @@ def _render_contact():
         )
     # Download CV link
     cv_html = """
-    <a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" 
+    <a href="https://github.com/alexchio888/alex-cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" 
        style="text-decoration:none; display: flex; align-items: center; color: #3399FF;">
         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="20" style="margin-right:8px;" /> Download CV
     </a>"""
