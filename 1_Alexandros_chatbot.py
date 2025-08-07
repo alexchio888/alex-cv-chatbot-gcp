@@ -431,53 +431,67 @@ if intent not in ["casual_greeting", "unknown", "farewell"] and latest_user_mess
  
 
 elif intent == "casual_greeting":
-    with st.chat_message("assistant"):
-        prompt = f"""
-You are Alexandros Chionidis, a friendly and professional data engineer. The user said: "{latest_user_message}"
-Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
-Keep it short (1-2 sentences), and avoid sounding like a robot.
-"""    
-        model = st.session_state.get("model", "mistral-large")
-        response = complete(model, prompt)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        log_message_to_snowflake(
-            session=session,
-            session_id=st.session_state["session_id"],
-            role="assistant",
-            message=response,
-            intent=intent,
-            model_used=model,
-            embedding_size=st.session_state.get("embedding_size"),
-            context_snippet=None,
-            prompt=prompt,
-            message_type="response"
+    try:
+        with st.chat_message("assistant"):
+            prompt = f"""
+    You are Alexandros Chionidis, a friendly and professional data engineer. The user said: "{latest_user_message}"
+    Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
+    Keep it short (1-2 sentences), and avoid sounding like a robot.
+    """    
+            model = st.session_state.get("model", "mistral-large")
+            response = complete(model, prompt)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            log_message_to_snowflake(
+                session=session,
+                session_id=st.session_state["session_id"],
+                role="assistant",
+                message=response,
+                intent=intent,
+                model_used=model,
+                embedding_size=st.session_state.get("embedding_size"),
+                context_snippet=None,
+                prompt=prompt,
+                message_type="response"
+            )
+            simulate_typing(response)
+    except Exception as e:
+        response = handle_error(
+            e,
+            "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
         )
-        simulate_typing(response)
+
 
 
 elif intent == "unknown":
-    with st.chat_message("assistant", avatar = "docs/avatar.png"):
-        prompt = f"""
-The user said: "{latest_user_message}"
+    try:
+        with st.chat_message("assistant", avatar = "docs/avatar.png"):
+            prompt = f"""
+    The user said: "{latest_user_message}"
 
-As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
-"""
-        model = st.session_state.get("model", "mistral-large")
-        response = complete(model, prompt)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        log_message_to_snowflake(
-            session=session,
-            session_id=st.session_state["session_id"],
-            role="assistant",
-            message=response,
-            intent=intent,
-            model_used=model,
-            embedding_size=st.session_state.get("embedding_size"),
-            context_snippet=None,
-            prompt=prompt,
-            message_type="response"
+    As Alexandros Chionidis, politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+    """
+            model = st.session_state.get("model", "mistral-large")
+            response = complete(model, prompt)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            log_message_to_snowflake(
+                session=session,
+                session_id=st.session_state["session_id"],
+                role="assistant",
+                message=response,
+                intent=intent,
+                model_used=model,
+                embedding_size=st.session_state.get("embedding_size"),
+                context_snippet=None,
+                prompt=prompt,
+                message_type="response"
+            )
+            simulate_typing(response)
+    except Exception as e:
+        response = handle_error(
+            e,
+            "⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly."
         )
-        simulate_typing(response)
+
 
 
 elif intent == "farewell":
