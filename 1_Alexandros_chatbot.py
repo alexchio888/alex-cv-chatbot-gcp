@@ -342,12 +342,12 @@ def get_prompt(latest_user_message, context, intent):
 
     Response format:
     Provide a JSON object with:
-    1. `"text"` — A clean, professional chatbot response suitable for reading
+    1. `"text"` — A clean, professional chatbot response suitable for reading, following above info and instructions.
     2. `"tts"` — A spoken version optimized for Text-to-Speech. Make it sound human:
         - Add contractions and relaxed tone
         - Use SSML tags like <break>, <emphasis>, or <prosody> for rhythm and clarity
         - Use light fillers or natural phrasing if helpful
-
+        
     SSML Guidelines:
     - Always wrap in `<speak>...</speak>`
     - Only use supported tags (<break>, <emphasis>, <prosody>)
@@ -355,6 +355,7 @@ def get_prompt(latest_user_message, context, intent):
     - Escape any special characters (& → &amp;, etc.)
     - Ensure all tags and quotes are properly closed
 
+    
     Respond strictly in this JSON format:
 
     {{
