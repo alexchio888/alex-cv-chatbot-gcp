@@ -163,9 +163,12 @@ if "include_history" not in st.session_state:
 if "context_message_count" not in st.session_state:
     st.session_state.context_message_count = 4
 
+if "chatbot_error" not in st.session_state:
+    st.session_state.chatbot_error = False
 
 if "messages" not in st.session_state:
-    reset_conversation()
+    if st.session_state.chatbot_error == False:
+        reset_conversation()
 
 
 
@@ -363,8 +366,7 @@ latest_user_message = ""
 if st.button("🔄 Reset Chat"):
     reset_conversation()
 
-if "chatbot_error" not in st.session_state:
-    st.session_state.chatbot_error = False
+
 # --- Chat Loop ---
 # Only show input if no chatbot error
 if st.session_state["chatbot_error"] == False:
