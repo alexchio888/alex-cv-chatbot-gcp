@@ -8,11 +8,47 @@ import json
 import io
 import time
 import streamlit.components.v1 as components
+from google.cloud import texttospeech
 
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
 from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
+
+# Write the secrets JSON to a temporary file
+key_path = "/tmp/gcp_tts_key.json"
+with open(key_path, "w") as f:
+    json.dump(st.secrets["gcp_service_account"], f)
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
+
+
+def generate_google_tts_audio(text, voice_name="en-US-Wavenet-D", speaking_rate=1.0):
+    client = texttospeech.TextToSpeechClient()
+
+    synthesis_input = texttospeech.SynthesisInput(text=text)
+
+    voice = texttospeech.VoiceSelectionParams(
+        language_code="en-US",
+        name=voice_name,
+        ssml_gender=texttospeech.SsmlVoiceGender.MALE
+    )
+
+    audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.MP3,
+        speaking_rate=speaking_rate
+    )
+
+    response = client.synthesize_speech(
+        input=synthesis_input,
+        voice=voice,
+        audio_config=audio_config
+    )
+
+    return response.audio_content
+
+def play_audio(audio_bytes):
+    st.audio(audio_bytes, format="audio/mp3")
 
 with open("docs/skills.json", "r") as f:
     skills_data = json.load(f)
@@ -64,8 +100,9 @@ def simulate_typing(response: str, typing_speed: float = 0.015):  # typing_speed
     if st.session_state.get("speak_responses", False):
         if isinstance(response, dict):
             response = response.get("full", "")
-        speak_text(response)
-
+        # speak_text(response)
+        audio = generate_google_tts_audio(response)
+        play_audio(audio)
 
     placeholder = st.empty()
     typed_text = ""
