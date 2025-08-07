@@ -440,27 +440,28 @@ if not st.session_state.get("chatbot_error", False):
 
 # --- Chat Loop ---
 # Only show input if no chatbot error
+
 if st.session_state["chatbot_error"] == False:
     chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
-else:
-    # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
-    st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
+# else:
+#     # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
+#     st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
 
-    with st.container():
-        st.markdown("### 😔 I'm currently offline")
-        st.markdown(
-            """
-            The chatbot isn't available at the moment.  
-            But feel free to check out my skills and experience while you're here!
-            """
-        )
-        col1, col2 = st.columns([1, 6])
-        with col1:
-            st.markdown("### 👉")
-        with col2:
-            if st.button("📊 Explore my Skills and Professional Timeline"):
-                st.switch_page("pages/2_Timeline_and_Skills.py")
-    # chat_input = None
+#     with st.container():
+#         st.markdown("### 😔 I'm currently offline")
+#         st.markdown(
+#             """
+#             The chatbot isn't available at the moment.  
+#             But feel free to check out my skills and experience while you're here!
+#             """
+#         )
+#         col1, col2 = st.columns([1, 6])
+#         with col1:
+#             st.markdown("### 👉")
+#         with col2:
+#             if st.button("📊 Explore my Skills and Professional Timeline"):
+#                 st.switch_page("pages/2_Timeline_and_Skills.py")
+#     chat_input = None
 
 user_message = None
 if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
