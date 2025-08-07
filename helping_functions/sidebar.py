@@ -115,17 +115,12 @@ def _render_contact():
 
     for contact in contact_links:
         st.sidebar.markdown(
-            f'<a href="{contact["url"]}" target="_blank" style="text-decoration:none; display: flex; align-items: center; margin: 4px 0; color: #3399FF;">'
-            f'<img src="{contact["icon"]}" width="20" style="margin-right:8px;" /> {contact["label"]}</a>',
+            f'<a href="{contact["url"]}" target="_blank" '
+            f'style="text-decoration:none !important; display:inline-flex; align-items:center; white-space:nowrap; margin: 2px 0; color: #3399FF;">'
+            f'<img src="{contact["icon"]}" width="20" style="margin-right:8px; text-decoration:none !important;" /> '
+            f'<span style="text-decoration:none !important;">{contact["label"]}</span></a>',
             unsafe_allow_html=True,
         )
-        # st.sidebar.markdown(
-        #     f'<a href="{contact["url"]}" target="_blank" '
-        #     f'style="text-decoration:none !important; display:inline-flex; align-items:center; white-space:nowrap; margin: 2px 0; color: #3399FF;">'
-        #     f'<img src="{contact["icon"]}" width="20" style="margin-right:8px; text-decoration:none;" /> {contact["label"]}</a>',
-        #     unsafe_allow_html=True,
-        # )
-
     # Download CV link
     cv_html = """
     <a href="https://github.com/alexchio888/cv-chatbot/raw/main/docs/Alexandros_Chionidis_CV.pdf" target="_blank" 
