@@ -81,25 +81,22 @@ def render_sidebar(
 
 def _render_contact():
     # Location with bottom margin for spacing
-    maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
-    st.sidebar.markdown(
-        f'<p style="margin: 0 0 12px 0;">'
-        f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF;">'
-        f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
-        unsafe_allow_html=True,
-    )
-    
-    # # Phone number with lighter blue link and no underline
-    # phone_number = "+306933419882"  # no spaces for tel: link
-    # phone_display = "+30 693 341 9882"
-    # phone_icon = "https://cdn-icons-png.flaticon.com/512/724/724664.png"
-
+    # maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
     # st.sidebar.markdown(
-    #     f'<p style="margin: 0 0 12px 0; display: flex; align-items: center;">'
-    #     f'<img src="{phone_icon}" width="20" style="margin-right:8px;" /> '
-    #     f'<a href="tel:{phone_number}" style="text-decoration: none; color: #3399FF;">{phone_display}</a></p>',
+    #     f'<p style="margin: 0 0 12px 0;">'
+    #     f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF;">'
+    #     f'🏠 <strong>Melissia, Athens, Greece</strong></a></p>',
     #     unsafe_allow_html=True,
     # )
+    maps_url = "https://www.google.com/maps/place/Melissia,+Athens,+Greece"
+    house_icon = "https://cdn-icons-png.flaticon.com/512/25/25694.png"  # example house icon URL
+
+    st.sidebar.markdown(
+        f'<a href="{maps_url}" target="_blank" style="text-decoration: none; color: #3399FF; display: inline-flex; align-items: center; margin: 0 0 12px 0; white-space: nowrap;">'
+        f'<img src="{house_icon}" width="20" style="margin-right: 8px;" />'
+        f'<strong>Melissia, Athens, Greece</strong></a>',
+        unsafe_allow_html=True,
+    )    
     
     # Contact Links
     contact_links = [
