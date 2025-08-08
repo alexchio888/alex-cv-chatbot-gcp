@@ -1,32 +1,69 @@
 import streamlit as st
-from st_audiorec import st_audiorec
 from google.cloud import speech
-import os
+from streamlit_webrtc import webrtc_streamer, AudioProcessorBase, WebRtcMode
+import av
+import numpy as np
+import tempfile
+
+class AudioProcessor(AudioProcessorBase):
+    def __init__(self):
+        self.frames = []
+
+    def recv_audio_frame(self, frame: av.AudioFrame) -> av.AudioFrame:
+        # Convert audio to numpy array
+        audio = frame.to_ndarray()
+        self.frames.append(audio)
+        return frame
+
+    def get_audio_bytes(self):
+        if not self.frames:
+            return None
+        audio_data = np.concatenate(self.frames, axis=1).tobytes()
+        self.frames.clear()
+        return audio_data
+
 
 def record_audio():
     """
-    Records audio from the microphone using st_audiorec.
-    Returns audio bytes or None if nothing was recorded.
+    Opens a microphone input using streamlit-webrtc and records audio.
+    Returns raw audio bytes or None.
     """
-    st.write("🎙 Click below to record your question")
-    audio_bytes = st_audiorec()
+    ctx = webrtc_streamer(
+        key="speech-to-text",
+        mode=WebRtcMode.SENDONLY,
+        audio_processor_factory=AudioProcessor,
+        media_stream_constraints={"audio": True, "video": False}
+    )
+
+    audio_bytes = None
+    if ctx.audio_processor:
+        if st.button("Stop Recording"):
+            audio_bytes = ctx.audio_processor.get_audio_bytes()
+
     return audio_bytes
 
 
 def transcribe_audio(audio_bytes, language_code="en-US"):
     """
     Transcribes recorded audio using Google Cloud Speech-to-Text.
-    Returns the transcribed text or an empty string.
     """
     if not audio_bytes:
         return ""
 
+    # Save temporary WAV file (Google API works best with PCM16 WAV)
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmpfile:
+        tmpfile.write(audio_bytes)
+        tmpfile_path = tmpfile.name
+
     client = speech.SpeechClient()
 
-    audio = speech.RecognitionAudio(content=audio_bytes)
+    with open(tmpfile_path, "rb") as f:
+        content = f.read()
+
+    audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=16000,
+        sample_rate_hertz=48000,  # streamlit-webrtc default
         language_code=language_code
     )
 
