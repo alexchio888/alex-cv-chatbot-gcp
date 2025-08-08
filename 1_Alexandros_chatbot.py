@@ -59,7 +59,7 @@ def reset_conversation():
     ]
 
 
-def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, volume: float = 0.7):  # typing_speed = seconds per character
+def simulate_typing(response: str,tts_response, typing_speed: float = 0.017, volume: float = 0.7):  # typing_speed = seconds per character
     """Simulate typing animation for chatbot replies."""
 
     # 🔊 Trigger voice in parallel (non-blocking JS)
@@ -70,7 +70,7 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, vol
         audio = generate_google_tts_audio(tts_response, selected_voice)
         autoplay_audio(audio,volume=volume)
         st.audio(audio, format="audio/mp3")
-        typing_speed *= 2
+        typing_speed *= 2.2
 
     placeholder = st.empty()
     typed_text = ""
