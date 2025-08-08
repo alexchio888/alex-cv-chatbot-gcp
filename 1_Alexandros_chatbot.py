@@ -453,7 +453,7 @@ else:
     st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
 
     with st.container():
-        st.markdown("### 😔 I'm currently offline")
+        st.markdown("### 😔 I'm currently offline ")
         st.markdown(
             """
             The chatbot isn't available at the moment.  
