@@ -351,7 +351,7 @@ def get_prompt(latest_user_message, context, intent):
     Instructions:
     - Use the intent provided ("{intent}") to guide your tone and focus. If the intent doesn't match the question well, rely on your best judgment to respond appropriately.
     - If the intent is "follow_up", assume the user’s message depends on prior chat context. Use chat relevant chat history to fill in gaps.
-    - Answer concisely (under 4 sentences), focusing primarily on the user’s question and the relevant document information.
+    - Answer concisely, focusing primarily on the user’s question and the relevant document information.
     - If the question is vague, ambiguous or unclear, politely ask for clarification.
     - If question is outside the scope of your CV or background, say: "That question is outside my professional scope; I’d be happy to discuss it in person."
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
@@ -359,7 +359,7 @@ def get_prompt(latest_user_message, context, intent):
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
 
     
-    Also, generate a SSML version of your answer that is more natural and friendly for text-to-speech. 
+    Also, generate another version of your answer that is more natural and friendly for text-to-speech with SSML. 
     - Use pauses (e.g., <break time="300ms"/>), intonation tags (e.g., <speak>, <break>, <emphasis>, <prosody>), and contractions to sound conversational.
     - Keep the SSML version concise but warmer and approachable.
     
