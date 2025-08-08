@@ -569,16 +569,18 @@ elif intent == "casual_greeting":
             The user said: "{latest_user_message}"
 
             Respond with:
-            1. "text" — Reply with a warm, natural-sounding greeting in the first person — no need to restate your full name or title. Acknowledge the user's greeting and gently encourage them to ask about your experience, projects, or skills.
-                Keep it short (1-2 sentences), and avoid sounding like a robot.
-            2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
-            Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
-            
-            Respond strictly in this JSON format:
+
+            1. "text" — A warm, natural-sounding greeting in the first person, acknowledging the user's greeting and gently encouraging them to ask about your experience, projects, or skills.
+            Keep it short (1-2 sentences), friendly, and avoid sounding robotic or overly formal.
+
+            2. "tts" — A spoken version optimized for Text-to-Speech, using SSML tags (<speak>, <break>, <emphasis>, etc.) to improve naturalness, rhythm, and clarity.
+            Use a casual, conversational tone with contractions, fillers, and sentence fragments where appropriate to sound like a real person talking.
+
+            Return your response strictly as a JSON object, with no additional commentary or text outside the JSON, like this:
 
             {{
-            "text": "...", 
-            "tts": "<speak>...</speak>"
+            "text": "Hey! Thanks for stopping by. Feel free to ask me about my projects or skills.",
+            "tts": "<speak>Hey! <break time='300ms'/> Thanks for stopping by. <emphasis level='moderate'>Feel free</emphasis> to ask me about my projects or skills.</speak>"
             }}
         """
 
