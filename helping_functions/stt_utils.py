@@ -1,15 +1,29 @@
 # stt_utils.py
 from google.cloud import speech
-from pydub import AudioSegment
 import io
+import wave
+import audioop
 
-def stereo_to_mono(audio_bytes):
-    audio = AudioSegment.from_file(io.BytesIO(audio_bytes))
-    mono_audio = audio.set_channels(1)
-    buf = io.BytesIO()
-    mono_audio.export(buf, format="wav")
-    return buf.getvalue()
+def stereo_to_mono_wav(wav_bytes):
+    with io.BytesIO(wav_bytes) as wav_io:
+        with wave.open(wav_io, 'rb') as wav:
+            params = wav.getparams()
+            if params.nchannels == 1:
+                # Already mono
+                return wav_bytes
+            frames = wav.readframes(params.nframes)
+            # Convert stereo to mono
+            mono_frames = audioop.tomono(frames, params.sampwidth, 1, 1)
 
+            # Write mono data to new WAV bytes
+            out_io = io.BytesIO()
+            with wave.open(out_io, 'wb') as out_wav:
+                out_wav.setnchannels(1)
+                out_wav.setsampwidth(params.sampwidth)
+                out_wav.setframerate(params.framerate)
+                out_wav.writeframes(mono_frames)
+
+            return out_io.getvalue()
 def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000):
     """
     Transcribes raw audio bytes to text using Google Cloud Speech-to-Text.
@@ -22,7 +36,7 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
     Returns:
         str: Transcribed text or empty string if no transcription.
     """
-    mono_audio_bytes = stereo_to_mono(audio_bytes)
+    mono_audio_bytes = stereo_to_mono_wav(audio_bytes)
     audio_bytes = transcribe_audio(mono_audio_bytes)
     if not audio_bytes:
         return ""
