@@ -61,19 +61,21 @@ def generate_google_tts_audio(text, voice_name='en-US-Neural2-D', speaking_rate=
     return response.audio_content
 
 
-def autoplay_audio(audio_bytes: bytes, volume: float = 1.0):
-    volume_js = f"{volume:.2f}"
+def autoplay_audio_with_custom_controls(audio_bytes: bytes, volume: float = 1.0):
     b64 = base64.b64encode(audio_bytes).decode()
+    volume_js = f"{volume:.2f}"
     md = f"""
     <audio id="tts_audio" autoplay>
         <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+        Your browser does not support the audio element.
     </audio>
+    <div>
+      <button onclick="document.getElementById('tts_audio').play()">▶️ Play</button>
+      <button onclick="document.getElementById('tts_audio').pause()">⏸️ Pause</button>
+    </div>
     <script>
       const audio = document.getElementById('tts_audio');
-      audio.addEventListener('loadedmetadata', () => {{
-        audio.volume = {volume_js};
-      }});
+      audio.volume = {volume_js};
     </script>
     """
     st.markdown(md, unsafe_allow_html=True)
-
