@@ -36,14 +36,12 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
     Returns:
         str: Transcribed text or empty string if no transcription.
     """
+    # Convert stereo to mono once
     mono_audio_bytes = stereo_to_mono_wav(audio_bytes)
-    audio_bytes = transcribe_audio(mono_audio_bytes)
-    if not audio_bytes:
-        return ""
 
     client = speech.SpeechClient()
 
-    audio = speech.RecognitionAudio(content=audio_bytes)
+    audio = speech.RecognitionAudio(content=mono_audio_bytes)
 
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
@@ -60,3 +58,4 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
 
     transcripts = [result.alternatives[0].transcript for result in response.results]
     return " ".join(transcripts).strip()
+
