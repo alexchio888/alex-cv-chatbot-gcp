@@ -116,8 +116,8 @@ speak_enabled = st.toggle(
 )
 st.session_state["speak_responses"] = speak_enabled
 
-voice_mode = st.toggle("🎤 Speak to me!", help="Speak instead of typing")
-
+# voice_mode = st.toggle("🎤 Speak to me!", help="Speak instead of typing")
+voice_mode = False
 volume = 0.7
 
 # --- Divider between chatbot and timeline ---
