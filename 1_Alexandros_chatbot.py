@@ -442,6 +442,9 @@ if not st.session_state.get("chatbot_error", False):
 # Only show input if no chatbot error
 chat_input = None
 transcript = None  
+if "session_id" not in st.session_state:
+    st.session_state["session_id"] = f"session_{datetime.utcnow().isoformat()}"
+
 if st.session_state["chatbot_error"] == False:
     # chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
     if voice_mode:
@@ -579,8 +582,8 @@ elif intent == "casual_greeting":
             Return your response strictly as a JSON object, with no additional commentary or text outside the JSON, like this:
 
             {{
-            "text": "Hey! Thanks for stopping by. Feel free to ask me about my projects or skills.",
-            "tts": "<speak>Hey! <break time='300ms'/> Thanks for stopping by. <emphasis level='moderate'>Feel free</emphasis> to ask me about my projects or skills.</speak>"
+            "text": "...",
+            "tts": "<speak>....</speak>"
             }}
         """
 
