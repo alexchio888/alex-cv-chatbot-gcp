@@ -70,6 +70,7 @@ def simulate_typing(response: str,tts_response, typing_speed: float = 0.015, vol
         audio = generate_google_tts_audio(tts_response, selected_voice)
         autoplay_audio(audio,volume=volume)
         st.audio(audio, format="audio/mp3")
+        typing_speed *= 2
 
     placeholder = st.empty()
     typed_text = ""
