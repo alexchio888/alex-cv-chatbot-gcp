@@ -360,11 +360,10 @@ def get_prompt(latest_user_message, context, intent):
 
     Response format:
     Provide a JSON object with:
-    1. `"text"` — The response based on above instructions.
-    2. `"tts"` — A spoken version optimized for Text-to-Speech. Make it sound human:
-        - Add contractions and relaxed tone
-        - Use SSML tags like <break>, <emphasis>, or <prosody> for rhythm and clarity
-        - Use light fillers or natural phrasing if helpful
+    1. "text" — Your detailed and clear response based on above instructions.
+    2. "tts" — A spoken version optimized for Text-to-Speech.
+    - Use SSML tags (<speak>, <break>, <emphasis>, <prosody>) properly.
+    - Make it conversational and natural with contractions and fillers.
         
     SSML Guidelines:
     - Always wrap in `<speak>...</speak>`
