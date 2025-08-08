@@ -108,25 +108,11 @@ with col2:
     if st.button("View Timeline & Skills ➡️"):
         st.switch_page("pages/2_Timeline_and_Skills.py")
 
-speak_enabled = st.checkbox(
-    label="🔊 Let me speak my answers aloud!",
-    key="speak_responses",
-    help=(
-        "Hear me talk! 🔊 Just a heads-up: browsers and devices all handle sound a little differently, "
-        "so playback or volume might vary."
-    )
-)
-voice_mode = st.toggle("🎤 Voice Mode", help="Speak instead of typing")
 
-volume = st.slider(
-    label="🔉 Volume",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.7,
-    step=0.05,
-    help="Adjust the volume of my spoken responses. Might not work on some devices or browsers.",
-    disabled=not speak_enabled
-)
+speak_enabled = st.toggle("🔊 Let me speak my answers aloud!", help="Hear me talk! 🔊 Just a heads-up: browsers and devices all handle sound a little differently.")
+voice_mode = st.toggle("🎤 Speak to me!", help="Speak instead of typing")
+
+volume = 0.7
 
 # --- Divider between chatbot and timeline ---
 st.markdown("---")
