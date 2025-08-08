@@ -565,7 +565,7 @@ elif intent == "casual_greeting":
             Respond with:
 
             1. "text" — A warm, natural-sounding greeting in the first person, acknowledging the user's greeting and gently encouraging them to ask about your experience, projects, or skills.
-            Keep it short (1-2 sentences), friendly, and avoid sounding robotic or overly formal.
+            Keep it friendly, and avoid sounding robotic or overly formal.
 
             2. "tts" — A spoken version optimized for Text-to-Speech, using SSML tags (<speak>, <break>, <emphasis>, etc.) to improve naturalness, rhythm, and clarity.
             Use a casual, conversational tone with contractions, fillers, and sentence fragments where appropriate to sound like a real person talking.

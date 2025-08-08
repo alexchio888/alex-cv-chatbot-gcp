@@ -119,6 +119,6 @@ def handle_error(e: Exception, user_friendly_message: str = "An unexpected error
     # Optional: You can trigger logging to Snowflake or another service here
     # log_exception_to_snowflake(e)  # example placeholder
 
-    # Optional: Return safe default/fallback message for user-facing components
-    # st.rerun()
+    ##### st.rerun() WILL REMOVE THE ERRORS FROM SCREEN.
+    st.rerun()
     return "Something went wrong. Please try again later."
