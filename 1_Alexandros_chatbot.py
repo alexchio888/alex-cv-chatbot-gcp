@@ -17,7 +17,7 @@ from helping_functions.sidebar import *
 from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
 from helping_functions.tts_utils import *
-
+from helping_functions.stt_utils import *
 
 # Write the secrets JSON to a temporary file
 key_path = "/tmp/gcp_tts_key.json"
@@ -115,6 +115,7 @@ speak_enabled = st.checkbox(
         "so playback or volume might vary."
     )
 )
+voice_mode = st.toggle("🎤 Voice Mode", help="Speak instead of typing")
 
 volume = st.slider(
     label="🔉 Volume",
@@ -448,7 +449,18 @@ if not st.session_state.get("chatbot_error", False):
 # Only show input if no chatbot error
 
 if st.session_state["chatbot_error"] == False:
-    chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+    # chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+    if voice_mode:
+        # Only allow recording if chatbot is online
+        audio_bytes = record_audio()
+        if audio_bytes:
+            transcript = transcribe_audio(audio_bytes)
+            if transcript:
+                st.success(f"✅ You said: {transcript}")
+                user_message = transcript
+    else:
+        chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
+ 
 else:
     # st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance. Please try again shortly.")
     st.error("⚠️ The chatbot is temporarily unavailable due to high traffic or maintenance.")
