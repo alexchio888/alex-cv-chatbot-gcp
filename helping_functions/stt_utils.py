@@ -1,8 +1,14 @@
 # stt_utils.py
 from google.cloud import speech
-import streamlit as st
-import json
-import os
+from pydub import AudioSegment
+import io
+
+def stereo_to_mono(audio_bytes):
+    audio = AudioSegment.from_file(io.BytesIO(audio_bytes))
+    mono_audio = audio.set_channels(1)
+    buf = io.BytesIO()
+    mono_audio.export(buf, format="wav")
+    return buf.getvalue()
 
 def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000):
     """
@@ -28,7 +34,7 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
         sample_rate_hertz=sample_rate_hertz,
         language_code=language_code,
         enable_automatic_punctuation=True,
-        model="default",  # or "phone_call", "video", etc. if desired
+        model="default",
     )
 
     response = client.recognize(config=config, audio=audio)
@@ -36,6 +42,5 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
     if not response.results:
         return ""
 
-    # Combine all results' transcripts
     transcripts = [result.alternatives[0].transcript for result in response.results]
     return " ".join(transcripts).strip()
