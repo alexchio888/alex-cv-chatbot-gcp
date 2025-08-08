@@ -109,7 +109,13 @@ with col2:
         st.switch_page("pages/2_Timeline_and_Skills.py")
 
 
-speak_enabled = st.toggle("🔊 Let me speak my answers aloud!", help="Hear me talk! 🔊 Just a heads-up: browsers and devices all handle sound a little differently.")
+speak_enabled = st.toggle(
+    "🔊 Let me speak my answers aloud!",
+    value=st.session_state.get("speak_responses", False),
+    help="Hear me talk! 🔊 Just a heads-up: browsers and devices all handle sound a little differently."
+)
+st.session_state["speak_responses"] = speak_enabled
+
 voice_mode = st.toggle("🎤 Speak to me!", help="Speak instead of typing")
 
 volume = 0.7
