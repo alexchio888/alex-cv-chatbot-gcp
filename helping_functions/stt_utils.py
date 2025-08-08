@@ -22,6 +22,8 @@ def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000
     Returns:
         str: Transcribed text or empty string if no transcription.
     """
+    mono_audio_bytes = stereo_to_mono(audio_bytes)
+    audio_bytes = transcribe_audio(mono_audio_bytes)
     if not audio_bytes:
         return ""
 
