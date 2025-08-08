@@ -357,24 +357,18 @@ def get_prompt(latest_user_message, context, intent):
     - If you do not have the information in the documents or context, say: "I’m sorry, I don’t have that information right now, but I’d be happy to provide it later."    
     - If the question is about sensitive topics (salary, notice, job change), say: "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
-    
-    Also, generate another version of your answer that is natural, friendly, and engaging for text-to-speech with SSML.
-    - Use contractions and casual phrases to sound approachable.
-    - Add natural pauses with <break time="400ms"/> to mimic thinking or breath.
-    - Use <emphasis level="moderate"> on important points.
-    - Slightly vary pitch or speaking rate with <prosody> to avoid monotony.
-    - Aim for a warm, confident tone as if speaking to a recruiter in a conversation.
+    - Provide a full, detailed text answer as if writing to a recruiter — do NOT shorten or omit details.
 
-    Example style:
-    <speak>
-    Sure! <break time="300ms"/> I started in data engineering in 2021, and since then, I’ve worked on some exciting projects. <break time="400ms"/> Let me know if you'd like me to dive deeper!
-    </speak>
-    
+    - Then, generate a second version of the answer formatted for natural, friendly text-to-speech with SSML.
+        - Use contractions, natural pauses (<break time="400ms"/>), mild emphasis (<emphasis level="moderate">), and varied intonation (<prosody>) to sound warm and conversational.
+        - The SSML version can be slightly shorter and more casual but must convey the same information.    - Use contractions and casual phrases to sound approachable.
+
+
     Respond strictly in this JSON format:
 
     {{
-    "text": "Your full concise answer",
-    "tts": "<speak>The natural and friendly text-to-speech answer</speak>"
+    "text": "Full detailed answer here",
+    "tts": "<speak>Natural, friendly SSML version here</speak>"
     }}
     """
 
