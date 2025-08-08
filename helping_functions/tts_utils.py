@@ -70,12 +70,21 @@ def autoplay_audio(audio_bytes: bytes, volume: float = 1.0):
         Your browser does not support the audio element.
     </audio>
     <div>
-      <button onclick="document.getElementById('tts_audio').play()">▶️ Play</button>
-      <button onclick="document.getElementById('tts_audio').pause()">⏸️ Pause</button>
+      <button id="play_btn">▶️ Play</button>
+      <button id="pause_btn">⏸️ Pause</button>
     </div>
     <script>
       const audio = document.getElementById('tts_audio');
       audio.volume = {volume_js};
+
+      document.getElementById('play_btn').addEventListener('click', () => {{
+          audio.play();
+      }});
+
+      document.getElementById('pause_btn').addEventListener('click', () => {{
+          audio.pause();
+      }});
     </script>
     """
+    import streamlit as st
     st.markdown(md, unsafe_allow_html=True)
