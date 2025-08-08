@@ -1,74 +1,41 @@
-import streamlit as st
+# stt_utils.py
 from google.cloud import speech
-from streamlit_webrtc import webrtc_streamer, AudioProcessorBase, WebRtcMode
-import av
-import numpy as np
-import tempfile
+import streamlit as st
+import json
+import os
 
-class AudioProcessor(AudioProcessorBase):
-    def __init__(self):
-        self.frames = []
-
-    def recv_audio_frame(self, frame: av.AudioFrame) -> av.AudioFrame:
-        # Convert audio to numpy array
-        audio = frame.to_ndarray()
-        self.frames.append(audio)
-        return frame
-
-    def get_audio_bytes(self):
-        if not self.frames:
-            return None
-        audio_data = np.concatenate(self.frames, axis=1).tobytes()
-        self.frames.clear()
-        return audio_data
-
-
-def record_audio():
+def transcribe_audio(audio_bytes, language_code="en-US", sample_rate_hertz=16000):
     """
-    Opens a microphone input using streamlit-webrtc and records audio.
-    Returns raw audio bytes or None.
-    """
-    ctx = webrtc_streamer(
-        key="speech-to-text",
-        mode=WebRtcMode.SENDONLY,
-        audio_processor_factory=AudioProcessor,
-        media_stream_constraints={"audio": True, "video": False}
-    )
+    Transcribes raw audio bytes to text using Google Cloud Speech-to-Text.
 
-    audio_bytes = None
-    if ctx.audio_processor:
-        if st.button("Stop Recording"):
-            audio_bytes = ctx.audio_processor.get_audio_bytes()
+    Args:
+        audio_bytes (bytes): Raw audio data, expected to be LINEAR16 PCM.
+        language_code (str): BCP-47 language code, e.g. "en-US".
+        sample_rate_hertz (int): Sample rate of the audio.
 
-    return audio_bytes
-
-
-def transcribe_audio(audio_bytes, language_code="en-US"):
-    """
-    Transcribes recorded audio using Google Cloud Speech-to-Text.
+    Returns:
+        str: Transcribed text or empty string if no transcription.
     """
     if not audio_bytes:
         return ""
 
-    # Save temporary WAV file (Google API works best with PCM16 WAV)
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmpfile:
-        tmpfile.write(audio_bytes)
-        tmpfile_path = tmpfile.name
-
     client = speech.SpeechClient()
 
-    with open(tmpfile_path, "rb") as f:
-        content = f.read()
+    audio = speech.RecognitionAudio(content=audio_bytes)
 
-    audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=48000,  # streamlit-webrtc default
-        language_code=language_code
+        sample_rate_hertz=sample_rate_hertz,
+        language_code=language_code,
+        enable_automatic_punctuation=True,
+        model="default",  # or "phone_call", "video", etc. if desired
     )
 
     response = client.recognize(config=config, audio=audio)
 
-    if response.results:
-        return response.results[0].alternatives[0].transcript.strip()
-    return ""
+    if not response.results:
+        return ""
+
+    # Combine all results' transcripts
+    transcripts = [result.alternatives[0].transcript for result in response.results]
+    return " ".join(transcripts).strip()

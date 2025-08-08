@@ -11,6 +11,7 @@ import streamlit.components.v1 as components
 from google.cloud import texttospeech
 import base64
 import json
+from st_audiorec import st_audiorec  # your existing audio recorder
 
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
@@ -452,7 +453,7 @@ if st.session_state["chatbot_error"] == False:
     # chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
     if voice_mode:
         # Only allow recording if chatbot is online
-        audio_bytes = record_audio()
+        audio_bytes = st_audiorec()  # Returns audio bytes, usually WebM or WAV format
         if audio_bytes:
             transcript = transcribe_audio(audio_bytes)
             if transcript:
