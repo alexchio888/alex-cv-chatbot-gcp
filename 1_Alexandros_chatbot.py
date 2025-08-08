@@ -17,7 +17,7 @@ from helping_functions.sidebar import *
 from helping_functions.session_tracker import *
 from helping_functions.skills_builder import *
 from helping_functions.tts_utils import *
-from helping_functions.stt_utils import *
+from helping_functions.tts_utils import *
 
 # Write the secrets JSON to a temporary file
 key_path = "/tmp/gcp_tts_key.json"
