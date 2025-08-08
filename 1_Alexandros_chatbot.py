@@ -448,7 +448,7 @@ if not st.session_state.get("chatbot_error", False):
 
 # --- Chat Loop ---
 # Only show input if no chatbot error
-
+chat_input = None
 if st.session_state["chatbot_error"] == False:
     # chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
     if voice_mode:
