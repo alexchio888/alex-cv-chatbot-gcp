@@ -358,26 +358,16 @@ def get_prompt(latest_user_message, context, intent):
     - If the question is about sensitive topics (salary, notice, job change), say: "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
 
-    Response format:
-    Provide a JSON object with:
-    1. "text" — Your detailed and clear response based on above instructions.
-    2. "tts" — A spoken version optimized for Text-to-Speech.
-    - Use SSML tags (<speak>, <break>, <emphasis>, <prosody>) properly.
-    - Make it conversational and natural with contractions and fillers.
-        
-    SSML Guidelines:
-    - Always wrap in `<speak>...</speak>`
-    - Only use supported tags (<break>, <emphasis>, <prosody>)
-    - Do not nest tags incorrectly (e.g., `<emphasis><break/></emphasis>`)
-    - Escape any special characters (& → &amp;, etc.)
-    - Ensure all tags and quotes are properly closed
-
+    
+    Also, generate a SSML version of your answer that is more natural and friendly for text-to-speech. 
+    - Use pauses (e.g., <break time="300ms"/>), intonation tags (e.g., <speak>, <break>, <emphasis>, <prosody>), and contractions to sound conversational.
+    - Keep the SSML version concise but warmer and approachable.
     
     Respond strictly in this JSON format:
 
     {{
-    "text": "...",
-    "tts": "<speak>...</speak>"
+    "text": "Your full concise answer",
+    "tts": "<speak>The natural and friendly text-to-speech answer</speak>"
     }}
     """
 
