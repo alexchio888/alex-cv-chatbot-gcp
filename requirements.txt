@@ -7,4 +7,4 @@ plotly>=5.0.0
 sendgrid==6.9.1
 google-cloud-texttospeech
 google-cloud-speech
-st_audiorec
+streamlit-audiorec
