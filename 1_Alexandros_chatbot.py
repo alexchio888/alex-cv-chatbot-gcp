@@ -458,7 +458,6 @@ if st.session_state["chatbot_error"] == False:
             transcript = transcribe_audio(audio_bytes)
             if transcript:
                 st.success(f"✅ You said: {transcript}")
-                user_message = transcript
     else:
         chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
  
@@ -486,6 +485,8 @@ user_message = None
 if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
     user_message = st.session_state.ready_prompt
     del st.session_state.ready_prompt
+elif voice_mode:
+    user_message = transcript
 elif chat_input:
     user_message = chat_input
 
