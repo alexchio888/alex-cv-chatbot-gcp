@@ -449,6 +449,7 @@ if not st.session_state.get("chatbot_error", False):
 # --- Chat Loop ---
 # Only show input if no chatbot error
 chat_input = None
+transcript = None  
 if st.session_state["chatbot_error"] == False:
     # chat_input = st.chat_input(placeholder="Ask me anything about my background, skills, or experience…")
     if voice_mode:
@@ -485,7 +486,7 @@ user_message = None
 if "ready_prompt" in st.session_state and st.session_state["chatbot_error"] == False:
     user_message = st.session_state.ready_prompt
     del st.session_state.ready_prompt
-elif voice_mode:
+elif voice_mode and transcript is not None:
     user_message = transcript
 elif chat_input:
     user_message = chat_input
