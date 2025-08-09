@@ -3,6 +3,7 @@ from datetime import datetime
 import uuid
 import streamlit as st
 import streamlit.components.v1 as components
+import time
 
 TABLE_NAME = "CHAT_LOGS"
 def reset_chat():
@@ -121,4 +122,5 @@ def handle_error(e: Exception, user_friendly_message: str = "An unexpected error
 
     ##### st.rerun() WILL REMOVE THE ERRORS FROM SCREEN.
     # st.rerun()
+    time.sleep(1000000)
     return "Something went wrong. Please try again later."
