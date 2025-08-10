@@ -1,10 +1,19 @@
+import json
 import streamlit as st
+from st_audiorec import st_audiorec
 from helping_functions.stt_utils import transcribe_audio
 from helping_functions.tts_utils import generate_google_tts_audio
 from snowflake.cortex import complete
 
-st.title("Hands-Free Chatbot with Alexandros Clone")
+# If you use skills_summary_text from your main page
+from helping_functions.skills_builder import get_compact_skill_summary
 
+st.title("Hands-Free Chatbot with Alexandros Clone")
+with open("docs/skills.json", "r") as f:
+    skills_data = json.load(f)
+
+
+skills_summary_text = get_compact_skill_summary(skills_data)
 skills_context = skills_summary_text  # your compact CV text
 
 audio_bytes = st_audiorec()  # record user audio
