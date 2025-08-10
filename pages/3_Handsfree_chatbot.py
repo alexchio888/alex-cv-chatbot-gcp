@@ -57,7 +57,7 @@ if audio_bytes:
         # IMPORTANT: Pass the session explicitly to complete() if needed
         # Assuming your cortex complete() can accept a session parameter
         try:
-            response = complete("mistral-small", prompt, session=session)
+            response = complete("mistral-small", prompt)
         except TypeError:
             # If complete() does not accept session param, 
             # it should pick credentials from environment / config
