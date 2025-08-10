@@ -44,7 +44,6 @@ if audio_bytes:
     transcript = transcribe_audio(audio_bytes)
     if transcript:
         st.markdown(f"**You said:** {transcript}")
-        time.sleep(100)
         prompt = f"""
         You are Alexandros Chionidis' virtual clone with this career summary:
         {skills_context}
@@ -68,4 +67,3 @@ if audio_bytes:
         st.text(response)
     else:
         st.markdown(f"**You said:** Nothing")
-        time.sleep(100)
