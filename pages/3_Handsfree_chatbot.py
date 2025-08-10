@@ -1,8 +1,8 @@
 import json
 import streamlit as st
 from st_audiorec import st_audiorec
-from helping_functions.stt_utils import transcribe_audio
-from helping_functions.tts_utils import generate_google_tts_audio
+from helping_functions.stt_utils import *
+from helping_functions.tts_utils import *
 from snowflake.cortex import complete
 from helping_functions.skills_builder import get_compact_skill_summary
 import time
@@ -15,6 +15,7 @@ skills_summary_text = get_compact_skill_summary(skills_data)
 skills_context = skills_summary_text
 
 st.title("Hands-Free Chatbot with Alexandros Clone")
+selected_voice = 'en-US-Neural2-D'
 
 # # --- Import or create cached Snowflake session ---
 # @st.cache_resource
@@ -52,7 +53,7 @@ if audio_bytes:
         {transcript}
 
         Respond concisely like you are having a live conversation. Your messages will be spoked back to the user.
-        Respond with rich SSML tags exactly like below
+        Respond with rich SSML tags exactly like below 
 
         <speak>....</speak>
 
@@ -61,12 +62,12 @@ if audio_bytes:
 
         # IMPORTANT: Pass the session explicitly to complete() if needed
         # Assuming your cortex complete() can accept a session parameter
-        try:
-            response = complete("mistral-large", prompt)
-        except TypeError:
-            # If complete() does not accept session param, 
-            # it should pick credentials from environment / config
-            response = complete("mistral-large", prompt)
+        response = complete("mistral-large", prompt)
+
+        audio = generate_google_tts_audio(response, selected_voice)
+        autoplay_audio(audio)
+        st.audio(audio, format="audio/mp3")
+
 
         st.markdown("**Raw model output:**")
         st.text(response)
