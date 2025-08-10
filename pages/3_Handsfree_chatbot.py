@@ -15,26 +15,26 @@ skills_context = skills_summary_text
 
 st.title("Hands-Free Chatbot with Alexandros Clone")
 
-# --- Import or create cached Snowflake session ---
-@st.cache_resource
-def create_session():
-    connection_parameters = {
-        "account": st.secrets["account"],
-        "user": st.secrets["user"],
-        "password": st.secrets["password"],
-        "role": st.secrets["role"],
-        "warehouse": st.secrets["warehouse"],
-        "database": st.secrets["database"],
-        "schema": st.secrets["schema"],
-    }
-    from snowflake.snowpark import Session
-    return Session.builder.configs(connection_parameters).create()
+# # --- Import or create cached Snowflake session ---
+# @st.cache_resource
+# def create_session():
+#     connection_parameters = {
+#         "account": st.secrets["account"],
+#         "user": st.secrets["user"],
+#         "password": st.secrets["password"],
+#         "role": st.secrets["role"],
+#         "warehouse": st.secrets["warehouse"],
+#         "database": st.secrets["database"],
+#         "schema": st.secrets["schema"],
+#     }
+#     from snowflake.snowpark import Session
+#     return Session.builder.configs(connection_parameters).create()
 
-try:
-    session = create_session()
-except Exception as e:
-    st.error("⚠️ Unable to connect to Snowflake. Please check your credentials.")
-    st.stop()
+# try:
+#     session = create_session()
+# except Exception as e:
+#     st.error("⚠️ Unable to connect to Snowflake. Please check your credentials.")
+#     st.stop()
 
 # --- Record audio ---
 audio_bytes = st_audiorec()
