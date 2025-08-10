@@ -24,13 +24,14 @@ if audio_bytes:
 
         # Compose prompt: just compact CV + question
         prompt = f"""
-        You are Alexandros Chionidis' virtual clone with this career summary:
-        {skills_context}
+You are Alexandros Chionidis' virtual clone with this career summary:
+{skills_context}
 
-        Answer this question concisely:
-        {transcript}
-        Respond with JSON: {{"text": "...", "tts": "<speak>...</speak>"}}
-        """
+Answer this question concisely:
+{transcript}
+
+Respond only with SSML text for TTS (no other text).
+"""
 
         # Call model
         response_json = complete("mistral-small", prompt)
