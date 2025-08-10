@@ -22,27 +22,17 @@ if audio_bytes:
     if transcript:
         st.markdown(f"**You said:** {transcript}")
 
-        # Compose prompt: just compact CV + question
         prompt = f"""
-You are Alexandros Chionidis' virtual clone with this career summary:
-{skills_context}
+        You are Alexandros Chionidis' virtual clone with this career summary:
+        {skills_context}
 
-Answer this question concisely:
-{transcript}
+        Answer this question concisely:
+        {transcript}
 
-Respond only with SSML text for TTS (no other text).
-"""
+        Respond only with SSML text for TTS (no other text).
+        """
 
-        # Call model
-        response_json = complete("mistral-small", prompt)
-        response = json.loads(response_json)
-        text_reply = response["text"]
-        tts_ssml = response["tts"]
+        response = complete("mistral-small", prompt)
 
-        st.markdown(f"**Alexandros:** {text_reply}")
-
-        # Generate and play audio
-        audio_mp3 = generate_google_tts_audio(tts_ssml)
-        st.audio(audio_mp3, format="audio/mp3", start_time=0)
-
-        # No typing animation, just instant display + playback
+        st.markdown(f"**Raw model output:**")
+        st.text(response)
