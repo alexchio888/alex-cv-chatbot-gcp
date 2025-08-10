@@ -5,6 +5,7 @@ from helping_functions.stt_utils import transcribe_audio
 from helping_functions.tts_utils import generate_google_tts_audio
 from snowflake.cortex import complete
 from helping_functions.skills_builder import get_compact_skill_summary
+import time
 
 # --- Load skills summary (same as main page) ---
 with open("docs/skills.json", "r") as f:
@@ -43,7 +44,7 @@ if audio_bytes:
     transcript = transcribe_audio(audio_bytes)
     if transcript:
         st.markdown(f"**You said:** {transcript}")
-
+        time.sleep(100)
         prompt = f"""
         You are Alexandros Chionidis' virtual clone with this career summary:
         {skills_context}
