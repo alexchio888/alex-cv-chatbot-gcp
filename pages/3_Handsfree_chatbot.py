@@ -51,7 +51,12 @@ if audio_bytes:
         Answer this question concisely:
         {transcript}
 
-        Respond only with SSML text for TTS (no other text).
+        Respond concisely like you are having a live conversation. Your messages will be spoked back to the user.
+        Respond with rich SSML tags exactly like below
+
+        <speak>....</speak>
+
+        
         """
 
         # IMPORTANT: Pass the session explicitly to complete() if needed
