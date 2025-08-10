@@ -66,3 +66,6 @@ if audio_bytes:
 
         st.markdown("**Raw model output:**")
         st.text(response)
+    else:
+        st.markdown(f"**You said:** Nothing")
+        time.sleep(100)
