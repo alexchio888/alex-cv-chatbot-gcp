@@ -62,7 +62,7 @@ if audio_bytes:
         Answer this question concisely:
         {transcript}
 
-        Respond concisely like you are having a live conversation. Your messages will be spoked back to the user.
+        Respond concisely like you are having a live conversation. Your messages will be speaked so write it accordingly.
 
         
         """
