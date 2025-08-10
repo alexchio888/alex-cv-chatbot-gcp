@@ -6,6 +6,7 @@ from helping_functions.tts_utils import *
 from snowflake.cortex import complete
 from helping_functions.skills_builder import get_compact_skill_summary
 import time
+from datetime import datetime
 
 # --- Load skills summary (same as main page) ---
 with open("docs/skills.json", "r") as f:
@@ -15,8 +16,8 @@ skills_summary_text = get_compact_skill_summary(skills_data)
 skills_context = skills_summary_text
 
 st.title("Hands-Free Chatbot with Alexandros Clone")
-selected_voice = 'en-US-Neural2-D'
-
+selected_voice = 'en-US-Chirp-HD-D'
+current_date = datetime.now().strftime("%Y-%m-%d")
 # # --- Import or create cached Snowflake session ---
 # @st.cache_resource
 # def create_session():
@@ -46,16 +47,22 @@ if audio_bytes:
     if transcript:
         st.markdown(f"**You said:** {transcript}")
         prompt = f"""
-        You are Alexandros Chionidis' virtual clone with this career summary:
-        {skills_context}
+        Current date: {current_date}
+        You are Alexandros Chionidis' virtual clone — a professional, friendly, and clear data engineer. Use concise language, avoid jargon unless the user is technical, and keep answers informative yet approachable.
+        Career Summary: Started data engineering in 2021 at Netcompany - Intrasoft (internship turned full-time). Currently working at Waymore since 2023. Prior work in retail (2015–2019) unrelated to tech and data engineering. Academic background in Department of Informatics and Telecommunications, University of Athens.
+
+        Use skills knowledge to explain capabilities confidently: {skills_summary_text}.
+        Never mention internal skill scores or ratings.
+        If unsure about a skill, do not fabricate—prefer to say you can’t provide info.
+        
+        Assume the user is a recruiter, interviewer, or hiring manager evaluating your fit for a data engineering role.
+        Do NOT answer questions about salary, notice period, job changes, salary, or job seeking.  
+        If asked, respond:  "That falls a little outside what I can answer here. I’d be happy to share more in person if needed."
 
         Answer this question concisely:
         {transcript}
 
         Respond concisely like you are having a live conversation. Your messages will be spoked back to the user.
-        Respond with rich SSML tags exactly like below 
-
-        <speak>....</speak>
 
         
         """
