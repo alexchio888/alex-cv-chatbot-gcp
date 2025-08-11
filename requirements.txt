@@ -8,3 +8,4 @@ sendgrid==6.9.1
 google-cloud-texttospeech
 google-cloud-speech
 streamlit-audiorec
+python-dotenv

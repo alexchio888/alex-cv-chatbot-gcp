@@ -12,6 +12,8 @@ from google.cloud import texttospeech
 import base64
 import json
 from st_audiorec import st_audiorec  # your existing audio recorder
+import os
+from dotenv import load_dotenv
 
 from helping_functions.timeline_builder import *
 from helping_functions.sidebar import *
@@ -20,13 +22,26 @@ from helping_functions.skills_builder import *
 from helping_functions.tts_utils import *
 from helping_functions.stt_utils import *
 
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'chatbot_secrets.env')
+load_dotenv(dotenv_path=env_path)
 
-# Write the secrets JSON to a temporary file
+
+# # Write the secrets JSON to a temporary file
+# key_path = "/tmp/gcp_tts_key.json"
+# with open(key_path, "w") as f:
+#     json.dump(dict(st.secrets["gcp_service_account"]), f)
+
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
+
+gcp_json_str = os.getenv("GCP_SERVICE_ACCOUNT_JSON")
 key_path = "/tmp/gcp_tts_key.json"
+
+# Parse JSON string and write to file
 with open(key_path, "w") as f:
-    json.dump(dict(st.secrets["gcp_service_account"]), f)
+    f.write(gcp_json_str)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
+
 
 
 with open("docs/skills.json", "r") as f:
@@ -168,15 +183,27 @@ render_sidebar(
 
 # --- Connect to Snowflake ---
 @st.cache_resource
+# def create_session():
+#     connection_parameters = {
+#         "account": st.secrets["account"],
+#         "user": st.secrets["user"],
+#         "password": st.secrets["password"],
+#         "role": st.secrets["role"],
+#         "warehouse": st.secrets["warehouse"],
+#         "database": st.secrets["database"],
+#         "schema": st.secrets["schema"],
+#     }
+#     return Session.builder.configs(connection_parameters).create()
+
 def create_session():
     connection_parameters = {
-        "account": st.secrets["account"],
-        "user": st.secrets["user"],
-        "password": st.secrets["password"],
-        "role": st.secrets["role"],
-        "warehouse": st.secrets["warehouse"],
-        "database": st.secrets["database"],
-        "schema": st.secrets["schema"],
+        "account": os.getenv("account"),
+        "user": os.getenv("user"),
+        "password": os.getenv("password"),
+        "role": os.getenv("role"),
+        "warehouse": os.getenv("warehouse"),
+        "database": os.getenv("database"),
+        "schema": os.getenv("schema"),
     }
     return Session.builder.configs(connection_parameters).create()
 
