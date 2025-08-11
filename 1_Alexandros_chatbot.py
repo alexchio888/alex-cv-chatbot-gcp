@@ -126,7 +126,7 @@ st.markdown("---")
 
 # voices = st.cache_data(get_voices)()  # Cache so we don't call API repeatedly
 # selected_voice = st.selectbox("Select TTS voice", voices, index=voices.index("en-US-Neural2-D") if "en-US-Neural2-D" in voices else 0)
-selected_voice = 'en-US-Neural2-D'
+selected_voice = 'en-US-Chirp-HD-D'
 
 
 def generate_chat_text():
@@ -362,16 +362,14 @@ def get_prompt(latest_user_message, context, intent):
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
     - Provide a full, detailed text answer as if writing to a recruiter — do NOT shorten or omit details.
 
-    - Then, generate a second version of the answer formatted for natural, friendly text-to-speech with SSML.
-        - Use contractions, natural pauses (<break time="400ms"/>), mild emphasis (<emphasis level="moderate">), and varied intonation (<prosody>) to sound warm and conversational.
-        - The SSML version can be slightly shorter and more casual but must convey the same information.    - Use contractions and casual phrases to sound approachable.
+    - Then, generate a second version of the answer formatted for natural, friendly text-to-speech.
 
 
     Respond strictly in this JSON format:
 
     {{
     "text": "Full detailed answer here",
-    "tts": "<speak>Natural, friendly SSML version here</speak>"
+    "tts": "Natural, friendly spoken version here"
     }}
     """
 
