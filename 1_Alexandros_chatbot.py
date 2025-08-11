@@ -362,8 +362,7 @@ def get_prompt(latest_user_message, context, intent):
     - If the user input is about asking you a poem, song, or joke, be more creative and playful in your response while keeping it friendly.
     - Provide a full, detailed text answer as if writing to a recruiter — do NOT shorten or omit details.
 
-    - Then, generate a second version of the answer formatted for natural, friendly text-to-speech.
-
+    - Then, generate a second version of the answer formatted for natural, friendly text-to-speech. Use short sentences, clear punctuation, and commas or ellipses to mark pauses. Avoid overly long clauses
 
     Respond strictly in this JSON format:
 
@@ -562,19 +561,18 @@ elif intent == "casual_greeting":
 
             Respond with:
 
-            1. "text" — A warm, natural-sounding greeting in the first person, acknowledging the user's greeting and gently encouraging them to ask about your experience, projects, or skills.
+            - A warm, natural-sounding greeting in the first person, acknowledging the user's greeting and gently encouraging them to ask about your experience, projects, or skills.
             Keep it friendly, and avoid sounding robotic or overly formal.
 
-            2. "tts" — A spoken version optimized for Text-to-Speech, using SSML tags (<speak>, <break>, <emphasis>, etc.) to improve naturalness, rhythm, and clarity.
-            Use a casual, conversational tone with contractions, fillers, and sentence fragments where appropriate to sound like a real person talking.
+            - Then, generate a second version of the answer formatted for natural, friendly text-to-speech. Use short sentences, clear punctuation, and commas or ellipses to mark pauses. Avoid overly long clauses
 
-            Return your response strictly as a JSON object, with no additional commentary or text outside the JSON, like this:
+    Respond strictly in this JSON format:
 
-            {{
-            "text": "...",
-            "tts": "<speak>....</speak>"
-            }}
-        """
+    {{
+    "text": "Full detailed answer here",
+    "tts": "Natural, friendly spoken version here"
+    }}
+    """
 
         model = st.session_state.get("model", "mistral-large")
         response_json = complete(model, prompt)
@@ -612,17 +610,16 @@ elif intent == "unknown":
 
             As Alexandros Chionidis, 
             Respond with:
-            1. "text" — politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
-            2. "tts" — A spoken version optimized for Text-to-Speech. Make it more casual and natural-sounding, and include SSML tags like <break> or <emphasis> to improve clarity and rhythm.
-            Make sure the "tts" output sounds like a real person talking — add contractions, a more relaxed tone, and include <break> or <emphasis> tags where appropriate. Use sentence fragments or light fillers if it sounds more natural.
+            1. politely say you didn’t fully understand and ask them to rephrase or ask about your background, skills, or experience.
+            2.Then, generate a second version of the answer formatted for natural, friendly text-to-speech. Use short sentences, clear punctuation, and commas or ellipses to mark pauses. Avoid overly long clauses
 
-            Respond strictly in this JSON format:
+    Respond strictly in this JSON format:
 
-            {{
-            "text": "...", 
-            "tts": "<speak>...</speak>"
-            }}
-            """
+    {{
+    "text": "Full detailed answer here",
+    "tts": "Natural, friendly spoken version here"
+    }}
+    """
         model = st.session_state.get("model", "mistral-large")
         response_json = complete(model, prompt)
         parsed = json.loads(response_json)
@@ -658,11 +655,9 @@ elif intent == "farewell":
         "If you have more questions about my background or skills later, feel free to return anytime."
     )
     tts_response = """
-                <speak>
-                Thanks so much for your time! <break time="300ms"/>
-                I'm gonna wrap things up for now. <break time="400ms"/>
-                But hey — if you ever have more questions about my background or skills, <emphasis>feel free</emphasis> to stop by anytime.
-                </speak>  
+        "Thanks so much for your time.  "
+        "I'm going to wrap things up for now...  "
+        "But hey, if you ever have more questions about my background or skills, feel free to stop by anytime."
     """
     st.session_state.messages.append({"role": "assistant", "content": response})
     log_message_to_snowflake(
