@@ -250,7 +250,7 @@ Return only the rewritten search query (1-2 sentences), no extra text.
 """
     model = st.session_state.get("model", "mistral-large")
     try:
-        response = complete(model, prompt)
+        response = complete("mistral-small", prompt)
         search_query = "".join(response).strip()
         return search_query
     # except Exception as e:
@@ -404,7 +404,7 @@ Return only the category name.
     # intent = "".join(response).strip().lower()
     # return intent
     try:
-        response = complete(model, classification_prompt)
+        response = complete("mistral-small", classification_prompt)
         intent = "".join(response).strip().lower()
         return intent
     # except Exception as e:
@@ -654,11 +654,11 @@ elif intent == "farewell":
         "Thank you for your time! I'm wrapping up the session now. "
         "If you have more questions about my background or skills later, feel free to return anytime."
     )
-    tts_response = """
+    tts_response = (
         "Thanks so much for your time.  "
         "I'm going to wrap things up for now...  "
         "But hey, if you ever have more questions about my background or skills, feel free to stop by anytime."
-    """
+    )
     st.session_state.messages.append({"role": "assistant", "content": response})
     log_message_to_snowflake(
         session=session,
