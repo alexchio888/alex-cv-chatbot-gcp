@@ -33,15 +33,27 @@ load_dotenv(dotenv_path=env_path)
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
 
-gcp_json_str = os.getenv("GCP_SERVICE_ACCOUNT_JSON")
+gcp_key = {
+    "type": os.getenv("GCP_TYPE"),
+    "project_id": os.getenv("GCP_PROJECT_ID"),
+    "private_key_id": os.getenv("GCP_PRIVATE_KEY_ID"),
+    # Replace literal \n with actual newlines in private_key
+    "private_key": os.getenv("GCP_PRIVATE_KEY").replace("\\n", "\n"),
+    "client_email": os.getenv("GCP_CLIENT_EMAIL"),
+    "client_id": os.getenv("GCP_CLIENT_ID"),
+    "auth_uri": os.getenv("GCP_AUTH_URI"),
+    "token_uri": os.getenv("GCP_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("GCP_AUTH_PROVIDER_CERT_URL"),
+    "client_x509_cert_url": os.getenv("GCP_CLIENT_CERT_URL"),
+    "universe_domain": os.getenv("GCP_UNIVERSE_DOMAIN"),
+}
+
 key_path = "/tmp/gcp_tts_key.json"
 
-# Parse JSON string and write to file
 with open(key_path, "w") as f:
-    f.write(gcp_json_str)
+    json.dump(gcp_key, f)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
-
 
 
 with open("docs/skills.json", "r") as f:
