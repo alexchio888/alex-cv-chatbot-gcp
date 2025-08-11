@@ -4,9 +4,13 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_feedback_email(feedback_text, user_email=None):
-    from_email = st.secrets["sendgrid"]["sender_email"]
-    api_key = st.secrets["sendgrid"]["api_key"]
+    # from_email = st.secrets["sendgrid"]["sender_email"]
+    # api_key = st.secrets["sendgrid"]["api_key"]
+    from_email = os.getenv("SENDGRID_SENDER_EMAIL")
+    api_key = os.getenv("SENDGRID_API_KEY")
+
     
+
     formatted_feedback = feedback_text.replace("\n", "<br>")
     html_content = f'<p>{formatted_feedback}</p><p>From: {user_email or "Anonymous"}</p>'
 

@@ -209,13 +209,13 @@ render_sidebar(
 
 def create_session():
     connection_parameters = {
-        "account": os.getenv("account"),
-        "user": os.getenv("user"),
-        "password": os.getenv("password"),
-        "role": os.getenv("role"),
-        "warehouse": os.getenv("warehouse"),
-        "database": os.getenv("database"),
-        "schema": os.getenv("schema"),
+        "account": os.getenv("ACCOUNT"),
+        "user": os.getenv("USER"),
+        "password": os.getenv("PASSWORD"),
+        "role": os.getenv("ROLE"),
+        "warehouse": os.getenv("WAREHOUSE"),
+        "database": os.getenv("DATABASE"),
+        "schema": os.getenv("SCHEMA"),
     }
     return Session.builder.configs(connection_parameters).create()
 
