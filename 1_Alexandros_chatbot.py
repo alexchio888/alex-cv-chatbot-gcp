@@ -249,8 +249,9 @@ Rewrite or expand the question into a clear, specific search query that would be
 Return only the rewritten search query (1-2 sentences), no extra text.
 """
     model = st.session_state.get("model", "mistral-large")
+    model = "mistral-7b"
     try:
-        response = complete("mistral-small", prompt)
+        response = complete(model, prompt)
         search_query = "".join(response).strip()
         return search_query
     # except Exception as e:
@@ -400,11 +401,12 @@ Question:
 Return only the category name.
 """
     model = st.session_state.get("model", "mistral-large")
+    model = "mistral-7b"
     # response = complete(model, classification_prompt)
     # intent = "".join(response).strip().lower()
     # return intent
     try:
-        response = complete("mistral-small", classification_prompt)
+        response = complete(model, classification_prompt)
         intent = "".join(response).strip().lower()
         return intent
     # except Exception as e:
